@@ -285,3 +285,14 @@ for i in range(m_size):
         j += 4
 f_c.write("};")
 f_c.close()
+
+
+
+import re
+pkg_file = "../../rtl/redmule_pkg.sv"
+with open(pkg_file, 'r') as file: lines = file.readlines()
+pattern = re.compile(r'^\s*(parameter\s+fpnew_pkg::fp_format_e\s+FPFORMAT\s*=\s*fpnew_pkg::)\s*(\w+)(\s*;)', re.MULTILINE)
+new_format = 'FP8'
+updated_lines = [pattern.sub(rf'  \1{new_format}\3', line) if pattern.search(line) else line for line in lines]
+with open(pkg_file, 'w') as file: file.writelines(updated_lines)
+print(f"Updated {pkg_file} with new FPFORMAT = {new_format}")

@@ -137,6 +137,8 @@ clean-all: sw-clean
 
 sw-all: sw-clean sw-build
 
+geo: hw-clean hw-script hw-build sw-clean sw-build hw-run
+
 # Install tools
 CXX ?= g++
 NumCores := $(shell nproc)

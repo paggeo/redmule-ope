@@ -400,6 +400,11 @@ module redmule_tb
       $display("[TB] - Success!");
       $display("[TB] - errors=%08x", errors);
     end
+    $display("FPFORMAT = %0d (FP16=%0d, FP32=%0d)", FPFORMAT, fpnew_pkg::FP16, fpnew_pkg::FP32);
+    $display("DATA_W = %0d", DATA_W);
+    $display("BITW=%0d, NumByte=%0d, ADDR_W=%0d", BITW, NumByte, ADDR_W);
+    $display("NumByte*BITW/ADDR_w: %0d ",((NumByte*BITW)/ADDR_W));
+
     $finish;
   end
 

@@ -286,3 +286,14 @@ if ZFlattened.size(dim = -1) % 2 != 0:
   f_c.write('0x0000'+c_hex_0+',\n')
 f_c.write("};")
 f_c.close()
+
+
+
+import re
+pkg_file = "../../rtl/redmule_pkg.sv"
+with open(pkg_file, 'r') as file: lines = file.readlines()
+pattern = re.compile(r'^\s*(parameter\s+fpnew_pkg::fp_format_e\s+FPFORMAT\s*=\s*fpnew_pkg::)\s*(\w+)(\s*;)', re.MULTILINE)
+new_format = 'FP16'
+updated_lines = [pattern.sub(rf'  \1{new_format}\3', line) if pattern.search(line) else line for line in lines]
+with open(pkg_file, 'w') as file: file.writelines(updated_lines)
+print(f"Updated {pkg_file} with new FPFORMAT = {new_format}")

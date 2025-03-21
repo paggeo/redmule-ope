@@ -96,10 +96,10 @@
 #define Float32    0x4
 
 // FP Formats encoding
+#define FP32    0x0
 #define FP16    0x2
 #define FP8     0x3
 #define FP16ALT 0x4
 #define FP8ALT  0x5
-#define FP32    0x6
 
 #endif

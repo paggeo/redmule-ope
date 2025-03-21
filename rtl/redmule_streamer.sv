@@ -249,7 +249,11 @@ hci_core_intf #( .DW ( DW ),
                  .UW ( UW ) ) z_fifo_q ( .clk ( clk_i ) );
 
 logic cast;
-assign cast = (ctrl_i.input_cast_src_fmt == fpnew_pkg::FP16) ? 1'b0: 1'b1;
+
+assign cast = (ctrl_i.input_cast_src_fmt == fpnew_pkg::FP32 || ctrl_i.input_cast_src_fmt == fpnew_pkg::FP16) ? 1'b0: 1'b1;
+// assign cast = 1'b0;
+// assign cast = (ctrl_i.input_cast_src_fmt == fpnew_pkg::FP32) ? 1'b0: 1'b1;
+// assign cast = (ctrl_i.input_cast_src_fmt == fpnew_pkg::FP16) ? 1'b0: 1'b1;
 
 // Store cast unit
 // This unit uses only the data bus of the TCDM interface. The other buses
@@ -291,7 +295,8 @@ assign zstream2cast.r_ecc    = z_fifo_d.r_ecc;
 
 // HCI store fifo.
 hci_core_fifo #(
-  .FIFO_DEPTH                      ( 2                          ),
+  .FIFO_DEPTH                      ( 4                          ),
+  // .FIFO_DEPTH                      ( 2                          ),
   .`HCI_SIZE_PARAM(tcdm_initiator) ( `HCI_SIZE_PARAM(ldst_tcdm) )
 ) i_store_fifo (
   .clk_i          ( clk_i    ),
@@ -368,7 +373,8 @@ for (genvar i = 0; i < NumStreamSources; i++) begin: gen_tcdm2stream
   end
 
   hci_core_fifo #(
-    .FIFO_DEPTH  ( 4  ), // to avoid protocol violations, as the consumer has a throughput
+    .FIFO_DEPTH  ( 8  ), // to avoid protocol violations, as the consumer has a throughput
+    // .FIFO_DEPTH  ( 4  ), // to avoid protocol violations, as the consumer has a throughput
                          // of 1 packet over 4 cycles, we need a depth of 4 elements.
     .`HCI_SIZE_PARAM(tcdm_initiator) ( `HCI_SIZE_PARAM(ldst_tcdm) )
   ) i_load_tcdm_fifo (
