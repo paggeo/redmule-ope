@@ -4,6 +4,7 @@ set ROOT "/scratch/ope_pagonis/redmule-ope"
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -19,6 +20,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -36,6 +38,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -49,6 +52,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -61,6 +65,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -78,6 +83,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -90,6 +96,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -104,6 +111,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -117,6 +125,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -177,6 +186,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -219,6 +229,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -232,6 +243,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -259,6 +271,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -279,6 +292,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -334,6 +348,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -374,6 +389,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -423,6 +439,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -465,6 +482,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -505,6 +523,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -520,6 +539,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -535,6 +555,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -568,6 +589,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -589,6 +611,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -603,6 +626,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -636,6 +660,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -671,6 +696,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -686,6 +712,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -701,6 +728,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \
@@ -716,6 +744,7 @@ if {[catch { vlog -incr -sv \
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
     +define+TARGET_CV32E40P_EXCLUDE_TRACER \
+    +define+TARGET_DEBUG \
     +define+TARGET_REDMULE_HWPE \
     +define+TARGET_REDMULE_TEST_HWPE \
     +define+TARGET_RTL \

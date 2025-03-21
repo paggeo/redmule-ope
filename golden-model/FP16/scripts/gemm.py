@@ -297,3 +297,12 @@ new_format = 'FP16'
 updated_lines = [pattern.sub(rf'  \1{new_format}\3', line) if pattern.search(line) else line for line in lines]
 with open(pkg_file, 'w') as file: file.writelines(updated_lines)
 print(f"Updated {pkg_file} with new FPFORMAT = {new_format}")
+
+
+pkg_file = "../../target/sim/src/redmule_tb.sv"
+with open(pkg_file, 'r') as file: lines = file.readlines()
+pattern = re.compile(r'^\s*(parameter\s+int\s+EXPECTED_VALID_COUNT\s*=\s*)(\d+)(\s*;)', re.MULTILINE)
+new_value = int(in_rows)*int(out_cols)
+updated_lines = [pattern.sub(rf'  parameter int EXPECTED_VALID_COUNT = {str(new_value)};', line) if pattern.search(line) else line for line in lines]
+with open(pkg_file, 'w') as file: file.writelines(updated_lines)
+print(f"EXPECTED_VALID_COUNT updated successfully with new value: {new_value}.")

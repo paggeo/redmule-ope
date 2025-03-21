@@ -50,6 +50,8 @@ gui      ?= 0
 ipstools ?= 0
 P_STALL  ?= 0.0
 
+DEBUG ?= 1
+
 ifeq ($(verbose),1)
 	FLAGS += -DVERBOSE
 endif

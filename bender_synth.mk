@@ -12,3 +12,6 @@ ifeq ($(REDMULE_COMPLEX),1)
 else
 	synth_defs += -D REDMULE_HWPE_SYNTH
 endif
+
+
+synth_defs += -D DEBUG

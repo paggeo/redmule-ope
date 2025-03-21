@@ -44,6 +44,9 @@ module redmule_top
   // Periph slave port for the controller side
   hwpe_ctrl_intf_periph.slave periph,
 `endif
+// `ifdef DEBUG
+  output cntrl_scheduler_t        debug_cntrl_scheduler_o,
+// `endif
   // TCDM master ports for the memory side
   hci_core_intf.initiator tcdm
 );
@@ -426,6 +429,11 @@ redmule_ctrl        #(
   .periph            ( periph                  )
 );
 
+
+
+// `ifdef DEBUG
+  assign debug_cntrl_scheduler_o = cntrl_scheduler;
+// `endif
 
 /*---------------------------------------------------------------*/
 /* |                        Local FSM                          | */

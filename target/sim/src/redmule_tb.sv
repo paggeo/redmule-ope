@@ -197,6 +197,8 @@ module redmule_tb
     );
   end
 
+  cntrl_scheduler_t debug_cntrl_scheduler;
+
   redmule_wrap #(
     .ID_WIDTH           ( ID                 ),
     .N_CORES            ( NC                 ),
@@ -221,6 +223,9 @@ module redmule_tb
     .tcdm_r_opc_i       ( tcdm_r_opc         ),
     .tcdm_r_user_i      ( tcdm_r_user        ),
     .tcdm_r_ecc_i       ( tcdm_r_ecc         ),
+// `ifdef DEBUG
+  .debug_cntrl_scheduler_o(debug_cntrl_scheduler),
+// `endif
     .periph_req_i       ( periph_req         ),
     .periph_gnt_o       ( periph_gnt         ),
     .periph_add_i       ( periph_add         ),
@@ -359,6 +364,62 @@ module redmule_tb
     end
   end
 
+  int counter = 0;
+  int measured_count = 0;
+  bit counting = 0;
+  parameter int EXPECTED_VALID_COUNT = 16; //NOTE: this has an issue when the TCDM DATA_W is too large, the code returns empty data
+
+  logic [MP-1:0][31:0] prev_tcdm_r_data;
+  logic [MP-1:0][31:0] prev_tcdm_data;
+  int start_counter = 0;
+  int end_counter = 0;
+  int global_counter = 0;
+  int channel_valid_count;
+  always_ff @(posedge clk_i) global_counter <= global_counter + 1;
+  always_ff @(posedge clk_i) begin 
+    if (!counting && (prev_tcdm_r_data == 'b0) && (tcdm_r_data != 'b0)) begin // rising edge for tcdm_r_data
+      counting <= 1;
+      start_counter <= global_counter;
+    end
+    if (counting) begin 
+      channel_valid_count = 0;
+      for (int i = 0; i < MP; i++) begin if (tcdm_data[i] != 'b0) channel_valid_count++;end
+      counter <= counter + channel_valid_count;
+      if (counter >= EXPECTED_VALID_COUNT) begin
+        counting <= 0;
+        end_counter <= global_counter;
+        measured_count <= global_counter - start_counter;
+      end
+    end
+
+    prev_tcdm_r_data <= tcdm_r_data;
+    prev_tcdm_data <= tcdm_data;
+  end
+
+  int periphery_start_counter = 0;
+  int periphery_end_counter = 0;
+  bit periphery_counting = 0;
+  
+  logic check_start_config, prev_check_start_config;
+  logic prev_finished_redmule, finished_redmule;
+  
+  assign check_start_config = (periph_req && (periph_add[7:0] == 'h54) && (!periph_wen) && (periph_gnt)) ? 1'b1: 1'b0;
+  assign finished_redmule = debug_cntrl_scheduler.finished;
+
+  always_ff @(posedge clk_i) begin 
+    if (!periphery_counting && (prev_check_start_config == 1'b0) && (check_start_config == 1'b1)) begin 
+      periphery_counting <= 1;
+      periphery_start_counter <= global_counter;
+    end
+    if (periphery_counting &&(prev_finished_redmule == 1'b0) && (finished_redmule)) begin 
+      periphery_counting <= 0;
+      periphery_end_counter <= global_counter;
+    end
+
+  prev_check_start_config <= check_start_config;
+  prev_finished_redmule <= finished_redmule;
+  end
+
   initial begin
 
     if (!$value$plusargs("STIM_INSTR=%s", stim_instr)) stim_instr = "../../../sw/build/stim_instr.txt";
@@ -404,8 +465,9 @@ module redmule_tb
     $display("DATA_W = %0d", DATA_W);
     $display("BITW=%0d, NumByte=%0d, ADDR_W=%0d", BITW, NumByte, ADDR_W);
     $display("NumByte*BITW/ADDR_w: %0d ",((NumByte*BITW)/ADDR_W));
-
-    $finish;
+    $display("Measured count: %0d, Start counter: %0d, End counter: %0d", measured_count, start_counter, end_counter);
+    $display("Periphery Measured count: %0d, Start counter: %0d, End counter: %0d", periphery_end_counter - periphery_start_counter, periphery_start_counter, periphery_end_counter);
+    // $finish;
   end
 
 endmodule // redmule_tb

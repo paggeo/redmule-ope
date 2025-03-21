@@ -7,11 +7,13 @@ set search_path $search_path_initial
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/rtl/tc_sram.sv" \
@@ -24,11 +26,13 @@ set search_path $search_path_initial
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/rtl/tc_clk.sv" \
@@ -40,11 +44,13 @@ set search_path $search_path_initial
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/deprecated/pulp_clock_gating_async.sv" \
@@ -59,11 +65,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/i
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/binary_to_gray.sv" \
@@ -76,11 +84,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/i
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/cb_filter_pkg.sv" \
@@ -140,11 +150,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/i
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/cb_filter.sv" \
@@ -186,11 +198,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/i
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/deprecated/clock_divider_counter.sv" \
@@ -217,11 +231,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/i
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/fpu_div_sqrt_mvp-6f47e499794a44e3/hdl/defs_div_sqrt_mvp.sv" \
@@ -243,11 +259,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/i
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/cluster_interconnect-3cafd41fb1ea3828/rtl/tcdm_interconnect/tcdm_interconnect_pkg.sv" \
@@ -300,11 +318,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/i
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/fpnew-596368a327261645/src/fpnew_pkg.sv" \
@@ -344,11 +364,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rt
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_package.sv" \
@@ -396,11 +418,13 @@ set search_path $search_path_initial
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/l2_tcdm_hybrid_interco-c454a1d770326823/RTL/l2_tcdm_demux.sv" \
@@ -445,11 +469,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/cv32e40p-0c712058920bd787/rtl/i
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/cv32e40p-0c712058920bd787/rtl/include/cv32e40p_apu_core_pkg.sv" \
@@ -489,11 +515,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/cv32e40p-0c712058920bd787/rtl/i
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/cv32e40p-0c712058920bd787/rtl/cv32e40p_register_file_latch.sv" \
@@ -508,11 +536,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_package.sv" \
@@ -543,11 +573,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/hwpe-ctrl-baf519a1b44955c2/rtl"
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/hwpe-ctrl-baf519a1b44955c2/rtl/hwpe_ctrl_interfaces.sv" \
@@ -567,11 +599,13 @@ set search_path $search_path_initial
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/ibex-b31972101ad06c84/rtl/ibex_register_file_latch.sv" \
@@ -587,11 +621,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/ibex-b31972101ad06c84/vendor/lo
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/.bender/git/checkouts/ibex-b31972101ad06c84/rtl/ibex_pkg.sv" \
@@ -625,11 +661,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/rtl/redmule_pkg.sv" \
@@ -664,11 +702,13 @@ lappend search_path "$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common
 if {0 == [analyze -format sv \
     -define { \
         TARGET_CV32E40P_EXCLUDE_TRACER \
+        TARGET_DEBUG \
         TARGET_REDMULE_HWPE \
         TARGET_SYNOPSYS \
         TARGET_SYNTHESIS \
         COREV_ASSERT_OFF \
         REDMULE_HWPE_SYNTH \
+        DEBUG \
     } \
     [list \
         "$ROOT/rtl/redmule_wrap.sv" \

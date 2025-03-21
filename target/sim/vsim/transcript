@@ -1,5 +1,3 @@
-# vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
-# Start time: 19:01:41 on Mar 20,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -14,6 +12,8 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
+# vsim redmule_tb_wrap_opt -do "set TbType redmule_tb" -do "log -r /*" -do "source /scratch/ope_pagonis/redmule-ope/target/sim/vsim/wave.tcl" -do "run -a" -suppress 3009 
+# Start time: 14:53:26 on Mar 21,2025
 # Loading sv_std.std
 # Loading work.fpnew_pkg(fast)
 # Loading work.hwpe_stream_package(fast)
@@ -152,37 +152,73 @@
 # Loading work.hci_core_intf(fast__4)
 # Loading work.hci_core_intf(fast__9)
 # Loading work.hci_core_intf(fast__10)
+# set TbType redmule_tb
+# redmule_tb
+# log -r /*
+# source /scratch/ope_pagonis/redmule-ope/target/sim/vsim/wave.tcl
 # run -a
 # Triggering accelerator and going to sleep...
 # Resumed!
 # Here
-# Index 0: Golden: 0x3f9150d6; Actual: 0x3f9150d5
-# Index 1: Golden: 0x3fc99bfe; Actual: 0x3fc99bfe
-# Index 2: Golden: 0x3f8c4713; Actual: 0x3f8c4713
-# Index 3: Golden: 0x3fc468f9; Actual: 0x3fc468f9
-# Index 4: Golden: 0x3f98fe36; Actual: 0x3f98fe36
-# Index 5: Golden: 0x3fd5ad50; Actual: 0x3fd5ad51
-# Index 6: Golden: 0x3fcd1ad2; Actual: 0x3fcd1ad3
-# Index 7: Golden: 0x3fc8daf8; Actual: 0x3fc8daf9
-# Index 8: Golden: 0x3fc9cc14; Actual: 0x3fc9cc13
-# Index 9: Golden: 0x3ff1365a; Actual: 0x3ff13659
-# Index 10: Golden: 0x3fb7d79b; Actual: 0x3fb7d79c
-# Index 11: Golden: 0x3f9fd97a; Actual: 0x3f9fd97a
-# Index 12: Golden: 0x3e8429b6; Actual: 0x3e8429b6
-# Index 13: Golden: 0x3f82c478; Actual: 0x3f82c478
-# Index 14: Golden: 0x3f5df063; Actual: 0x3f5df063
-# Index 15: Golden: 0x3fca27e6; Actual: 0x3fca27e6
+# Index 0: Golden: 0x3fa559a0; Actual: 0x3fa5599f
+# Index 1: Golden: 0x3fada516; Actual: 0x3fada516
+# Index 2: Golden: 0x3f831ee8; Actual: 0x3f831ee8
+# Index 3: Golden: 0x3fa35c44; Actual: 0x3fa35c43
+# Index 4: Golden: 0x3fa67237; Actual: 0x3fa67237
+# Index 5: Golden: 0x3f79bf44; Actual: 0x3f79bf44
+# Index 6: Golden: 0x3f3d00be; Actual: 0x3f3d00be
+# Index 7: Golden: 0x3f77e876; Actual: 0x3f77e877
+# Index 8: Golden: 0x40037f6e; Actual: 0x40037f6d
+# Index 9: Golden: 0x3fa3b888; Actual: 0x3fa3b888
+# Index 10: Golden: 0x3fe3f16e; Actual: 0x3fe3f16e
+# Index 11: Golden: 0x3f8e4df1; Actual: 0x3f8e4df1
+# Index 12: Golden: 0x4008e866; Actual: 0x4008e866
+# Index 13: Golden: 0x4007c546; Actual: 0x4007c547
+# Index 14: Golden: 0x3ff96b0a; Actual: 0x3ff96b0a
+# Index 15: Golden: 0x3fd5b82e; Actual: 0x3fd5b82d
 # Terminated test with 0 errors. See you!
 # NICEFormat: 4
-# [TB] - cnt_rd=2755    
-# [TB] - cnt_wr=1025    
+# [TB] - cnt_rd=288     
+# [TB] - cnt_wr=36      
 # [TB] - Success!
 # [TB] - errors=00000000
 # FPFORMAT = 0 (FP16=2, FP32=0)
-# DATA_W = 160
+# DATA_W = 288
 # BITW=32, NumByte=4, ADDR_W=32
 # NumByte*BITW/ADDR_w: 4 
-# ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(408)
-#    Time: 48455 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
-# End time: 19:01:44 on Mar 20,2025, Elapsed time: 0:00:03
+# Measured count: 32, Start counter: 569, End counter: 601
+# Periphery Measured count: 497, Start counter: 106, End counter: 603
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/debug_cntrl_scheduler
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/check_start_config
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/data_req \
+sim:/redmule_tb_wrap/i_redmule_tb/data_gnt \
+sim:/redmule_tb_wrap/i_redmule_tb/data_rvalid \
+sim:/redmule_tb_wrap/i_redmule_tb/data_we \
+sim:/redmule_tb_wrap/i_redmule_tb/data_be \
+sim:/redmule_tb_wrap/i_redmule_tb/data_addr \
+sim:/redmule_tb_wrap/i_redmule_tb/data_wdata \
+sim:/redmule_tb_wrap/i_redmule_tb/data_rdata
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/redmule_busy
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/evt
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/periph_req \
+sim:/redmule_tb_wrap/i_redmule_tb/periph_gnt \
+sim:/redmule_tb_wrap/i_redmule_tb/periph_add \
+sim:/redmule_tb_wrap/i_redmule_tb/periph_wen \
+sim:/redmule_tb_wrap/i_redmule_tb/periph_be \
+sim:/redmule_tb_wrap/i_redmule_tb/periph_data \
+sim:/redmule_tb_wrap/i_redmule_tb/periph_id \
+sim:/redmule_tb_wrap/i_redmule_tb/periph_r_data \
+sim:/redmule_tb_wrap/i_redmule_tb/periph_r_valid \
+sim:/redmule_tb_wrap/i_redmule_tb/periph_r_id
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/test_mode
+# Break key hit
+# Break in Module hci_core_intf at /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv line 153
+# End time: 15:01:06 on Mar 21,2025, Elapsed time: 0:07:40
 # Errors: 0, Warnings: 0
