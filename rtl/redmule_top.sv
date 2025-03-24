@@ -337,7 +337,7 @@ end
 
 // Engine instance
 redmule_engine     #(
-  .FpFormat        ( FpFormat      ),
+  .FpFormat        ( fpnew_pkg::FP32      ),
   .Height          ( Height        ),
   .Width           ( Width         ),
   .NumPipeRegs     ( NumPipeRegs   ),

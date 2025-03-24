@@ -1,5 +1,5 @@
 # vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
-# Start time: 18:55:25 on Mar 24,2025
+# Start time: 19:27:59 on Mar 24,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -152,40 +152,46 @@
 # Loading work.hci_core_intf(fast__4)
 # Loading work.hci_core_intf(fast__9)
 # Loading work.hci_core_intf(fast__10)
+# ** Warning: (vsim-3015) [PCDPC] - Port size (512) does not match connection size (128) for port 'x_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl/redmule_engine.sv(27).
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl/redmule_top.sv Line: 345
+# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (32) for port 'w_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl/redmule_engine.sv(28).
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl/redmule_top.sv Line: 345
+# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (32) for port 'y_bias_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl/redmule_engine.sv(29).
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl/redmule_top.sv Line: 345
+# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (32) for port 'z_output_o'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl/redmule_engine.sv(31).
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl/redmule_top.sv Line: 345
 # run -a
 # src_fmt: 0, gemm_op: 1, dst_fmt: 4
 # Triggering accelerator and going to sleep...
+# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+#    Time: 1738001 ps Started: 1738001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+#    Time: 1738001 ps Started: 1738001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+#    Time: 1739001 ps Started: 1739001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+#    Time: 1741001 ps Started: 1741001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+#    Time: 1741001 ps Started: 1741001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
 # Resumed!
-# Golden: 0x40403f40; Actual: 0x0000000,
-# Golden: 0x3f404040; Actual: 0x0000000,
-# Golden: 0x3f403f40; Actual: 0x0000000,
-# Golden: 0x403f4040; Actual: 0x0000000,
-# Golden: 0x40403f40; Actual: 0x0000000,
-# Golden: 0x40404040; Actual: 0x0000000,
-# Golden: 0x40403f40; Actual: 0x0000000,
-# Golden: 0x40404040; Actual: 0x0000000,
-# Golden: 0x40403f40; Actual: 0x0000000,
-# Golden: 0x3f404040; Actual: 0x0000000,
-# Golden: 0x40403f40; Actual: 0x0000000,
-# Golden: 0x40404040; Actual: 0x0000000,
-# Golden: 0x40403f40; Actual: 0x0000000,
-# Golden: 0x40404040; Actual: 0x0000000,
-# Golden: 0x3f3f3f40; Actual: 0x0000000,
-# Golden: 0x3f403f3f; Actual: 0x0000000,
-# Terminated test with 16 errors. See you!
+# Golden: 0x3f3f3f3f; Actual: 0x0000000,
+# Golden: 0x3f3f3f3f; Actual: 0x0000000,
+# Golden: 0x3f3f3f3f; Actual: 0x0000000,
+# Golden: 0x3f3f4040; Actual: 0x0000000,
+# Terminated test with 4 errors. See you!
 # Dst Format: 4 | Src Format: 0
-# [TB] - cnt_rd=2048    
-# [TB] - cnt_wr=853     
+# [TB] - cnt_rd=819     
+# [TB] - cnt_wr=324     
 # [TB] - Fail!
-# ** Error: [TB] - errors=00000010
-#    Time: 34002 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
+# ** Error: [TB] - errors=00000004
+#    Time: 10983 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
 # FPFORMAT = 3 (FP16=2, FP32=0)
 # DATA_W = 96
 # BITW=8, NumByte=4, ADDR_W=32
 # NumByte*BITW/ADDR_w: 1 
 # Measured count: 0, Start counter: 1608, End counter: 0
-# Periphery Measured count: 538, Start counter: 1133, End counter: 1671
+# Periphery Measured count: 510, Start counter: 1133, End counter: 1643
 # ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
-#    Time: 34002 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
-# End time: 18:55:28 on Mar 24,2025, Elapsed time: 0:00:03
-# Errors: 1, Warnings: 0
+#    Time: 10983 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# End time: 19:28:00 on Mar 24,2025, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 9

@@ -66,6 +66,9 @@ void redmule_cfg(unsigned int x, unsigned int w, unsigned int z, uint16_t m_size
   // [MACFG][ 9: 7]); // Output format always Float32
   // [MACFG][ 19: 17]); // Input format float16, or float8
 
+  // 9:7: compute format
+  // 19:17 input format
+
   printf("src_fmt: %d, gemm_op: %d, dst_fmt: %d\n", src_fmt, gemm_op, dst_fmt);
   arith_reg =  (src_fmt <<17) | (gemm_op << 10) | (dst_fmt << 7);
 
