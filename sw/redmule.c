@@ -34,13 +34,6 @@ int main() {
                     : (DST_FMT == FP16)    ? (uint8_t)Float16
                     : (uint8_t)Float32;
 
-  // uint8_t float_fmt = (SRC_FMT == FP8)       ? (uint8_t)Float8
-  //                     : (SRC_FMT == FP8ALT)  ? (uint8_t)Float8Alt
-  //                     : (SRC_FMT == FP16)    ? (uint8_t)Float16
-  //                     : (SRC_FMT == FP16ALT) ? (uint8_t)Float16Alt
-  //                     : (SRC_FMT == FP32)    ? (uint8_t)Float32
-  //                                            : (uint8_t)Float16;
-
   volatile int errors = 0;
   int gold_sum = 0, check_sum = 0;
   int i, j;
@@ -70,14 +63,12 @@ int main() {
   // Disable RedMulE
   hwpe_cg_disable();
 
-  // if (float_fmt == Float32){
-  //   tfp_printf("Here\n");
-  //   errors = redmule32_compare_int(y, golden, m_size * k_size);
-  // }
-  // else if (float_fmt == Float16 || float_fmt == Float16Alt)
+  if (src_fmt == Float32)
+    errors = redmule32_compare_int(y, golden, m_size * k_size);
+  else if (src_fmt == Float16)
     errors = redmule16_compare_int(y, golden, m_size * k_size / 2);
-  // else if (float_fmt == Float8 || float_fmt == Float8Alt)
-    // errors = redmule8_compare_int(y, golden, m_size * k_size / 4);
+  else if (src_fmt == Float8)
+    errors = redmule8_compare_int(y, golden, m_size * k_size / 4);
 
   *(int *)0x80000000 = errors;
 

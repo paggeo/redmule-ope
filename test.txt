@@ -1,0 +1,269 @@
+diff --git a/golden-model/FP16FP32/net_parameters.h b/golden-model/FP16FP32/net_parameters.h
+index c9f5697..2fcd43b 100644
+--- a/golden-model/FP16FP32/net_parameters.h
++++ b/golden-model/FP16FP32/net_parameters.h
+@@ -1,4 +1,4 @@
+-fp32 X[IN_CH*MID_CH] = {0.0015861988067626953f, 0.5848495960235596f, 0.8445596694946289f, 0.0015164613723754883f, 0.5995278358459473f, 0.9675257802009583f, 0.2135581374168396f, 0.9534071087837219f, 0.9148815870285034f, 0.9172182083129883f, 0.5214848518371582f, 0.8779109120368958f, 0.22386181354522705f, 0.2922021746635437f, 0.7584090232849121f, 0.4074225425720215f};
+-fp32 W[MID_CH*OUT_CH] = {0.49244266748428345f, 0.039722561836242676f, 0.6643028259277344f, 0.18144136667251587f, 0.7827665209770203f, 0.5803447961807251f, 0.13603180646896362f, 0.9328561425209045f, 0.7536138296127319f, 0.8356084227561951f, 0.34894341230392456f, 0.5567846298217773f, 0.017329931259155273f, 0.47173696756362915f, 0.10893535614013672f, 0.6665697693824768f};
+-fp32 Y[MID_CH*OUT_CH] = {0.09472417831420898f, 0.14962852001190186f, 0.19403576850891113f, 0.23413026332855225f, 0.154465913772583f, 0.2897581458091736f, 0.436509370803833f, 0.6289333701133728f, 0.20144283771514893f, 0.2871004343032837f, 0.8374534845352173f, 0.6326363682746887f, 0.09057074785232544f, 0.46825575828552246f, 0.38352280855178833f, 0.24643999338150024f};
+-fp32 Z[IN_CH*OUT_CH] = {1.1898040771484375f, 1.1955424547195435f, 0.5695163607597351f, 1.2512472867965698f, 1.3845086097717285f, 1.503279685974121f, 1.1447710990905762f, 2.39469313621521f, 1.7781496047973633f, 1.7056448459625244f, 1.847586989402771f, 2.5298099517822266f, 1.0081441402435303f, 1.4726554155349731f, 0.8810081481933594f, 1.2534863948822021f};
++fp32 X[IN_CH*MID_CH] = {0.4968855381011963f, 0.19971448183059692f, 0.0709497332572937f, 0.4726064205169678f, 0.6002785563468933f, 0.5197297930717468f, 0.4087952971458435f, 0.7630965113639832f, 0.12472295761108398f, 0.2599639296531677f, 0.8723486661911011f, 0.4539903402328491f, 0.5072764158248901f, 0.8345484137535095f, 0.9936525821685791f, 0.04703712463378906f};
++fp32 W[MID_CH*OUT_CH] = {0.4098126292228699f, 0.5300213694572449f, 0.5660772323608398f, 0.6800578832626343f, 0.2596239447593689f, 0.758707582950592f, 0.10363733768463135f, 0.13917070627212524f, 0.7147240042686462f, 0.9368171095848083f, 0.03089284896850586f, 0.8844513297080994f, 0.8987754583358765f, 0.459545373916626f, 0.09754008054733276f, 0.24677032232284546f};
++fp32 Y[MID_CH*OUT_CH] = {0.7241612672805786f, 0.6613218188285828f, 0.5324363112449646f, 0.12803399562835693f, 0.13238400220870972f, 0.2668115496635437f, 0.761666476726532f, 0.0283052921295166f, 0.1407761573791504f, 0.6363025307655334f, 0.9206277132034302f, 0.08824950456619263f, 0.8921416401863098f, 0.5476211905479431f, 0.31318217515945435f, 0.6828864216804504f};
++fp32 Z[IN_CH*OUT_CH] = {1.4551184177398682f, 1.3598576784133911f, 0.882699728012085f, 0.673116147518158f, 1.4913482666015625f, 1.7129387855529785f, 1.242395281791687f, 1.0587297677993774f, 1.2909059524536133f, 1.9255053997039795f, 1.0894041061401367f, 1.0928289890289307f, 2.069161891937256f, 2.402153253555298f, 0.7221149206161499f, 2.0344531536102295f};
+diff --git a/rtl/redmule_castin.sv b/rtl/redmule_castin.sv
+index ac1a3a4..6a4c2c5 100644
+--- a/rtl/redmule_castin.sv
++++ b/rtl/redmule_castin.sv
+@@ -27,6 +27,7 @@ module redmule_castin #(
+   input  logic                   cast_i   ,
+   input  logic [DATA_W-1:0]      src_i    ,
+   input  fpnew_pkg::fp_format_e  src_fmt_i,
++  input  fpnew_pkg::fp_format_e  dst_fmt_i,
+   output logic [DATA_W-1:0]      dst_o
+ );
+ 
+@@ -62,7 +63,7 @@ generate
+       .op_i           ( Operation      ),
+       .op_mod_i       ( '0             ),
+       .src_fmt_i      ( src_fmt_i      ),
+-      .dst_fmt_i      ( DstFormat      ),
++      .dst_fmt_i      ( dst_fmt_i      ),
+       .int_fmt_i      ( INT_SRC        ),
+       .tag_i          ( '0             ),
+       .mask_i         ( '0             ),
+diff --git a/rtl/redmule_castout.sv b/rtl/redmule_castout.sv
+index b4e4409..6de783d 100644
+--- a/rtl/redmule_castout.sv
++++ b/rtl/redmule_castout.sv
+@@ -25,6 +25,7 @@ module redmule_castout #(
+   input  logic                   rst_ni   ,
+   input  logic                   clear_i  ,
+   input  logic                   cast_i   ,
++  input  fpnew_pkg::fp_format_e  src_fmt_i,
+   input  logic [DATA_W-1:0]      src_i    ,
+   input  fpnew_pkg::fp_format_e  dst_fmt_i,
+   output logic [DATA_W-1:0]      dst_o
+@@ -57,7 +58,7 @@ generate
+       .rnd_mode_i      ( fpnew_pkg::RNE ),
+       .op_i            ( Operation      ),
+       .op_mod_i        ( '0             ),
+-      .src_fmt_i       ( SrcFormat      ),
++      .src_fmt_i       ( src_fmt_i      ),
+       .dst_fmt_i       ( dst_fmt_i      ),
+       .int_fmt_i       ( INT_SRC        ),
+       .tag_i           ( '0             ),
+diff --git a/rtl/redmule_pkg.sv b/rtl/redmule_pkg.sv
+index f09d93a..988c66f 100644
+--- a/rtl/redmule_pkg.sv
++++ b/rtl/redmule_pkg.sv
+@@ -11,7 +11,7 @@ import hwpe_stream_package::*;
+ 
+ package redmule_pkg;
+ 
+-  parameter int unsigned            DATA_W       = 128 + 32; // TCDM port dimension (in bits)
++  parameter int unsigned            DATA_W       = 64 + 32; // TCDM port dimension (in bits)
+   // parameter int unsigned            DATA_W       = 256 + 32; // TCDM port dimension (in bits)
+   parameter int unsigned            MemDw        = 32;
+   parameter int unsigned            NumByte      = MemDw/8;
+@@ -19,7 +19,7 @@ package redmule_pkg;
+   parameter int unsigned            DATAW        = DATA_W - MemDw;
+   parameter int unsigned            REDMULE_REGS = 22;
+   parameter int unsigned            N_CONTEXT    = 2;
+-  parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP16;
++  parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP8;
+   parameter int unsigned            BITW         = fpnew_pkg::fp_width(FPFORMAT);
+   parameter int unsigned            ARRAY_HEIGHT = 4;
+   parameter int unsigned            PIPE_REGS    = 1;
+@@ -30,6 +30,7 @@ package redmule_pkg;
+   parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b101101;
+   parameter fpnew_pkg::ifmt_logic_t IntFmtConfig = 4'b1000;
+   parameter fpnew_pkg::operation_e  CAST_OP      = fpnew_pkg::F2F;
++  // parameter int unsigned MIN_FMT  = 16;
+   parameter int unsigned MIN_FMT  = fpnew_pkg::min_fp_width(FpFmtConfig);
+   parameter int unsigned DW_CUT   = DATA_W - ARRAY_HEIGHT*(PIPE_REGS + 1)*MIN_FMT;
+   parameter int unsigned ECC_CHUNK_SIZE = 32;
+diff --git a/rtl/redmule_streamer.sv b/rtl/redmule_streamer.sv
+index f65216a..63a5cbf 100644
+--- a/rtl/redmule_streamer.sv
++++ b/rtl/redmule_streamer.sv
+@@ -271,6 +271,7 @@ redmule_castout #(
+   .cast_i       ( cast                      ),
+   .src_i        (zstream2cast.data          ),
+   .dst_fmt_i    (ctrl_i.output_cast_dst_fmt ),
++  .src_fmt_i    (ctrl_i.output_cast_src_fmt ),
+   .dst_o        (z_fifo_d.data              )
+ );
+ 
+@@ -400,6 +401,7 @@ for (genvar i = 0; i < NumStreamSources; i++) begin: gen_tcdm2stream
+     .cast_i       ( cast                      ),
+     .src_i        ( load_fifo_q[i].r_data     ),
+     .src_fmt_i    ( ctrl_i.input_cast_src_fmt ),
++    .dst_fmt_i    ( ctrl_i.input_cast_dst_fmt ),
+     .dst_o        ( tcdm_cast[i].r_data       )
+   );
+ 
+diff --git a/sw/hal_redmule.h b/sw/hal_redmule.h
+index ccf5010..68de22a 100644
+--- a/sw/hal_redmule.h
++++ b/sw/hal_redmule.h
+@@ -63,9 +63,15 @@ void redmule_cfg(unsigned int x, unsigned int w, unsigned int z, uint16_t m_size
+   mcfg_reg0 = (k_size << 16) | (m_size << 0);
+   mcfg_reg1 = n_size << 0;
+ 
+-  // if (gemm_fmt == (uint8_t)Float32) arith_reg = (1 << 14) | (gemm_op << 10) | (gemm_fmt << 7);
+-  arith_reg = (dst_fmt << 10) | (gemm_op << 10) | (src_fmt << 7);
+-  // else arith_reg = (gemm_op << 10) | (gemm_fmt << 7);
++  // [MACFG][ 9: 7]); // Output format always Float32
++  // [MACFG][ 19: 17]); // Input format float16, or float8
++
++  // arith_reg = (src_fmt << 17) | (gemm_op << 10) | (dst_fmt << 7);
++  // arith_reg = (src_fmt << 17) | (gemm_op << 10) | (dst_fmt << 7);
++  printf("src_fmt: %d, gemm_op: %d, dst_fmt: %d\n", src_fmt, gemm_op, dst_fmt);
++  arith_reg =  (src_fmt <<17) | (gemm_op << 10) | (dst_fmt << 7);
++  // arith_reg = (010 << 17) | (gemm_op << 10) | (000 << 7); // This should be the correct one
++  // arith_reg = (dst_fmt << 17) | (gemm_op << 10) | (src_fmt << 7);
+ 
+   redmule_x_add_set((unsigned int)x);
+   redmule_w_add_set((unsigned int)w);
+diff --git a/sw/redmule.c b/sw/redmule.c
+index a8fc5b2..fe26329 100644
+--- a/sw/redmule.c
++++ b/sw/redmule.c
+@@ -34,13 +34,6 @@ int main() {
+                     : (DST_FMT == FP16)    ? (uint8_t)Float16
+                     : (uint8_t)Float32;
+ 
+-  // uint8_t float_fmt = (SRC_FMT == FP8)       ? (uint8_t)Float8
+-  //                     : (SRC_FMT == FP8ALT)  ? (uint8_t)Float8Alt
+-  //                     : (SRC_FMT == FP16)    ? (uint8_t)Float16
+-  //                     : (SRC_FMT == FP16ALT) ? (uint8_t)Float16Alt
+-  //                     : (SRC_FMT == FP32)    ? (uint8_t)Float32
+-  //                                            : (uint8_t)Float16;
+-
+   volatile int errors = 0;
+   int gold_sum = 0, check_sum = 0;
+   int i, j;
+@@ -75,9 +68,9 @@ int main() {
+   //   errors = redmule32_compare_int(y, golden, m_size * k_size);
+   // }
+   // else if (float_fmt == Float16 || float_fmt == Float16Alt)
+-    errors = redmule16_compare_int(y, golden, m_size * k_size / 2);
++    // errors = redmule16_compare_int(y, golden, m_size * k_size / 2);
+   // else if (float_fmt == Float8 || float_fmt == Float8Alt)
+-    // errors = redmule8_compare_int(y, golden, m_size * k_size / 4);
++    errors = redmule8_compare_int(y, golden, m_size * k_size / 4);
+ 
+   *(int *)0x80000000 = errors;
+ 
+diff --git a/target/sim/vsim/transcript b/target/sim/vsim/transcript
+index 11001a4..f0a97d0 100644
+--- a/target/sim/vsim/transcript
++++ b/target/sim/vsim/transcript
+@@ -1,5 +1,5 @@
+ # vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
+-# Start time: 17:26:26 on Mar 24,2025
++# Start time: 18:51:00 on Mar 24,2025
+ # //  Questa Sim-64
+ # //  Version 2023.4 linux_x86_64 Oct  9 2023
+ # //
+@@ -153,40 +153,39 @@
+ # Loading work.hci_core_intf(fast__9)
+ # Loading work.hci_core_intf(fast__10)
+ # run -a
++# src_fmt: 0, gemm_op: 1, dst_fmt: 4
+ # Triggering accelerator and going to sleep...
+-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+-#    Time: 700001 ps Started: 700001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+-#    Time: 700001 ps Started: 700001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+-#    Time: 701001 ps Started: 701001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+-#    Time: 703001 ps Started: 703001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+-#    Time: 703001 ps Started: 703001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+ # Resumed!
+-# Golden: 0x3cc83cc2; Actual: 0x30ca1400,
+-# Golden: 0x3d01388e; Actual: 0x0000000,
+-# Golden: 0x3e033d8a; Actual: 0x34a3c7f1,
+-# Golden: 0x40ca3c94; Actual: 0x0000000,
+-# Golden: 0x3ed33f1d; Actual: 0x349832f8,
+-# Golden: 0x410f3f64; Actual: 0x0000000,
+-# Golden: 0x3de43c08; Actual: 0x377e25d0,
+-# Golden: 0x3d043b0c; Actual: 0x0000000,
+-# Terminated test with 8 errors. See you!
+-# Dst Format: 4 | Src Format: 1
+-# [TB] - cnt_rd=1271    
+-# [TB] - cnt_wr=483     
++# Golden: 0x40403f40; Actual: 0x0000000,
++# Golden: 0x3f404040; Actual: 0x0000000,
++# Golden: 0x3f403f40; Actual: 0x0000000,
++# Golden: 0x403f4040; Actual: 0x0000000,
++# Golden: 0x40403f40; Actual: 0x0000000,
++# Golden: 0x40404040; Actual: 0x0000000,
++# Golden: 0x40403f40; Actual: 0x0000000,
++# Golden: 0x40404040; Actual: 0x0000000,
++# Golden: 0x40403f40; Actual: 0x0000000,
++# Golden: 0x3f404040; Actual: 0x0000000,
++# Golden: 0x40403f40; Actual: 0x0000000,
++# Golden: 0x40404040; Actual: 0x0000000,
++# Golden: 0x40403f40; Actual: 0x0000000,
++# Golden: 0x40404040; Actual: 0x0000000,
++# Golden: 0x3f3f3f40; Actual: 0x0000000,
++# Golden: 0x3f403f3f; Actual: 0x0000000,
++# Terminated test with 16 errors. See you!
++# Dst Format: 4 | Src Format: 0
++# [TB] - cnt_rd=2048    
++# [TB] - cnt_wr=853     
+ # [TB] - Fail!
+-# ** Error: [TB] - errors=00000008
+-#    Time: 20140 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
+-# FPFORMAT = 2 (FP16=2, FP32=0)
+-# DATA_W = 160
+-# BITW=16, NumByte=4, ADDR_W=32
+-# NumByte*BITW/ADDR_w: 2 
+-# Measured count: 0, Start counter: 570, End counter: 0
+-# Periphery Measured count: 497, Start counter: 108, End counter: 605
++# ** Error: [TB] - errors=00000010
++#    Time: 33930 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
++# FPFORMAT = 3 (FP16=2, FP32=0)
++# DATA_W = 96
++# BITW=8, NumByte=4, ADDR_W=32
++# NumByte*BITW/ADDR_w: 1 
++# Measured count: 0, Start counter: 1608, End counter: 0
++# Periphery Measured count: 538, Start counter: 1133, End counter: 1671
+ # ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
+-#    Time: 20140 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+-# End time: 17:26:28 on Mar 24,2025, Elapsed time: 0:00:02
+-# Errors: 1, Warnings: 5
++#    Time: 33930 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
++# End time: 18:51:02 on Mar 24,2025, Elapsed time: 0:00:02
++# Errors: 1, Warnings: 0
+diff --git a/test.txt b/test.txt
+new file mode 100644
+index 0000000..80243bc
+--- /dev/null
++++ b/test.txt
+@@ -0,0 +1,21 @@
++diff --git a/rtl/redmule_pkg.sv b/rtl/redmule_pkg.sv
++index c2e296d..570d0ee 100644
++--- a/rtl/redmule_pkg.sv
+++++ b/rtl/redmule_pkg.sv
++@@ -19,7 +19,7 @@ package redmule_pkg;
++   parameter int unsigned            DATAW        = DATA_W - MemDw;
++   parameter int unsigned            REDMULE_REGS = 22;
++   parameter int unsigned            N_CONTEXT    = 2;
++-  parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP8;
+++  parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP16;
++   parameter int unsigned            BITW         = fpnew_pkg::fp_width(FPFORMAT);
++   parameter int unsigned            ARRAY_HEIGHT = 4;
++   parameter int unsigned            PIPE_REGS    = 1;
++@@ -30,6 +30,7 @@ package redmule_pkg;
++   parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b101101;
++   parameter fpnew_pkg::ifmt_logic_t IntFmtConfig = 4'b1000;
++   parameter fpnew_pkg::operation_e  CAST_OP      = fpnew_pkg::F2F;
+++  // parameter int unsigned MIN_FMT  = 16;
++   parameter int unsigned MIN_FMT  = fpnew_pkg::min_fp_width(FpFmtConfig);
++   parameter int unsigned DW_CUT   = DATA_W - ARRAY_HEIGHT*(PIPE_REGS + 1)*MIN_FMT;
++   parameter int unsigned ECC_CHUNK_SIZE = 32;

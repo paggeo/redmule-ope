@@ -271,6 +271,7 @@ redmule_castout #(
   .cast_i       ( cast                      ),
   .src_i        (zstream2cast.data          ),
   .dst_fmt_i    (ctrl_i.output_cast_dst_fmt ),
+  .src_fmt_i    (ctrl_i.output_cast_src_fmt ),
   .dst_o        (z_fifo_d.data              )
 );
 
@@ -400,6 +401,7 @@ for (genvar i = 0; i < NumStreamSources; i++) begin: gen_tcdm2stream
     .cast_i       ( cast                      ),
     .src_i        ( load_fifo_q[i].r_data     ),
     .src_fmt_i    ( ctrl_i.input_cast_src_fmt ),
+    .dst_fmt_i    ( ctrl_i.input_cast_dst_fmt ),
     .dst_o        ( tcdm_cast[i].r_data       )
   );
 

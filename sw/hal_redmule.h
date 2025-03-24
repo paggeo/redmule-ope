@@ -63,9 +63,11 @@ void redmule_cfg(unsigned int x, unsigned int w, unsigned int z, uint16_t m_size
   mcfg_reg0 = (k_size << 16) | (m_size << 0);
   mcfg_reg1 = n_size << 0;
 
-  // if (gemm_fmt == (uint8_t)Float32) arith_reg = (1 << 14) | (gemm_op << 10) | (gemm_fmt << 7);
-  arith_reg = (dst_fmt << 10) | (gemm_op << 10) | (src_fmt << 7);
-  // else arith_reg = (gemm_op << 10) | (gemm_fmt << 7);
+  // [MACFG][ 9: 7]); // Output format always Float32
+  // [MACFG][ 19: 17]); // Input format float16, or float8
+
+  printf("src_fmt: %d, gemm_op: %d, dst_fmt: %d\n", src_fmt, gemm_op, dst_fmt);
+  arith_reg =  (src_fmt <<17) | (gemm_op << 10) | (dst_fmt << 7);
 
   redmule_x_add_set((unsigned int)x);
   redmule_w_add_set((unsigned int)w);

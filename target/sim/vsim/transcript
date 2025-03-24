@@ -1,5 +1,5 @@
 # vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
-# Start time: 17:26:26 on Mar 24,2025
+# Start time: 18:55:25 on Mar 24,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -153,40 +153,39 @@
 # Loading work.hci_core_intf(fast__9)
 # Loading work.hci_core_intf(fast__10)
 # run -a
+# src_fmt: 0, gemm_op: 1, dst_fmt: 4
 # Triggering accelerator and going to sleep...
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 700001 ps Started: 700001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 700001 ps Started: 700001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 701001 ps Started: 701001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 703001 ps Started: 703001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 703001 ps Started: 703001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
 # Resumed!
-# Golden: 0x3cc83cc2; Actual: 0x30ca1400,
-# Golden: 0x3d01388e; Actual: 0x0000000,
-# Golden: 0x3e033d8a; Actual: 0x34a3c7f1,
-# Golden: 0x40ca3c94; Actual: 0x0000000,
-# Golden: 0x3ed33f1d; Actual: 0x349832f8,
-# Golden: 0x410f3f64; Actual: 0x0000000,
-# Golden: 0x3de43c08; Actual: 0x377e25d0,
-# Golden: 0x3d043b0c; Actual: 0x0000000,
-# Terminated test with 8 errors. See you!
-# Dst Format: 4 | Src Format: 1
-# [TB] - cnt_rd=1271    
-# [TB] - cnt_wr=483     
+# Golden: 0x40403f40; Actual: 0x0000000,
+# Golden: 0x3f404040; Actual: 0x0000000,
+# Golden: 0x3f403f40; Actual: 0x0000000,
+# Golden: 0x403f4040; Actual: 0x0000000,
+# Golden: 0x40403f40; Actual: 0x0000000,
+# Golden: 0x40404040; Actual: 0x0000000,
+# Golden: 0x40403f40; Actual: 0x0000000,
+# Golden: 0x40404040; Actual: 0x0000000,
+# Golden: 0x40403f40; Actual: 0x0000000,
+# Golden: 0x3f404040; Actual: 0x0000000,
+# Golden: 0x40403f40; Actual: 0x0000000,
+# Golden: 0x40404040; Actual: 0x0000000,
+# Golden: 0x40403f40; Actual: 0x0000000,
+# Golden: 0x40404040; Actual: 0x0000000,
+# Golden: 0x3f3f3f40; Actual: 0x0000000,
+# Golden: 0x3f403f3f; Actual: 0x0000000,
+# Terminated test with 16 errors. See you!
+# Dst Format: 4 | Src Format: 0
+# [TB] - cnt_rd=2048    
+# [TB] - cnt_wr=853     
 # [TB] - Fail!
-# ** Error: [TB] - errors=00000008
-#    Time: 20140 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
-# FPFORMAT = 2 (FP16=2, FP32=0)
-# DATA_W = 160
-# BITW=16, NumByte=4, ADDR_W=32
-# NumByte*BITW/ADDR_w: 2 
-# Measured count: 0, Start counter: 570, End counter: 0
-# Periphery Measured count: 497, Start counter: 108, End counter: 605
+# ** Error: [TB] - errors=00000010
+#    Time: 34002 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
+# FPFORMAT = 3 (FP16=2, FP32=0)
+# DATA_W = 96
+# BITW=8, NumByte=4, ADDR_W=32
+# NumByte*BITW/ADDR_w: 1 
+# Measured count: 0, Start counter: 1608, End counter: 0
+# Periphery Measured count: 538, Start counter: 1133, End counter: 1671
 # ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
-#    Time: 20140 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
-# End time: 17:26:28 on Mar 24,2025, Elapsed time: 0:00:02
-# Errors: 1, Warnings: 5
+#    Time: 34002 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# End time: 18:55:28 on Mar 24,2025, Elapsed time: 0:00:03
+# Errors: 1, Warnings: 0

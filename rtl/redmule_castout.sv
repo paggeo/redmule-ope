@@ -25,6 +25,7 @@ module redmule_castout #(
   input  logic                   rst_ni   ,
   input  logic                   clear_i  ,
   input  logic                   cast_i   ,
+  input  fpnew_pkg::fp_format_e  src_fmt_i,
   input  logic [DATA_W-1:0]      src_i    ,
   input  fpnew_pkg::fp_format_e  dst_fmt_i,
   output logic [DATA_W-1:0]      dst_o
@@ -57,7 +58,7 @@ generate
       .rnd_mode_i      ( fpnew_pkg::RNE ),
       .op_i            ( Operation      ),
       .op_mod_i        ( '0             ),
-      .src_fmt_i       ( SrcFormat      ),
+      .src_fmt_i       ( src_fmt_i      ),
       .dst_fmt_i       ( dst_fmt_i      ),
       .int_fmt_i       ( INT_SRC        ),
       .tag_i           ( '0             ),
