@@ -1,3 +1,5 @@
+# vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
+# Start time: 17:26:26 on Mar 24,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -12,8 +14,6 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
-# vsim redmule_tb_wrap_opt -do "set TbType redmule_tb" -do "log -r /*" -do "source /scratch/ope_pagonis/redmule-ope/target/sim/vsim/wave.tcl" -do "run -a" -suppress 3009 
-# Start time: 14:53:26 on Mar 21,2025
 # Loading sv_std.std
 # Loading work.fpnew_pkg(fast)
 # Loading work.hwpe_stream_package(fast)
@@ -152,73 +152,41 @@
 # Loading work.hci_core_intf(fast__4)
 # Loading work.hci_core_intf(fast__9)
 # Loading work.hci_core_intf(fast__10)
-# set TbType redmule_tb
-# redmule_tb
-# log -r /*
-# source /scratch/ope_pagonis/redmule-ope/target/sim/vsim/wave.tcl
 # run -a
 # Triggering accelerator and going to sleep...
+# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+#    Time: 700001 ps Started: 700001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+#    Time: 700001 ps Started: 700001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+#    Time: 701001 ps Started: 701001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+#    Time: 703001 ps Started: 703001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
+# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
+#    Time: 703001 ps Started: 703001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
 # Resumed!
-# Here
-# Index 0: Golden: 0x3fa559a0; Actual: 0x3fa5599f
-# Index 1: Golden: 0x3fada516; Actual: 0x3fada516
-# Index 2: Golden: 0x3f831ee8; Actual: 0x3f831ee8
-# Index 3: Golden: 0x3fa35c44; Actual: 0x3fa35c43
-# Index 4: Golden: 0x3fa67237; Actual: 0x3fa67237
-# Index 5: Golden: 0x3f79bf44; Actual: 0x3f79bf44
-# Index 6: Golden: 0x3f3d00be; Actual: 0x3f3d00be
-# Index 7: Golden: 0x3f77e876; Actual: 0x3f77e877
-# Index 8: Golden: 0x40037f6e; Actual: 0x40037f6d
-# Index 9: Golden: 0x3fa3b888; Actual: 0x3fa3b888
-# Index 10: Golden: 0x3fe3f16e; Actual: 0x3fe3f16e
-# Index 11: Golden: 0x3f8e4df1; Actual: 0x3f8e4df1
-# Index 12: Golden: 0x4008e866; Actual: 0x4008e866
-# Index 13: Golden: 0x4007c546; Actual: 0x4007c547
-# Index 14: Golden: 0x3ff96b0a; Actual: 0x3ff96b0a
-# Index 15: Golden: 0x3fd5b82e; Actual: 0x3fd5b82d
-# Terminated test with 0 errors. See you!
-# NICEFormat: 4
-# [TB] - cnt_rd=288     
-# [TB] - cnt_wr=36      
-# [TB] - Success!
-# [TB] - errors=00000000
-# FPFORMAT = 0 (FP16=2, FP32=0)
-# DATA_W = 288
-# BITW=32, NumByte=4, ADDR_W=32
-# NumByte*BITW/ADDR_w: 4 
-# Measured count: 32, Start counter: 569, End counter: 601
-# Periphery Measured count: 497, Start counter: 106, End counter: 603
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/debug_cntrl_scheduler
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/check_start_config
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/data_req \
-sim:/redmule_tb_wrap/i_redmule_tb/data_gnt \
-sim:/redmule_tb_wrap/i_redmule_tb/data_rvalid \
-sim:/redmule_tb_wrap/i_redmule_tb/data_we \
-sim:/redmule_tb_wrap/i_redmule_tb/data_be \
-sim:/redmule_tb_wrap/i_redmule_tb/data_addr \
-sim:/redmule_tb_wrap/i_redmule_tb/data_wdata \
-sim:/redmule_tb_wrap/i_redmule_tb/data_rdata
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/redmule_busy
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/evt
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/periph_req \
-sim:/redmule_tb_wrap/i_redmule_tb/periph_gnt \
-sim:/redmule_tb_wrap/i_redmule_tb/periph_add \
-sim:/redmule_tb_wrap/i_redmule_tb/periph_wen \
-sim:/redmule_tb_wrap/i_redmule_tb/periph_be \
-sim:/redmule_tb_wrap/i_redmule_tb/periph_data \
-sim:/redmule_tb_wrap/i_redmule_tb/periph_id \
-sim:/redmule_tb_wrap/i_redmule_tb/periph_r_data \
-sim:/redmule_tb_wrap/i_redmule_tb/periph_r_valid \
-sim:/redmule_tb_wrap/i_redmule_tb/periph_r_id
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/test_mode
-# Break key hit
-# Break in Module hci_core_intf at /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv line 153
-# End time: 15:01:06 on Mar 21,2025, Elapsed time: 0:07:40
-# Errors: 0, Warnings: 0
+# Golden: 0x3cc83cc2; Actual: 0x30ca1400,
+# Golden: 0x3d01388e; Actual: 0x0000000,
+# Golden: 0x3e033d8a; Actual: 0x34a3c7f1,
+# Golden: 0x40ca3c94; Actual: 0x0000000,
+# Golden: 0x3ed33f1d; Actual: 0x349832f8,
+# Golden: 0x410f3f64; Actual: 0x0000000,
+# Golden: 0x3de43c08; Actual: 0x377e25d0,
+# Golden: 0x3d043b0c; Actual: 0x0000000,
+# Terminated test with 8 errors. See you!
+# Dst Format: 4 | Src Format: 1
+# [TB] - cnt_rd=1271    
+# [TB] - cnt_wr=483     
+# [TB] - Fail!
+# ** Error: [TB] - errors=00000008
+#    Time: 20140 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
+# FPFORMAT = 2 (FP16=2, FP32=0)
+# DATA_W = 160
+# BITW=16, NumByte=4, ADDR_W=32
+# NumByte*BITW/ADDR_w: 2 
+# Measured count: 0, Start counter: 570, End counter: 0
+# Periphery Measured count: 497, Start counter: 108, End counter: 605
+# ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
+#    Time: 20140 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# End time: 17:26:28 on Mar 24,2025, Elapsed time: 0:00:02
+# Errors: 1, Warnings: 5

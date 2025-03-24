@@ -15,12 +15,11 @@ import dump_utils as dump
 import os
 
 # COMPUTE:
-# Z[m_size, k_size] = ( X[m_size, n_size] max W[n_size, k_size] ) + Y[m_size, k_size]
+# Z[m_size, k_size] = min (( X[m_size, n_size] + W[n_size, k_size] ), Y[m_size, k_size])
 
 #Visualize data with more precision
 torch.set_printoptions(precision=10, sci_mode=False)
 
-torch.manual_seed(1337)
 parser = argparse.ArgumentParser("mm Operation Test")
 parser.add_argument( '--m_size', type=int, default=3 )
 parser.add_argument( '--n_size', type=int, default=3 )
@@ -37,7 +36,6 @@ k_size = args.k_size
 
 f = open(args.file_name, "w")
 
-# We want to perform a GEMM, of the kind Z = Y + X*W
 # Test Matrices
 X = torch.rand(m_size, n_size).half()
 W = torch.rand(n_size, k_size).half()
@@ -54,8 +52,12 @@ f.write('fp16 W[MID_CH*OUT_CH] = {'+dump.tensor_to_string(W)+'};\n')
 print("\nY is: ", Y, Y.shape, Y.dtype)
 f.write('fp16 Y[MID_CH*OUT_CH] = {'+dump.tensor_to_string(Y)+'};\n')
 
-print("\nComputing matrix multiplication..")
-Z = torch.add(input = Y, other = torch.mm(input = X, mat2 = W))
+print("\nComputing add-min..")
+for m in range(m_size):
+  for k in range(k_size):
+    Z[m][k] = Y[m][k]
+    for n in range(n_size):
+      Z[m][k] = torch.min(Z[m][k], torch.add(input = X[m][n], other = W[n][k]))
 
 print("\nZ is: ", Z, Z.shape, Z.dtype)
 f.write('fp16 Z[IN_CH*OUT_CH] = {'+dump.tensor_to_string(Z)+'};\n')
@@ -68,7 +70,6 @@ f.close()
 txt_path = args.txt_dir
 for f in os.listdir(txt_path):
     os.remove(os.path.join(txt_path, f))
-# os.mkdir(txt_path)
 f_x = open(''+txt_path+'/x_input.txt', "w")
 for i in range(m_size):
     for j in range (n_size):
@@ -259,7 +260,7 @@ f_d.write('#define K_SIZE  '+out_cols+'\n' )
 f_d.write('#define SRC_FMT FP8\n'          )
 f_d.write('#define DST_FMT FP16\n'         )
 f_d.write('#define FPFORMAT 16\n'          )
-f_d.write('uint8_t gemm_ops = GEMM; \n'    )
+f_d.write('uint8_t gemm_ops = ADDMIN; \n'  )
 f_d.write('\n#endif\n'                     )
 f_d.close()
 
@@ -286,22 +287,3 @@ for i in range(m_size):
         j += 4
 f_c.write("};")
 f_c.close()
-
-
-# import re
-# pkg_file = "../../rtl/redmule_pkg.sv"
-# with open(pkg_file, 'r') as file: lines = file.readlines()
-# pattern = re.compile(r'^\s*(parameter\s+fpnew_pkg::fp_format_e\s+FPFORMAT\s*=\s*fpnew_pkg::)\s*(\w+)(\s*;)', re.MULTILINE)
-# new_format = 'FP8'
-# updated_lines = [pattern.sub(rf'  \1{new_format}\3', line) if pattern.search(line) else line for line in lines]
-# with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-# print(f"Updated {pkg_file} with new FPFORMAT = {new_format}")
-
-
-# pkg_file = "../../target/sim/src/redmule_tb.sv"
-# with open(pkg_file, 'r') as file: lines = file.readlines()
-# pattern = re.compile(r'^\s*(parameter\s+int\s+EXPECTED_VALID_COUNT\s*=\s*)(\d+)(\s*;)', re.MULTILINE)
-# new_value = int(in_rows)*int(out_cols)
-# updated_lines = [pattern.sub(rf'  parameter int EXPECTED_VALID_COUNT = {str(new_value)};', line) if pattern.search(line) else line for line in lines]
-# with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-# print(f"EXPECTED_VALID_COUNT updated successfully with new value: {new_value}.")

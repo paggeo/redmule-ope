@@ -50,8 +50,9 @@ assign config_d.m_size          = reg_file_i.hwpe_params[MCFIG0][15: 0];
 assign config_d.k_size          = reg_file_i.hwpe_params[MCFIG0][31:16];
 assign config_d.n_size          = reg_file_i.hwpe_params[MCFIG1][15: 0];
 assign config_d.gemm_ops        = gemm_op_e' (reg_file_i.hwpe_params[MACFG][12:10]);
-assign config_d.gemm_input_fmt  = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 9: 7]);
-assign config_d.gemm_output_fmt = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 9: 7]);
+assign config_d.gemm_input_fmt  = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 19: 17]); // Input format
+// assign config_d.gemm_input_fmt  = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 9: 7]);
+assign config_d.gemm_output_fmt = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 9: 7]); // Output format
 
 // Calculating the number of iterations alng the two dimensions of the X matrix
 logic [15:0] x_rows_iter_nolftovr;

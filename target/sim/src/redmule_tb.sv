@@ -367,7 +367,7 @@ module redmule_tb
   int counter = 0;
   int measured_count = 0;
   bit counting = 0;
-  parameter int EXPECTED_VALID_COUNT = 16; //NOTE: this has an issue when the TCDM DATA_W is too large, the code returns empty data
+  parameter int EXPECTED_VALID_COUNT = 256; //NOTE: this has an issue when the TCDM DATA_W is too large, the code returns empty data
 
   logic [MP-1:0][31:0] prev_tcdm_r_data;
   logic [MP-1:0][31:0] prev_tcdm_data;
@@ -467,7 +467,7 @@ module redmule_tb
     $display("NumByte*BITW/ADDR_w: %0d ",((NumByte*BITW)/ADDR_W));
     $display("Measured count: %0d, Start counter: %0d, End counter: %0d", measured_count, start_counter, end_counter);
     $display("Periphery Measured count: %0d, Start counter: %0d, End counter: %0d", periphery_end_counter - periphery_start_counter, periphery_start_counter, periphery_end_counter);
-    // $finish;
+    $finish;
   end
 
 endmodule // redmule_tb

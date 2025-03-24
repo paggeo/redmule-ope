@@ -54,7 +54,7 @@ static inline void hwpe_cg_enable() { return; }
 static inline void hwpe_cg_disable() { return; }
 
 void redmule_cfg(unsigned int x, unsigned int w, unsigned int z, uint16_t m_size, uint16_t n_size,
-                 uint16_t k_size, uint8_t gemm_op, uint8_t gemm_fmt) {
+                 uint16_t k_size, uint8_t gemm_op, uint8_t src_fmt, uint8_t dst_fmt) {
 
   uint32_t mcfg_reg0 = 0;
   uint32_t mcfg_reg1 = 0;
@@ -64,7 +64,7 @@ void redmule_cfg(unsigned int x, unsigned int w, unsigned int z, uint16_t m_size
   mcfg_reg1 = n_size << 0;
 
   // if (gemm_fmt == (uint8_t)Float32) arith_reg = (1 << 14) | (gemm_op << 10) | (gemm_fmt << 7);
-  arith_reg = (gemm_op << 10) | (gemm_fmt << 7);
+  arith_reg = (dst_fmt << 10) | (gemm_op << 10) | (src_fmt << 7);
   // else arith_reg = (gemm_op << 10) | (gemm_fmt << 7);
 
   redmule_x_add_set((unsigned int)x);

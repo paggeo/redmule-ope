@@ -19,8 +19,8 @@ import os
 
 #Visualize data with more precision
 torch.set_printoptions(precision=10, sci_mode=False)
-
 torch.manual_seed(1337)
+
 parser = argparse.ArgumentParser("mm Operation Test")
 parser.add_argument( '--m_size', type=int, default=3 )
 parser.add_argument( '--n_size', type=int, default=3 )
@@ -39,26 +39,26 @@ f = open(args.file_name, "w")
 
 # We want to perform a GEMM, of the kind Z = Y + X*W
 # Test Matrices
-X = torch.rand(m_size, n_size).half()
-W = torch.rand(n_size, k_size).half()
-Y = torch.rand(m_size, k_size).half()
-Z = torch.rand(m_size, k_size).half()
+X = torch.rand(m_size, n_size).float()
+W = torch.rand(n_size, k_size).float()
+Y = torch.rand(m_size, k_size).float()
+Z = torch.rand(m_size, k_size).float()
 
 print("\nInput Data: ")
 print("\nX is: ", X, X.shape, X.dtype)
-f.write('fp16 X[IN_CH*MID_CH] = {'+dump.tensor_to_string(X)+'};\n')
+f.write('fp32 X[IN_CH*MID_CH] = {'+dump.tensor_to_string(X)+'};\n')
 
 print("\nW is: ", W, W.shape, W.dtype)
-f.write('fp16 W[MID_CH*OUT_CH] = {'+dump.tensor_to_string(W)+'};\n')
+f.write('fp32 W[MID_CH*OUT_CH] = {'+dump.tensor_to_string(W)+'};\n')
 
 print("\nY is: ", Y, Y.shape, Y.dtype)
-f.write('fp16 Y[MID_CH*OUT_CH] = {'+dump.tensor_to_string(Y)+'};\n')
+f.write('fp32 Y[MID_CH*OUT_CH] = {'+dump.tensor_to_string(Y)+'};\n')
 
 print("\nComputing matrix multiplication..")
 Z = torch.add(input = Y, other = torch.mm(input = X, mat2 = W))
 
 print("\nZ is: ", Z, Z.shape, Z.dtype)
-f.write('fp16 Z[IN_CH*OUT_CH] = {'+dump.tensor_to_string(Z)+'};\n')
+f.write('fp32 Z[IN_CH*OUT_CH] = {'+dump.tensor_to_string(Z)+'};\n')
 
 print("\n\n")
 
@@ -72,7 +72,7 @@ for f in os.listdir(txt_path):
 f_x = open(''+txt_path+'/x_input.txt', "w")
 for i in range(m_size):
     for j in range (n_size):
-        x_bin = bin(np.float16(X[i][j]).view('H') >> 8)[2:].zfill(8)
+        x_bin = bin(np.float32(X[i][j]).view('I') >> 24)[2:].zfill(8)
         x_hex = hex(int(x_bin, 2))[2:]
         f_x.write(x_hex)
         f_x.write(' ')
@@ -82,7 +82,7 @@ f_x.close()
 f_w = open(''+txt_path+'/w_input.txt', "w")
 for i in range(n_size):
     for j in range (k_size):
-        w_bin = bin(np.float16(W[i][j]).view('H') >> 8)[2:].zfill(8)
+        w_bin = bin(np.float32(W[i][j]).view('I') >> 24)[2:].zfill(8)
         w_hex = hex(int(w_bin, 2))[2:]
         f_w.write(w_hex)
         f_w.write(' ')
@@ -92,7 +92,7 @@ f_w.close()
 f_y = open(''+txt_path+'/y_input.txt', "w")
 for i in range(m_size):
     for j in range (k_size):
-        y_bin = bin(np.float16(Y[i][j]).view('H') >> 8)[2:].zfill(8)
+        y_bin = bin(np.float32(Y[i][j]).view('I') >> 24)[2:].zfill(8)
         y_hex = hex(int(y_bin, 2))[2:]
         f_y.write(y_hex)
         f_y.write(' ')
@@ -102,7 +102,7 @@ f_y.close()
 f_z = open(''+txt_path+'/z_output.txt', "w")
 for i in range(m_size):
     for j in range (k_size):
-        z_bin = bin(np.float16(Z[i][j]).view('H') >> 8)[2:].zfill(8)
+        z_bin = bin(np.float32(Z[i][j]).view('I') >> 24)[2:].zfill(8)
         z_hex = hex(int(z_bin, 2))[2:]
         f_z.write(z_hex)
         f_z.write(' ')
@@ -133,7 +133,7 @@ f_x.write(''+header+'')
 f_x.write('uint8_t x_inp ['+x_dim+'] = {\n')
 for i in range(m_size):
     for j in range (n_size):
-        x_bin = bin(np.float16(X[i][j]).view('H') >> 8)[2:].zfill(8)
+        x_bin = bin(np.float32(X[i][j]).view('I') >> 24)[2:].zfill(8)
         x_hex = hex(int(x_bin, 2))[2:]
         if (i == m_size - 1 and j == n_size - 1):
           f_x.write('0x'+x_hex+' ')
@@ -148,7 +148,7 @@ f_x.write(''+header+'')
 f_x.write('uint8_t x_inp_2D ['+in_rows+']['+in_cols+'] = {\n')
 for i in range(m_size):
     for j in range (n_size):
-        x_bin = bin(np.float16(X[i][j]).view('H') >> 8)[2:].zfill(8)
+        x_bin = bin(np.float32(X[i][j]).view('I') >> 24)[2:].zfill(8)
         x_hex = hex(int(x_bin, 2))[2:]
         if (i == m_size - 1 and j == n_size - 1):
           f_x.write('0x'+x_hex+' ')
@@ -163,7 +163,7 @@ f_w.write(''+header+'')
 f_w.write('uint8_t w_inp ['+w_dim+'] = {\n')
 for i in range(n_size):
     for j in range (k_size):
-        w_bin = bin(np.float16(W[i][j]).view('H') >> 8)[2:].zfill(8)
+        w_bin = bin(np.float32(W[i][j]).view('I') >> 24)[2:].zfill(8)
         w_hex = hex(int(w_bin, 2))[2:]
         if (i == n_size - 1 and j == k_size - 1):
           f_w.write('0x'+w_hex+' ')
@@ -178,7 +178,7 @@ f_w.write(''+header+'')
 f_w.write('uint8_t w_inp_2D ['+in_cols+']['+out_cols+'] = {\n')
 for i in range(n_size):
     for j in range (k_size):
-        w_bin = bin(np.float16(W[i][j]).view('H') >> 8)[2:].zfill(8)
+        w_bin = bin(np.float32(W[i][j]).view('I') >> 24)[2:].zfill(8)
         w_hex = hex(int(w_bin, 2))[2:]
         if (i == n_size - 1 and j == k_size - 1):
           f_w.write('0x'+w_hex+' ')
@@ -193,7 +193,7 @@ f_y.write(''+header+'')
 f_y.write('uint8_t y_inp ['+y_dim+'] = {\n')
 for i in range(m_size):
     for j in range (k_size):
-        y_bin = bin(np.float16(Y[i][j]).view('H') >> 8)[2:].zfill(8)
+        y_bin = bin(np.float32(Y[i][j]).view('I') >> 24)[2:].zfill(8)
         y_hex = hex(int(y_bin, 2))[2:]
         if (i == m_size - 1 and j == k_size - 1):
           f_y.write('0x'+y_hex+' ')
@@ -223,7 +223,7 @@ f_z.write(''+header+'')
 f_z.write('uint8_t z_oup ['+z_dim+'] = {\n')
 for i in range(m_size):
     for j in range (k_size):
-        z_bin = bin(np.float16(Z[i][j]).view('H') >> 8)[2:].zfill(8)
+        z_bin = bin(np.float32(Z[i][j]).view('I') >> 24)[2:].zfill(8)
         z_hex = hex(int(z_bin, 2))[2:]
         if (i == m_size - 1 and j == k_size - 1):
           f_z.write('0x'+z_hex+' ')
@@ -257,8 +257,8 @@ f_d.write('#define M_SIZE  '+in_rows+' \n' )
 f_d.write('#define N_SIZE  '+in_cols+' \n' )
 f_d.write('#define K_SIZE  '+out_cols+'\n' )
 f_d.write('#define SRC_FMT FP8\n'          )
-f_d.write('#define DST_FMT FP16\n'         )
-f_d.write('#define FPFORMAT 16\n'          )
+f_d.write('#define DST_FMT FP32\n'         )
+f_d.write('#define FPFORMAT 8\n'          )
 f_d.write('uint8_t gemm_ops = GEMM; \n'    )
 f_d.write('\n#endif\n'                     )
 f_d.close()
@@ -273,10 +273,10 @@ f_c.write('uint32_t golden ['+out_int+'] = {\n')
 for i in range(m_size):
     j = 0
     while j < k_size - 1:
-        c_bin_0 = bin(np.float16(Z[i][j]).view('H') >> 8)[2:].zfill(8)
-        c_bin_1 = bin(np.float16(Z[i][j+1]).view('H') >> 8)[2:].zfill(8)
-        c_bin_2 = bin(np.float16(Z[i][j+2]).view('H') >> 8)[2:].zfill(8)
-        c_bin_3 = bin(np.float16(Z[i][j+3]).view('H') >> 8)[2:].zfill(8)
+        c_bin_0 = bin(np.float32(Z[i][j]).view('I') >> 24)[2:].zfill(8)
+        c_bin_1 = bin(np.float32(Z[i][j+1]).view('I') >> 24)[2:].zfill(8)
+        c_bin_2 = bin(np.float32(Z[i][j+2]).view('I') >> 24)[2:].zfill(8)
+        c_bin_3 = bin(np.float32(Z[i][j+3]).view('I') >> 24)[2:].zfill(8)
         c_hex_0 = hex(int(c_bin_0, 2))[2:]
         c_hex_1 = hex(int(c_bin_1, 2))[2:]
         c_hex_2 = hex(int(c_bin_2, 2))[2:]
