@@ -27,14 +27,14 @@ int redmule32_compare_int(uint32_t *actual_z, uint32_t *golden_z, int len) {
     if (diff > ERR) {
       error = 1;
 // #ifdef VERBOSE
-//       tfp_printf("Error at index %d: diff = 0x%08x\n", i, diff);
-//       tfp_printf("FP32 Error! Golden: 0x%08x; Actual: 0x%08x\n", golden_word, actual_word);
+      // tfp_printf("Error at index %d: diff = 0x%08x\n", i, diff);
+      // tfp_printf("FP32 Error! Golden: 0x%08x; Actual: 0x%08x\n", golden_word, actual_word);
 // #endif
     }
     errors += error;
-#ifdef DEBUG
-    tfp_printf("Index %d: Golden: 0x%08x; Actual: 0x%08x\n", i, golden_word, actual_word);
-#endif
+// #ifdef DEBUG
+//     tfp_printf("Index %d: Golden: 0x%08x; Actual: 0x%08x\n", i, golden_word, actual_word);
+// #endif
   }
   return errors;
 }

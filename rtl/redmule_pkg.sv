@@ -11,18 +11,17 @@ import hwpe_stream_package::*;
 
 package redmule_pkg;
 
-  parameter int unsigned            DATA_W       = 64 + 32; // TCDM port dimension (in bits)
-  // parameter int unsigned            DATA_W       = 256 + 32; // TCDM port dimension (in bits)
+  parameter int unsigned            DATA_W       = 256 + 32; // TCDM port dimension (in bits)
   parameter int unsigned            MemDw        = 32;
   parameter int unsigned            NumByte      = MemDw/8;
   parameter int unsigned            ADDR_W       = hci_package::DEFAULT_AW;
   parameter int unsigned            DATAW        = DATA_W - MemDw;
   parameter int unsigned            REDMULE_REGS = 22;
   parameter int unsigned            N_CONTEXT    = 2;
-  parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP8;
+  parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP32;
   parameter int unsigned            BITW         = fpnew_pkg::fp_width(FPFORMAT);
   parameter int unsigned            ARRAY_HEIGHT = 4;
-  parameter int unsigned            PIPE_REGS    = 1;
+  parameter int unsigned            PIPE_REGS    = 2;
   parameter int unsigned            ARRAY_WIDTH  = ARRAY_HEIGHT*PIPE_REGS; // Superior limit, smaller values are allowed.
   parameter int unsigned            TOT_DEPTH    = DATAW/BITW;
   parameter int unsigned            DEPTH        = TOT_DEPTH/ARRAY_HEIGHT;
@@ -30,7 +29,6 @@ package redmule_pkg;
   parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b101101;
   parameter fpnew_pkg::ifmt_logic_t IntFmtConfig = 4'b1000;
   parameter fpnew_pkg::operation_e  CAST_OP      = fpnew_pkg::F2F;
-  // parameter int unsigned MIN_FMT  = 16;
   parameter int unsigned MIN_FMT  = fpnew_pkg::min_fp_width(FpFmtConfig);
   parameter int unsigned DW_CUT   = DATA_W - ARRAY_HEIGHT*(PIPE_REGS + 1)*MIN_FMT;
   parameter int unsigned ECC_CHUNK_SIZE = 32;

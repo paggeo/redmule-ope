@@ -250,7 +250,8 @@ hci_core_intf #( .DW ( DW ),
 
 logic cast;
 
-assign cast = (ctrl_i.input_cast_src_fmt != ctrl_i.input_cast_dst_fmt) ? 1'b1: 1'b0;
+assign cast = 1'b0;
+// assign cast = (ctrl_i.input_cast_src_fmt != ctrl_i.input_cast_dst_fmt) ? 1'b1: 1'b0;
 
 // assign cast = (ctrl_i.input_cast_src_fmt == fpnew_pkg::FP32 || ctrl_i.input_cast_src_fmt == fpnew_pkg::FP16) ? 1'b0: 1'b1;
 // assign cast = 1'b0;
