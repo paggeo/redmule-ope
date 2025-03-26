@@ -261,20 +261,22 @@ assign cast = 1'b0;
 // Store cast unit
 // This unit uses only the data bus of the TCDM interface. The other buses
 // are assigned manually.
-redmule_castout #(
-  .FpFmtConfig   ( FpFmtConfig  ),
-  .IntFmtConfig  ( IntFmtConfig ),
-  .SrcFormat     ( FPFORMAT     )
-) i_store_cast   (
-  .clk_i                                     ,
-  .rst_ni                                    ,
-  .clear_i                                   ,
-  .cast_i       ( cast                      ),
-  .src_i        (zstream2cast.data          ),
-  .dst_fmt_i    (ctrl_i.output_cast_dst_fmt ),
-  .src_fmt_i    (ctrl_i.output_cast_src_fmt ),
-  .dst_o        (z_fifo_d.data              )
-);
+// redmule_castout #(
+//   .FpFmtConfig   ( FpFmtConfig  ),
+//   .IntFmtConfig  ( IntFmtConfig ),
+//   .SrcFormat     ( FPFORMAT     )
+// ) i_store_cast   (
+//   .clk_i                                     ,
+//   .rst_ni                                    ,
+//   .clear_i                                   ,
+//   .cast_i       ( cast                      ),
+//   .src_i        (zstream2cast.data          ),
+//   .dst_fmt_i    (ctrl_i.output_cast_dst_fmt ),
+//   .src_fmt_i    (ctrl_i.output_cast_src_fmt ),
+//   .dst_o        (z_fifo_d.data              )
+// );
+
+assign z_fifo_d.data      = zstream2cast.data;
 
 // Left TCDM buses assignment.
 assign z_fifo_d.req          = zstream2cast.req;
@@ -299,6 +301,7 @@ assign zstream2cast.r_ecc    = z_fifo_d.r_ecc;
 
 // HCI store fifo.
 hci_core_fifo #(
+  // .FIFO_DEPTH                      ( 4                          ),
   .FIFO_DEPTH                      ( 2                          ),
   .`HCI_SIZE_PARAM(tcdm_initiator) ( `HCI_SIZE_PARAM(ldst_tcdm) )
 ) i_store_fifo (
@@ -376,6 +379,7 @@ for (genvar i = 0; i < NumStreamSources; i++) begin: gen_tcdm2stream
   end
 
   hci_core_fifo #(
+    // .FIFO_DEPTH  ( 8  ), // to avoid protocol violations, as the consumer has a throughput
     .FIFO_DEPTH  ( 4  ), // to avoid protocol violations, as the consumer has a throughput
                          // of 1 packet over 4 cycles, we need a depth of 4 elements.
     .`HCI_SIZE_PARAM(tcdm_initiator) ( `HCI_SIZE_PARAM(ldst_tcdm) )
@@ -391,20 +395,22 @@ for (genvar i = 0; i < NumStreamSources; i++) begin: gen_tcdm2stream
   // Load cast unit
   // This unit uses only the data bus of the TCDM interface. The other buses
   // are assigned manually.
-  redmule_castin #(
-    .FpFmtConfig  ( FpFmtConfig  ),
-    .IntFmtConfig ( IntFmtConfig ),
-    .DstFormat    ( FPFORMAT     )
-  ) i_load_cast   (
-    .clk_i                                     ,
-    .rst_ni                                    ,
-    .clear_i                                   ,
-    .cast_i       ( cast                      ),
-    .src_i        ( load_fifo_q[i].r_data     ),
-    .src_fmt_i    ( ctrl_i.input_cast_src_fmt ),
-    .dst_fmt_i    ( ctrl_i.input_cast_dst_fmt ),
-    .dst_o        ( tcdm_cast[i].r_data       )
-  );
+  // redmule_castin #(
+  //   .FpFmtConfig  ( FpFmtConfig  ),
+  //   .IntFmtConfig ( IntFmtConfig ),
+  //   .DstFormat    ( FPFORMAT     )
+  // ) i_load_cast   (
+  //   .clk_i                                     ,
+  //   .rst_ni                                    ,
+  //   .clear_i                                   ,
+  //   .cast_i       ( cast                      ),
+  //   .src_i        ( load_fifo_q[i].r_data     ),
+  //   .src_fmt_i    ( ctrl_i.input_cast_src_fmt ),
+  //   .dst_fmt_i    ( ctrl_i.input_cast_dst_fmt ),
+  //   .dst_o        ( tcdm_cast[i].r_data       )
+  // );
+
+  assign tcdm_cast[i].r_data = load_fifo_q[i].r_data;
 
   // Left TCDM buses assignment.
   assign load_fifo_q[i].req      = tcdm_cast[i].req;

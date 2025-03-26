@@ -27,8 +27,8 @@ module redmule_tb
   localparam int unsigned ID = 10;
   localparam int unsigned DW = redmule_pkg::DATA_W;
   localparam int unsigned MP = DW/32;
-  localparam int unsigned MEMORY_SIZE = 192*1024;
-  localparam int unsigned STACK_MEMORY_SIZE = 192*1024;
+  localparam int unsigned MEMORY_SIZE = 3*192*1024;
+  localparam int unsigned STACK_MEMORY_SIZE = 3*192*1024;
   localparam int unsigned PULP_XPULP = 1;
   localparam int unsigned FPU = 0;
   localparam int unsigned PULP_ZFINX = 0;
@@ -367,7 +367,7 @@ module redmule_tb
   int counter = 0;
   int measured_count = 0;
   bit counting = 0;
-  parameter int EXPECTED_VALID_COUNT = 256; //NOTE: this has an issue when the TCDM DATA_W is too large, the code returns empty data
+  parameter int EXPECTED_VALID_COUNT = 4096; //NOTE: this has an issue when the TCDM DATA_W is too large, the code returns empty data
 
   logic [MP-1:0][31:0] prev_tcdm_r_data;
   logic [MP-1:0][31:0] prev_tcdm_data;

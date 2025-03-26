@@ -1,5 +1,5 @@
 # vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
-# Start time: 14:21:53 on Mar 25,2025
+# Start time: 13:26:39 on Mar 26,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -51,16 +51,6 @@
 # Loading work.hci_core_assign(fast__1)
 # Loading work.hci_core_intf(fast__7)
 # Loading work.hci_core_intf(fast__8)
-# Loading work.redmule_castout_sv_unit(fast)
-# Loading work.redmule_castout(fast)
-# Loading work.fpnew_cast_multi(fast)
-# Loading work.fpnew_classifier(fast)
-# Loading work.fpnew_classifier(fast__1)
-# Loading work.fpnew_classifier(fast__2)
-# Loading work.fpnew_classifier(fast__3)
-# Loading work.cf_math_pkg(fast)
-# Loading work.lzc(fast)
-# Loading work.fpnew_rounding(fast)
 # Loading work.hci_core_fifo(fast)
 # Loading work.hwpe_stream_intf_stream(fast__6)
 # Loading work.hwpe_stream_intf_stream(fast__7)
@@ -73,8 +63,6 @@
 # Loading work.hci_core_fifo(fast__1)
 # Loading work.hwpe_stream_fifo(fast__3)
 # Loading work.hwpe_stream_fifo(fast__4)
-# Loading work.redmule_castin_sv_unit(fast)
-# Loading work.redmule_castin(fast)
 # Loading work.hci_core_source(fast)
 # Loading work.hwpe_stream_intf_stream(fast__10)
 # Loading work.hwpe_stream_intf_stream(fast__11)
@@ -100,11 +88,12 @@
 # Loading work.redmule_ce(fast)
 # Loading work.cluster_clock_gating(fast)
 # Loading work.redmule_noncomp(fast)
-# Loading work.fpnew_classifier(fast__4)
+# Loading work.fpnew_classifier(fast)
 # Loading work.redmule_fma(fast)
-# Loading work.fpnew_classifier(fast__5)
-# Loading work.lzc(fast__1)
-# Loading work.fpnew_rounding(fast__1)
+# Loading work.fpnew_classifier(fast__1)
+# Loading work.cf_math_pkg(fast)
+# Loading work.lzc(fast)
+# Loading work.fpnew_rounding(fast)
 # Loading work.redmule_noncomp(fast__1)
 # Loading work.redmule_memory_scheduler(fast)
 # Loading work.redmule_ctrl_sv_unit(fast)
@@ -152,207 +141,23 @@
 # Loading work.hci_core_intf(fast__4)
 # Loading work.hci_core_intf(fast__9)
 # Loading work.hci_core_intf(fast__10)
-# ** Warning: (vsim-3015) [PCDPC] - Port size (288) does not match connection size (256) for port 'wdata_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl/w_buffer/redmule_w_buffer_scm.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_w_buffer/i_w_buf File: /scratch/ope_pagonis/redmule-ope/rtl/w_buffer/redmule_w_buffer.sv Line: 59
 # run -a
 # src_fmt: 4, gemm_op: 1, dst_fmt: 4
 # Triggering accelerator and going to sleep...
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1817001 ps Started: 1817001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1817001 ps Started: 1817001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1818001 ps Started: 1818001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1818001 ps Started: 1818001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1818001 ps Started: 1818001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1818001 ps Started: 1818001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1818001 ps Started: 1818001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1819001 ps Started: 1819001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1819001 ps Started: 1819001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1819001 ps Started: 1819001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1820001 ps Started: 1820001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1820001 ps Started: 1820001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1821001 ps Started: 1821001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1821001 ps Started: 1821001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1821001 ps Started: 1821001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1821001 ps Started: 1821001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1821001 ps Started: 1821001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1822001 ps Started: 1822001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1822001 ps Started: 1822001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1822001 ps Started: 1822001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1823001 ps Started: 1823001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1824001 ps Started: 1824001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1825001 ps Started: 1825001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1826001 ps Started: 1826001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1827001 ps Started: 1827001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1828001 ps Started: 1828001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1829001 ps Started: 1829001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1830001 ps Started: 1830001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1831001 ps Started: 1831001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1832001 ps Started: 1832001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1833001 ps Started: 1833001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1834001 ps Started: 1834001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1835001 ps Started: 1835001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1835001 ps Started: 1835001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1837001 ps Started: 1837001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1838001 ps Started: 1838001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1839001 ps Started: 1839001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1888001 ps Started: 1888001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1888001 ps Started: 1888001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1889001 ps Started: 1889001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1889001 ps Started: 1889001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1889001 ps Started: 1889001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1889001 ps Started: 1889001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1889001 ps Started: 1889001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1890001 ps Started: 1890001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1890001 ps Started: 1890001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1890001 ps Started: 1890001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1891001 ps Started: 1891001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1891001 ps Started: 1891001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1892001 ps Started: 1892001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1892001 ps Started: 1892001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1892001 ps Started: 1892001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1892001 ps Started: 1892001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1892001 ps Started: 1892001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1893001 ps Started: 1893001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1893001 ps Started: 1893001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1893001 ps Started: 1893001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1894001 ps Started: 1894001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1894001 ps Started: 1894001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1895001 ps Started: 1895001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1895001 ps Started: 1895001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1895001 ps Started: 1895001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1895001 ps Started: 1895001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1895001 ps Started: 1895001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1896001 ps Started: 1896001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1896001 ps Started: 1896001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1896001 ps Started: 1896001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1897001 ps Started: 1897001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1897001 ps Started: 1897001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1898001 ps Started: 1898001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1898001 ps Started: 1898001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1898001 ps Started: 1898001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1900001 ps Started: 1900001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1900001 ps Started: 1900001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1939001 ps Started: 1939001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1939001 ps Started: 1939001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1940001 ps Started: 1940001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1940001 ps Started: 1940001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1940001 ps Started: 1940001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1942001 ps Started: 1942001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1942001 ps Started: 1942001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1943001 ps Started: 1943001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1943001 ps Started: 1943001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1943001 ps Started: 1943001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1945001 ps Started: 1945001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1945001 ps Started: 1945001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1946001 ps Started: 1946001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.zstream2cast.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1946001 ps Started: 1946001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.tcdm_target.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1946001 ps Started: 1946001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_d.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1948001 ps Started: 1948001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.yz_tcdm_pre_r_id.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
-# ** Warning: HCI RQ-3 STABILITY protocol violation!          1
-#    Time: 1948001 ps Started: 1948001 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.z_fifo_q.HCI_RQ3 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common/hci_interfaces.sv Line: 194
 # Resumed!
-# Terminated test with  errors. See you!
+# Terminated test with 0 errors. See you!
 # Dst Format: 4 | Src Format: 4
-# [TB] - cnt_rd=1440    
-# [TB] - cnt_wr=288     
+# [TB] - cnt_rd=12672   
+# [TB] - cnt_wr=1152    
 # [TB] - Success!
 # [TB] - errors=00000000
 # FPFORMAT = 0 (FP16=2, FP32=0)
-# DATA_W = 288
+# DATA_W = 1056
 # BITW=32, NumByte=4, ADDR_W=32
 # NumByte*BITW/ADDR_w: 4 
-# Measured count: 0, Start counter: 1614, End counter: 0
-# Periphery Measured count: 753, Start counter: 1138, End counter: 1891
+# Measured count: 4165, Start counter: 1614, End counter: 5779
+# Periphery Measured count: 4642, Start counter: 1138, End counter: 5780
 # ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
-#    Time: 7113 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
-# End time: 14:21:54 on Mar 25,2025, Elapsed time: 0:00:01
-# Errors: 0, Warnings: 92
+#    Time: 63819 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# End time: 13:26:52 on Mar 26,2025, Elapsed time: 0:00:13
+# Errors: 0, Warnings: 0

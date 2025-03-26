@@ -674,8 +674,6 @@ if {[catch { vlog -incr -sv \
     "$ROOT/rtl/redmule_tiler.sv" \
     "$ROOT/rtl/redmule_ctrl.sv" \
     "$ROOT/rtl/redmule_scheduler.sv" \
-    "$ROOT/rtl/redmule_castin.sv" \
-    "$ROOT/rtl/redmule_castout.sv" \
     "$ROOT/rtl/redmule_streamer.sv" \
     "$ROOT/rtl/x_buffer/redmule_x_buffer.sv" \
     "$ROOT/rtl/x_buffer/redmule_x_pad_scm.sv" \
