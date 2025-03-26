@@ -1,5 +1,3 @@
-# vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
-# Start time: 13:26:39 on Mar 26,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -14,6 +12,8 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
+# vsim redmule_tb_wrap_opt -do "set TbType redmule_tb" -do "log -r /*" -do "source /scratch/ope_pagonis/redmule-ope/target/sim/vsim/wave.tcl" -do "run -a" -suppress 3009 
+# Start time: 15:43:32 on Mar 26,2025
 # Loading sv_std.std
 # Loading work.fpnew_pkg(fast)
 # Loading work.hwpe_stream_package(fast)
@@ -141,6 +141,10 @@
 # Loading work.hci_core_intf(fast__4)
 # Loading work.hci_core_intf(fast__9)
 # Loading work.hci_core_intf(fast__10)
+# set TbType redmule_tb
+# redmule_tb
+# log -r /*
+# source /scratch/ope_pagonis/redmule-ope/target/sim/vsim/wave.tcl
 # run -a
 # src_fmt: 4, gemm_op: 1, dst_fmt: 4
 # Triggering accelerator and going to sleep...
@@ -158,6 +162,14 @@
 # Measured count: 4165, Start counter: 1614, End counter: 5779
 # Periphery Measured count: 4642, Start counter: 1138, End counter: 5780
 # ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
-#    Time: 63819 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
-# End time: 13:26:52 on Mar 26,2025, Elapsed time: 0:00:13
+#    Time: 63801 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# 1
+# Break in Module redmule_tb at /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv line 470
+add wave -position insertpoint {sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_streamer/gen_tcdm2stream[0]/i_stream_source/i_addressgen/*}
+add wave -position insertpoint {sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_streamer/gen_tcdm2stream[1]/i_stream_source/i_addressgen/*}
+add wave -position insertpoint  \
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_streamer/gen_tcdm2stream[1]/i_stream_source/clear_i}
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_streamer/clear_i
+# End time: 17:56:39 on Mar 26,2025, Elapsed time: 2:13:07
 # Errors: 0, Warnings: 0

@@ -280,34 +280,67 @@ tc_clk_gating stage1_fma_clk_gating (
   .clk_o      ( stage1_fma_clk    )
 );
 
-redmule_fma   #(
-  .FpFormat    ( FpFormat    ),
-  .NumPipeRegs ( NumPipeRegs ),
-  .PipeConfig  ( PipeConfig  ),
-  .Stallable   ( Stallable   )
-) op1_fma_i    (
-  .clk_i           ( stage1_fma_clk           ),
-  .rst_ni          ( rst_ni                   ),
-  .operands_i      ( stage1_fma_operands      ),
-  .is_boxed_i      ( fma_is_boxed_int         ),
-  .rnd_mode_i      ( stage1_rnd_int           ),
-  .op_i            ( op1_int                  ),
-  .op_mod_i        ( stage1_fma_op_mod        ),
-  .tag_i           ( stage1_fma_input_tag     ),
-  .aux_i           ( stage1_fma_input_aux     ),
-  .in_valid_i      ( stage1_fma_in_valid      ),
-  .in_ready_o      ( stage1_fma_in_ready      ),
-  .reg_enable_i    ( stage1_fma_reg_enable    ),
-  .flush_i         ( stage1_fma_flush         ),
-  .result_o        ( stage1_fma_res           ),
-  .status_o        ( stage1_fma_status        ),
-  .extension_bit_o ( stage1_fma_extension_bit ),
-  .tag_o           ( stage1_fma_output_tag    ),
-  .aux_o           ( stage1_fma_output_aux    ),
-  .out_valid_o     ( stage1_fma_out_valid     ),
-  .out_ready_i     ( stage1_fma_out_ready     ),
-  .busy_o          ( stage1_fma_busy          )
+
+redmule_sdotp #(
+  .LaneWidth (fpnew::fp_width(FpFormat)),
+  .FpFmtConfig (6'b101000),
+  .NumPipeRegs (NumPipeRegs),
+  .PipeConfig (PipeConfig),
+  // .Stallable (Stallable) // This is not there, but I think needs to be added
+) op1_sdotp_i (
+  .clk_i            ( stage1_fma_clk            ), 
+  .rst_ni           ( rst_ni                    ),
+  .operands_i       ( stage1_fma_operands       ),
+  .is_boxed_i       ( fma_is_boxed_int          ), 
+  .rnd_mode_i       ( stage1_rnd_int            ),
+  .op_i             ( op1_int                   ),    
+  .op_mod_i         ( stage1_fma_op_mod         ),
+  .tag_i            ( stage1_fma_input_tag      ),
+  .mask_i           ( '0                        ),
+  .aux_i            ( stage1_fma_input_aux      ),
+  .in_valid_i       ( stage1_fma_in_valid       ),
+  .in_ready_o       ( stage1_fma_in_ready       ),
+  // .reg_enable_i ( reg_enable_i), // This is not there, but I think needs to be added
+  .flush_i          ( stage1_fma_flush          ),
+  .result_o         ( stage1_fma_res            ),
+  .status_o         ( stage1_fma_status         ),
+  .extension_bit_o  ( stage1_fma_extension_bit  ),
+  .tag_o            ( stage1_fma_output_tag     ),
+  .mask_o           (                           ),
+  .aux_o            ( stage1_fma_output_aux     ),
+  .out_valid_o      ( stage1_fma_out_valid      ),
+  .out_ready_i      ( stage1_fma_out_ready      ),
+  .busy_o           ( stage1_fma_busy           )
 );
+
+// redmule_fma   #(
+//   .FpFormat    ( FpFormat    ),
+//   .NumPipeRegs ( NumPipeRegs ),
+//   .PipeConfig  ( PipeConfig  ),
+//   .Stallable   ( Stallable   )
+// ) op1_fma_i    (
+//   .clk_i           ( stage1_fma_clk           ),
+//   .rst_ni          ( rst_ni                   ),
+//   .operands_i      ( stage1_fma_operands      ),
+//   .is_boxed_i      ( fma_is_boxed_int         ),
+//   .rnd_mode_i      ( stage1_rnd_int           ),
+//   .op_i            ( op1_int                  ),
+//   .op_mod_i        ( stage1_fma_op_mod        ),
+//   .tag_i           ( stage1_fma_input_tag     ),
+//   .aux_i           ( stage1_fma_input_aux     ),
+//   .in_valid_i      ( stage1_fma_in_valid      ),
+//   .in_ready_o      ( stage1_fma_in_ready      ),
+//   .reg_enable_i    ( stage1_fma_reg_enable    ),
+//   .flush_i         ( stage1_fma_flush         ),
+//   .result_o        ( stage1_fma_res           ),
+//   .status_o        ( stage1_fma_status        ),
+//   .extension_bit_o ( stage1_fma_extension_bit ),
+//   .tag_o           ( stage1_fma_output_tag    ),
+//   .aux_o           ( stage1_fma_output_aux    ),
+//   .out_valid_o     ( stage1_fma_out_valid     ),
+//   .out_ready_i     ( stage1_fma_out_ready     ),
+//   .busy_o          ( stage1_fma_busy          )
+// );
 
 /*******************************************************************************/
 /* Stage 1 mux: selects output signals from the stage1 FMA or the stage1       *
