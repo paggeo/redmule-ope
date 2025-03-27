@@ -38,31 +38,28 @@ k_size = args.k_size
 
 f = open(args.file_name, "w")
 
+torch.random.manual_seed(1337)
 # We want to perform a GEMM, of the kind Z = Y + X*W
 # Test Matrices
-X = torch.rand(m_size, n_size)
-W = torch.rand(n_size, k_size)
-Y = torch.rand(m_size, k_size)
-Z = torch.rand(m_size, k_size)
+X = torch.rand(m_size, n_size).float()
+W = torch.rand(n_size, k_size).float()
+Y = torch.rand(m_size, k_size).float()
+Z = torch.rand(m_size, k_size).float()
 
 print("\nInput Data: ")
 print("\nX is: ", X, X.shape, X.dtype)
-# f.write('fp32 X[IN_CH*MID_CH] = {'+dump.tensor_to_string(X)+'};\n')
 f.write('fp32 X[IN_CH*MID_CH] = {'+tensor_to_string(X)+'};\n')
 
 print("\nW is: ", W, W.shape, W.dtype)
-# f.write('fp32 W[MID_CH*OUT_CH] = {'+dump.tensor_to_string(W)+'};\n')
 f.write('fp32 W[MID_CH*OUT_CH] = {'+tensor_to_string(W)+'};\n')
 
 print("\nY is: ", Y, Y.shape, Y.dtype)
-# f.write('fp32 Y[MID_CH*OUT_CH] = {'+dump.tensor_to_string(Y)+'};\n')
 f.write('fp32 Y[MID_CH*OUT_CH] = {'+tensor_to_string(Y)+'};\n')
 
 print("\nComputing matrix multiplication..")
 Z = torch.add(input = Y, other = torch.mm(input = X, mat2 = W))
 
 print("\nZ is: ", Z, Z.shape, Z.dtype)
-# f.write('fp32 Z[IN_CH*OUT_CH] = {'+dump.tensor_to_string(Z)+'};\n')
 f.write('fp32 Z[IN_CH*OUT_CH] = {'+tensor_to_string(Z)+'};\n')
 
 print("\n\n")
@@ -261,8 +258,8 @@ f_d.write('#define __TENSOR_DIM__\n\n'     )
 f_d.write('#define M_SIZE  '+in_rows+' \n' )
 f_d.write('#define N_SIZE  '+in_cols+' \n' )
 f_d.write('#define K_SIZE  '+out_cols+'\n' )
-f_d.write('#define SRC_FMT FP32\n'         )
-f_d.write('#define DST_FMT FP32\n'         )
+f_d.write('#define COMP_FMT FP32\n'         )
+f_d.write('#define MEM_FMT FP32\n'         )
 f_d.write('#define FPFORMAT 32\n'          )
 f_d.write('uint8_t gemm_ops = GEMM; \n'    )
 f_d.write('\n#endif\n'                     )
