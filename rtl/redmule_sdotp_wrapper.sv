@@ -154,7 +154,7 @@ module redmule_sdotp_wrapper #(
     .TagType            ( TagType        ),
     .AuxType            ( AuxType        ),
     .StochasticRndImplementation ( StochasticRndImplementation ),
-    .Stallable          ( Stallable      ),
+    .Stallable          ( Stallable      )
   ) i_redmule_sdotp (
     .clk_i,
     .rst_ni,

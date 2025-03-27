@@ -689,6 +689,8 @@ if {0 == [analyze -format sv \
         "$ROOT/rtl/redmule_engine.sv" \
         "$ROOT/rtl/redmule_top.sv" \
         "$ROOT/rtl/redmule_memory_scheduler.sv" \
+        "$ROOT/rtl/redmule_sdotp.sv" \
+        "$ROOT/rtl/redmule_sdotp_wrapper.sv" \
     ]
 ]} {return 1}
 

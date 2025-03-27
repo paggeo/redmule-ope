@@ -63,17 +63,16 @@ int main() {
   // Disable RedMulE
   hwpe_cg_disable();
 
-  if (src_fmt == Float32)
+  if (mem_fmt == Float32)
     errors = redmule32_compare_int(y, golden, m_size * k_size);
-  else if (src_fmt == Float16)
+  else if (mem_fmt == Float16)
     errors = redmule16_compare_int(y, golden, m_size * k_size / 2);
-  else if (src_fmt == Float8)
+  else if (mem_fmt == Float8)
     errors = redmule8_compare_int(y, golden, m_size * k_size / 4);
 
   *(int *)0x80000000 = errors;
 
   tfp_printf("Terminated test with %d errors. See you!\n", errors);
-  tfp_printf("Dst Format: %d | Src Format: %d\n", dst_fmt, src_fmt);
 
   return errors;
 }

@@ -1435,12 +1435,11 @@ module redmule_sdotp #(
     // Valid: enabled by ready signal, synchronous clear with the flush signal
     `FFLARNC(out_pipe_valid_q[i+1], out_pipe_valid_q[i], out_pipe_ready[i], flush_i, 1'b0, clk_i, rst_ni)
     // Enable register if pipleine ready and a valid data item is present
-    if (Stallable): begin gen_out_stallable
+    if (Stallable) begin: gen_out_stallable
       assign reg_ena = out_pipe_ready[i] & out_pipe_valid_q[i] & reg_enable_i;
-    end else: begin gen_out_non_stallable
+    end else begin: gen_out_non_stallable
       assign reg_ena = out_pipe_ready[i] & out_pipe_valid_q[i];
     end
-
     // Generate the pipeline registers within the stages, use enable-registers
     `FFL(out_pipe_result_q[i+1], out_pipe_result_q[i], reg_ena, '0)
     `FFL(out_pipe_status_q[i+1], out_pipe_status_q[i], reg_ena, '0)

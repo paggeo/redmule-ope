@@ -293,8 +293,7 @@ logic                         [1:0] noncomp_is_boxed;
 roundmode_e                         stage1_rnd,
                                     stage2_rnd;
 operation_e                         op1, op2;
-fpnew_pkg::fp_format_e              memory_fmt,
-                                    computing_fmt;
+fpu_fmt_e                           memory_fmt, computing_fmt;
 logic                               same_fmt;
 logic                               op_mod;
 logic                               in_tag;
@@ -324,9 +323,12 @@ assign stage1_rnd       = cntrl_engine.stage1_rnd;
 assign stage2_rnd       = cntrl_engine.stage2_rnd;
 assign op1              = cntrl_engine.op1;
 assign op2              = cntrl_engine.op2;
-assign memory_fmt       = cntrl_engine.memory_fmt;
-assign computing_fmt    = cntrl_engine.computing_fmt;
-assign same_fmt         = (cntrl_engine.memory_fmt == cntrl_engine.computing_fmt)? 1'b1 : 1'b0;
+
+assign memory_fmt       = cntrl_engine.memory_format;
+assign computing_fmt    = cntrl_engine.computing_format;
+// assign same_fmt         = (cntrl_engine.memory_format == cntrl_engine.computing_format)? 1'b1 : 1'b0;
+assign same_fmt = 1'b1;
+
 assign op_mod           = cntrl_engine.op_mod;
 assign in_tag           = 1'b0;
 assign in_aux           = 1'b0;

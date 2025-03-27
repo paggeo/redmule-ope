@@ -7,6 +7,7 @@
 
 module redmule_ce
   import fpnew_pkg::*;
+  import redmule_pkg::*;
 #(
   parameter fpnew_pkg::fp_format_e   FpFormat    = fpnew_pkg::FP32              ,
   parameter int unsigned             NumPipeRegs = 2                            ,
@@ -27,8 +28,8 @@ module redmule_ce
   input  fpnew_pkg::roundmode_e              stage2_rnd_i      ,
   input  fpnew_pkg::operation_e              op1_i             ,
   input  fpnew_pkg::operation_e              op2_i             ,
-  input  fpnew_pkg::fp_format_e              memory_format_i   ,
-  input  fpnew_pkg::fp_format_e              computing_fmt_i   ,
+  input  fpu_fmt_e                           memory_fmt_i      ,
+  input  fpu_fmt_e                           computing_fmt_i   ,
   input  logic                               same_fmt_i        , 
   input  logic                               op_mod_i          ,
   input  TagType                             tag_i             ,
@@ -65,33 +66,37 @@ module redmule_ce
   fpnew_pkg::status_t         fma_status;
   logic                       fma_extension_bit;
   TagType                     fma_output_tag;
-  AuxType                     fm_output_aux;
+  AuxType                     fma_output_aux;
   logic                       fma_out_valid;
   logic                       fma_out_ready;
   logic                       fma_busy;
 
-  logic                       sdotp_clk_en;
-  logic                       sdotp_clk;
-  logic [2:0][BITW-1:0]       sdotp_operands;
-  logic                       sdotq_is_boxed_int;
-  fpnew_pkg::roundmode_e      sdotp_rnd_int;
-  logic                       sdotp_op_mod;
-  TagType                     sdotp_input_tag;
-  AuxType                     sdotp_input_aux;
-  logic                       sdotp_in_valid;
-  logic                       sdotp_in_ready;
-  logic                       sdotp_reg_enable;
-  logic                       sdotp_flush;
-  logic [BITW-1:0]            sdotp_res;
-  fpnew_pkg::status_t         sdotp_status;
-  logic                       sdotp_extension_bit;
-  TagType                     sdotp_output_tag;
-  AuxType                     sdotp_output_aux;
-  logic                       sdotp_out_valid;
-  logic                       sdotp_out_ready;
-  logic                       sdotp_busy;
+  logic                                       sdotp_clk_en;
+  logic                                       sdotp_clk;
+  logic [2:0][BITW-1:0]                       sdotp_operands;
+  logic [fpnew_pkg::NUM_FP_FORMATS-1:0][2:0]  sdotq_is_boxed_int;
+  fpnew_pkg::roundmode_e                      sdotp_rnd_int;
+  logic                                       sdotp_op_mod;
+  TagType                                     sdotp_input_tag;
+  AuxType                                     sdotp_input_aux;
+  logic                                       sdotp_in_valid;
+  logic                                       sdotp_in_ready;
+  logic                                       sdotp_reg_enable;
+  logic                                       sdotp_flush;
+  logic [BITW-1:0]                            sdotp_res;
+  fpnew_pkg::status_t                         sdotp_status;
+  logic                                       sdotp_extension_bit;
+  TagType                                     sdotp_output_tag;
+  AuxType                                     sdotp_output_aux;
+  logic                                       sdotp_out_valid;
+  logic                                       sdotp_out_ready;
+  logic                                       sdotp_busy;
 
 
+  fpnew_pkg::fp_format_e  memory_fmt_fpnew; 
+  fpnew_pkg::fp_format_e  computing_fmt_fpnew; 
+  assign memory_fmt_fpnew = fpnew_pkg::fp_format_e'(memory_fmt_i);
+  assign computing_fmt_fpnew = fpnew_pkg::fp_format_e'(computing_fmt_i);
 /*******************************************************************************/
 /* Assigning input signals to the FMA and to the SDOTP module                  */
 /*******************************************************************************/
@@ -113,7 +118,7 @@ module redmule_ce
   assign sdotp_operands[1] = w_input_i;
   assign sdotp_operands[2] = y_bias_i;
       
-  assign sdotq_is_boxed_int = fma_is_boxed_i;
+  assign sdotq_is_boxed_int = { {fpnew_pkg::NUM_FP_FORMATS{fma_is_boxed_i}} };
   assign sdotp_rnd_int      = stage1_rnd_i  ;
   assign sdotp_op_mod       = op_mod_i      ;
   assign sdotp_input_tag    = tag_i         ;
@@ -152,11 +157,11 @@ module redmule_ce
 
 
   redmule_sdotp_wrapper #(
-    .LaneWidth        ( fpnew::fp_width(FpFormat) ), // Should be 32
-    .FpFmtConfig      ( 6'b101000                 ),
-    .NumPipeRegs      ( NumPipeRegs               ),
-    .PipeConfig       ( PipeConfig                ),
-    .Stallable        ( Stallable                 ) 
+    .LaneWidth        ( fpnew_pkg::fp_width(FpFormat) ), // Should be 32
+    .FpFmtConfig      ( 6'b101000                     ),
+    .NumPipeRegs      ( NumPipeRegs                   ),
+    .PipeConfig       ( PipeConfig                    ),
+    .Stallable        ( Stallable                     ) 
   ) i_sdotp (
     .clk_i            ( sdotp_clk           ), 
     .rst_ni           ( rst_ni              ),
@@ -166,8 +171,8 @@ module redmule_ce
     .rnd_mode_i       ( sdotp_rnd_int       ),
     .op_i             ( op1_i               ),    
     .op_mod_i         ( sdotp_op_mod        ),
-    .src_fmt_i        ( memory_format_i     ),
-    .dst_fmt_i        ( computing_fmt_i     ),
+    .src_fmt_i        ( memory_fmt_fpnew    ),
+    .dst_fmt_i        ( computing_fmt_fpnew ),
     .tag_i            ( sdotp_input_tag     ),
     .mask_i           ( '0                  ),
     .aux_i            ( sdotp_input_aux     ),
@@ -176,7 +181,7 @@ module redmule_ce
     .reg_enable_i     ( sdotp_reg_enable    ), 
     .flush_i          ( sdotp_flush         ),
     .result_o         ( sdotp_res           ),
-    .status_o         ( sdotpstatus         ),
+    .status_o         ( sdotp_status        ),
     .extension_bit_o  ( sdotp_extension_bit ),
     .tag_o            ( sdotp_output_tag    ),
     .mask_o           (                     ),
@@ -211,7 +216,7 @@ module redmule_ce
     .status_o        ( fma_status        ),
     .extension_bit_o ( fma_extension_bit ),
     .tag_o           ( fma_output_tag    ),
-    .aux_o           ( fm_output_aux     ),
+    .aux_o           ( fma_output_aux     ),
     .out_valid_o     ( fm_out_valid      ),
     .out_ready_i     ( fma_out_ready     ),
     .busy_o          ( fma_busy          )

@@ -180,22 +180,6 @@ package redmule_pkg;
     logic z_valid;
   } z_buffer_flgs_t;
 
-  typedef struct packed {
-    logic                   [2:0] fma_is_boxed;
-    logic                   [1:0] noncomp_is_boxed;
-    fpnew_pkg::roundmode_e        stage1_rnd;
-    fpnew_pkg::roundmode_e        stage2_rnd;
-    fpnew_pkg::operation_e        op1;
-    fpnew_pkg::operation_e        op2;
-    fpu_fmt_e                     memory_format;
-    fpu_fmt_e                     computing_format;
-    logic                         op_mod;
-    logic                         in_valid;
-    logic                         flush;
-    logic                         out_ready;
-    logic                         accumulate;
-    logic       [ARRAY_WIDTH-1:0] row_clk_gate_en;
-  } cntrl_engine_t;
 
   typedef struct packed {
     logic                  [ARRAY_WIDTH-1:0][ARRAY_HEIGHT-1:0] in_ready;
@@ -261,6 +245,23 @@ package redmule_pkg;
     fpu_fmt_e computing_format;
     logic        gemm_selection;
   } redmule_config_t;
+
+  typedef struct packed {
+    logic                   [2:0] fma_is_boxed;
+    logic                   [1:0] noncomp_is_boxed;
+    fpnew_pkg::roundmode_e        stage1_rnd;
+    fpnew_pkg::roundmode_e        stage2_rnd;
+    fpnew_pkg::operation_e        op1;
+    fpnew_pkg::operation_e        op2;
+    fpu_fmt_e                     memory_format;
+    fpu_fmt_e                     computing_format;
+    logic                         op_mod;
+    logic                         in_valid;
+    logic                         flush;
+    logic                         out_ready;
+    logic                         accumulate;
+    logic       [ARRAY_WIDTH-1:0] row_clk_gate_en;
+  } cntrl_engine_t;
 
   typedef enum {
     CV32P ,

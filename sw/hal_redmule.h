@@ -66,7 +66,7 @@ void redmule_cfg(unsigned int x, unsigned int w, unsigned int z, uint16_t m_size
   // [MACFG][ 9: 7]):   Memory  format float32
   // [MACFG][ 19: 17]): Compute format float16 or float32
 
-  printf("comp_fmt: %d, gemm_op: %d, mem_fmt: %d\n", compt_fmt, gemm_op, mem_fmt);
+  tfp_printf("comp_fmt: %d, gemm_op: %d, mem_fmt: %d\n", comp_fmt, gemm_op, mem_fmt);
   arith_reg =  (comp_fmt <<17) | (gemm_op << 10) | (mem_fmt << 7);
 
   redmule_x_add_set((unsigned int)x);

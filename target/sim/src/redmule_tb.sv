@@ -367,7 +367,7 @@ module redmule_tb
   int counter = 0;
   int measured_count = 0;
   bit counting = 0;
-  parameter int EXPECTED_VALID_COUNT = 4096; //NOTE: this has an issue when the TCDM DATA_W is too large, the code returns empty data
+  parameter int EXPECTED_VALID_COUNT = 64; //NOTE: this has an issue when the TCDM DATA_W is too large, the code returns empty data
 
   logic [MP-1:0][31:0] prev_tcdm_r_data;
   logic [MP-1:0][31:0] prev_tcdm_data;
