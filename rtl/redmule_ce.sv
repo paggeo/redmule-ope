@@ -281,12 +281,12 @@ tc_clk_gating stage1_fma_clk_gating (
 );
 
 
-redmule_sdotp #(
-  .LaneWidth (fpnew::fp_width(FpFormat)),
-  .FpFmtConfig (6'b101000),
-  .NumPipeRegs (NumPipeRegs),
-  .PipeConfig (PipeConfig),
-  // .Stallable (Stallable) // This is not there, but I think needs to be added
+redmule_sdotp_wrapper #(
+  .LaneWidth        ( fpnew::fp_width(FpFormat) ),
+  .FpFmtConfig      ( 6'b101000                 ),
+  .NumPipeRegs      ( NumPipeRegs               ),
+  .PipeConfig       ( PipeConfig                ),
+  .Stallable        ( Stallable                 ) 
 ) op1_sdotp_i (
   .clk_i            ( stage1_fma_clk            ), 
   .rst_ni           ( rst_ni                    ),
@@ -300,7 +300,7 @@ redmule_sdotp #(
   .aux_i            ( stage1_fma_input_aux      ),
   .in_valid_i       ( stage1_fma_in_valid       ),
   .in_ready_o       ( stage1_fma_in_ready       ),
-  // .reg_enable_i ( reg_enable_i), // This is not there, but I think needs to be added
+  .reg_enable_i     ( reg_enable_i              ), 
   .flush_i          ( stage1_fma_flush          ),
   .result_o         ( stage1_fma_res            ),
   .status_o         ( stage1_fma_status         ),
