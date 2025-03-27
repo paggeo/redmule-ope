@@ -44,7 +44,7 @@
 
 `include "common_cells/registers.svh"
 
-module fpnew_sdotp_multi #(
+module redmule_sdotp #(
   // One-hot config string: | FP32 | FP64 | FP16 | FP8 | FP16ALT | FP8ALT |
   parameter fpnew_pkg::fmt_logic_t   SrcDotpFpFmtConfig = '1, // FP32 and wider formats are not allowed
                                                               // Supported source formats (FP8, FP8ALT, FP16, FP16ALT)

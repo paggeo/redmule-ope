@@ -146,7 +146,7 @@ module redmule_sdotp_wrapper #(
     end
   end
 
-  fpnew_sdotp_multi #(
+  redmule_sdotp #(
     .SrcDotpFpFmtConfig ( FpSrcFmtConfig ), // FP8, FP8ALT, FP16, FP16ALT
     .DstDotpFpFmtConfig ( FpDstFmtConfig ), // FP32, FP16, FP16ALT
     .NumPipeRegs        ( NumPipeRegs    ),
@@ -155,7 +155,7 @@ module redmule_sdotp_wrapper #(
     .AuxType            ( AuxType        ),
     .StochasticRndImplementation ( StochasticRndImplementation ),
     .Stallable          ( Stallable      ),
-  ) i_fpnew_sdotp_multi (
+  ) i_redmule_sdotp (
     .clk_i,
     .rst_ni,
     .sdotp_hart_id_i,

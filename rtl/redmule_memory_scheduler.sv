@@ -177,8 +177,7 @@ module redmule_memory_scheduler
     cntrl_streamer_o.z_stream_sink_ctrl.req_start       = cntrl_scheduler_i.first_load && flgs_streamer_i.z_stream_sink_flags.ready_start;
   end
 
-  // NOTE: check this
-
+  // NOTE: these are used for the casting, don't care for now
   assign cntrl_streamer_o.input_cast_src_fmt  = fpnew_pkg::fp_format_e'(reg_file_i.hwpe_params[OP_SELECTION][15:13]);
   assign cntrl_streamer_o.input_cast_dst_fmt  = fpnew_pkg::fp_format_e'(reg_file_i.hwpe_params[OP_SELECTION][12:10]);
   assign cntrl_streamer_o.output_cast_src_fmt = fpnew_pkg::fp_format_e'(reg_file_i.hwpe_params[OP_SELECTION][12:10]);

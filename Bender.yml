@@ -31,7 +31,6 @@ sources:
     - rtl/redmule_scheduler.sv
     # - rtl/redmule_castin.sv
     # - rtl/redmule_castout.sv
-    - rtl/redmule_sdotp.sv
     - rtl/redmule_streamer.sv
     - rtl/x_buffer/redmule_x_buffer.sv
     - rtl/x_buffer/redmule_x_pad_scm.sv
@@ -47,6 +46,8 @@ sources:
     - rtl/redmule_engine.sv
     - rtl/redmule_top.sv
     - rtl/redmule_memory_scheduler.sv
+    - rtl/redmule_sdotp.sv
+    - rtl/redmule_sdotp_wrapper.sv
 
     - target: redmule_hwpe
       files:

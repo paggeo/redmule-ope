@@ -49,12 +49,10 @@ assign config_d.z_addr          = reg_file_i.hwpe_params[Z_ADDR];
 assign config_d.m_size          = reg_file_i.hwpe_params[MCFIG0][15: 0];
 assign config_d.k_size          = reg_file_i.hwpe_params[MCFIG0][31:16];
 assign config_d.n_size          = reg_file_i.hwpe_params[MCFIG1][15: 0];
-assign config_d.gemm_ops        = gemm_op_e' (reg_file_i.hwpe_params[MACFG][12:10]);
-assign config_d.gemm_input_fmt  = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 19: 17]); // Input format
-// assign config_d.gemm_ops = gemm_op_e'(3'h1);
-// assign config_d.gemm_input_fmt = gemm_fmt_e'(3'h4); // Input format
-// assign config_d.gemm_input_fmt  = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 9: 7]);
-assign config_d.gemm_output_fmt = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 9: 7]); // Output format
+// assign config_d.gemm_ops        = gemm_op_e' (reg_file_i.hwpe_params[MACFG][12:10]);
+// assign config_d.gemm_ops        = gemm_op_e' (reg_file_i.hwpe_params[MACFG][12:10]);
+assign config_d.gemm_memory_fmt     = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 9: 7]);    // Memory Format
+assign config_d.gemm_computing_fmt  = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 19: 17]);  // Computing Format
 
 // Calculating the number of iterations alng the two dimensions of the X matrix
 logic [15:0] x_rows_iter_nolftovr;
@@ -191,17 +189,19 @@ assign config_d.stage_1_op       = config_d.gemm_ops == MATMUL ? FPU_FMADD :
                                    config_d.gemm_ops == MAXMIN ? FPU_MINMAX :
                                                                  FPU_MINMAX;
 assign config_d.stage_2_op       = FPU_MINMAX;
-assign config_d.input_format     = config_d.gemm_input_fmt == Float16    ? FPU_FP16 :
-                                   config_d.gemm_input_fmt == Float8     ? FPU_FP8 :
-                                   config_d.gemm_input_fmt == Float16Alt ? FPU_FP16ALT :
-                                   config_d.gemm_input_fmt == Float32    ? FPU_FP32 :
+assign config_d.memory_format     = config_d.gemm_memory_fmt == Float16    ? FPU_FP16 :
+                                   config_d.gemm_memory_fmt == Float8     ? FPU_FP8 :
+                                   config_d.gemm_memory_fmt == Float16Alt ? FPU_FP16ALT :
+                                   config_d.gemm_memory_fmt == Float32    ? FPU_FP32 :
                                                                            FPU_FP8ALT;
-assign config_d.computing_format = config_d.gemm_output_fmt == Float16    ? FPU_FP16 :
-                                   config_d.gemm_output_fmt == Float8     ? FPU_FP8 :
-                                   config_d.gemm_output_fmt == Float16Alt ? FPU_FP16ALT :
-                                   config_d.gemm_output_fmt == Float32    ? FPU_FP32 :
+assign config_d.computing_format = config_d.gemm_computing_fmt == Float16    ? FPU_FP16 :
+                                   config_d.gemm_computing_fmt == Float8     ? FPU_FP8 :
+                                   config_d.gemm_computing_fmt == Float16Alt ? FPU_FP16ALT :
+                                   config_d.gemm_computing_fmt == Float32    ? FPU_FP32 :
                                                                             FPU_FP8ALT;
-assign config_d.gemm_selection   = config_d.gemm_ops == MATMUL ? 1'b0 : 1'b1;
+
+assign config_d.gemm_selection   = 1'b1;
+// assign config_d.gemm_selection   = config_d.gemm_ops == MATMUL ? 1'b0 : 1'b1;
 
 assign config_d.x_d1_stride = ((NumByte*BITW)/ADDR_W)*(((DATAW/BITW)*x_cols_iter_nolftovr) + config_d.x_cols_lftovr);
 assign config_d.x_rows_offs = ARRAY_WIDTH*config_d.x_d1_stride;
@@ -260,20 +260,12 @@ assign reg_file_o.hwpe_params[ Z_D2_STRIDE]        = config_q.yz_d2_stride;
 assign reg_file_o.hwpe_params[ X_ROWS_OFFS]        = config_q.x_rows_offs;
 assign reg_file_o.hwpe_params[     X_SLOTS]        = config_q.x_buffer_slots;
 assign reg_file_o.hwpe_params[  IN_TOT_LEN]        = config_q.x_tot_len;
-// assign reg_file_o.hwpe_params[OP_SELECTION][31:29] = RNE;
-// assign reg_file_o.hwpe_params[OP_SELECTION][28:26] = RNE;
-// assign reg_file_o.hwpe_params[OP_SELECTION][25:21] = FPU_FMADD;
-// assign reg_file_o.hwpe_params[OP_SELECTION][20:16] = FPU_MINMAX;
-// assign reg_file_o.hwpe_params[OP_SELECTION][15:13] = FPU_FP32;
-// assign reg_file_o.hwpe_params[OP_SELECTION][12:10] = FPU_FP32;
-// assign reg_file_o.hwpe_params[OP_SELECTION][ 9: 1] = '0;
-// assign reg_file_o.hwpe_params[OP_SELECTION][0]     = 1'b1;
 assign reg_file_o.hwpe_params[OP_SELECTION][31:29] = config_q.stage_1_rnd_mode;
 assign reg_file_o.hwpe_params[OP_SELECTION][28:26] = config_q.stage_2_rnd_mode;
-assign reg_file_o.hwpe_params[OP_SELECTION][25:21] = fpnew_pkg::operation_e'(fpnew_pkg::SDOTP);
+assign reg_file_o.hwpe_params[OP_SELECTION][25:21] = (config_q.gemm_memory_fmt != config_q.gemm_computing_fmt)? fpnew_pkg::operation_e'(fpnew_pkg::SDOTP) : FPU_FMADD;
 // assign reg_file_o.hwpe_params[OP_SELECTION][25:21] = config_q.stage_1_op;
 assign reg_file_o.hwpe_params[OP_SELECTION][20:16] = config_q.stage_2_op;
-assign reg_file_o.hwpe_params[OP_SELECTION][15:13] = config_q.input_format;
+assign reg_file_o.hwpe_params[OP_SELECTION][15:13] = config_q.gemm_memory_fmt;
 assign reg_file_o.hwpe_params[OP_SELECTION][12:10] = config_q.computing_format;
 assign reg_file_o.hwpe_params[OP_SELECTION][ 9: 1] = '0;
 assign reg_file_o.hwpe_params[OP_SELECTION][0]     = config_q.gemm_selection;
