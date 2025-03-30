@@ -119,7 +119,7 @@ module redmule_ce
   assign sdotp_operands[2] = y_bias_i;
       
   assign sdotq_is_boxed_int = { {fpnew_pkg::NUM_FP_FORMATS{fma_is_boxed_i}} };
-  assign sdotp_rnd_int      = stage1_rnd_i  ;
+  assign sdotp_rnd_int      = roundmode_e'(fpnew_pkg::RNE);
   assign sdotp_op_mod       = op_mod_i      ;
   assign sdotp_input_tag    = tag_i         ;
   assign sdotp_input_aux    = aux_i         ;
@@ -171,8 +171,8 @@ module redmule_ce
     .rnd_mode_i       ( sdotp_rnd_int       ),
     .op_i             ( op1_i               ),    
     .op_mod_i         ( sdotp_op_mod        ),
-    .src_fmt_i        ( memory_fmt_fpnew    ),
-    .dst_fmt_i        ( computing_fmt_fpnew ),
+    .src_fmt_i        ( computing_fmt_fpnew ),
+    .dst_fmt_i        ( memory_fmt_fpnew    ),
     .tag_i            ( sdotp_input_tag     ),
     .mask_i           ( '0                  ),
     .aux_i            ( sdotp_input_aux     ),

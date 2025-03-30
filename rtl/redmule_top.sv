@@ -326,8 +326,7 @@ assign op2              = cntrl_engine.op2;
 
 assign memory_fmt       = cntrl_engine.memory_format;
 assign computing_fmt    = cntrl_engine.computing_format;
-// assign same_fmt         = (cntrl_engine.memory_format == cntrl_engine.computing_format)? 1'b1 : 1'b0;
-assign same_fmt = 1'b1;
+assign same_fmt         = (cntrl_engine.memory_format == cntrl_engine.computing_format)? 1'b1 : 1'b0;
 
 assign op_mod           = cntrl_engine.op_mod;
 assign in_tag           = 1'b0;

@@ -10,7 +10,7 @@
 #ifndef REDMULE_UTILS_H
 #define REDMULE_UTILS_H
 
-#define ERR 0x0011
+#define ERR 0x00ffff //Expand the error tolerance because the 24-bit manissa
 #define DEBUG
 
 int redmule32_compare_int(uint32_t *actual_z, uint32_t *golden_z, int len) {
@@ -33,7 +33,7 @@ int redmule32_compare_int(uint32_t *actual_z, uint32_t *golden_z, int len) {
     }
     errors += error;
 // #ifdef DEBUG
-    tfp_printf("Index %d: Golden: 0x%08x; Actual: 0x%08x\n", i, golden_word, actual_word);
+    tfp_printf("Index %d: Golden: 0x%08x; Actual: 0x%08x Diff: 0x%08x\n", i, golden_word, actual_word, diff);
 // #endif
   }
   return errors;

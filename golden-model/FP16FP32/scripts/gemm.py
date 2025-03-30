@@ -189,6 +189,7 @@ new_x_dim = str(m_size*n_size//2)
 new_w_dim = str(n_size//2*k_size)
 new_y_dim = str(m_size*k_size)
 new_z_dim = str(m_size*k_size)
+new_out_int = str(int(m_size*k_size))
 
 f_x = open(os.path.join(inc_path, 'x_input.h'), "w")
 f_x.write(header)
@@ -280,9 +281,9 @@ for i in range(m_size):
 f_y.write("};")
 f_y.close()
 
-f_z = open(inc_path + '/z_input.h', "w")
+f_z = open(inc_path + '/z_output.h', "w")
 f_z.write(header)
-f_z.write('uint32_t z_inp [' + new_z_dim + '] = {\n')
+f_z.write('uint32_t z_oup [' + new_z_dim + '] = {\n')
 total_values = m_size * k_size
 value_index = 0
 for i in range(m_size):
@@ -298,7 +299,7 @@ f_z.close()
 # --- Write Z as a 2D array ---
 f_z = open(inc_path + '/z_2D.h', "w")
 f_z.write(header)
-f_z.write('uint32_t z_inp_2D [' + new_in_rows + '][' + new_out_cols + '] = {\n')
+f_z.write('uint32_t z_oup_2D [' + new_in_rows + '][' + new_out_cols + '] = {\n')
 value_index = 0
 for i in range(m_size):
     for j in range(k_size):
@@ -331,7 +332,7 @@ f_d.close()
 
 f_c = open(inc_path + '/golden.h', "w")
 f_c.write(header)
-f_c.write('uint32_t golden [' + out_int + '] = {\n')
+f_c.write('uint32_t golden [' + new_out_int + '] = {\n')
 
 ZFlattened = torch.flatten(Z)
 for i in range(ZFlattened.size(dim=-1)):

@@ -1,5 +1,5 @@
 # vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
-# Start time: 17:43:48 on Mar 27,2025
+# Start time: 11:35:09 on Mar 28,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -144,73 +144,73 @@
 # Loading work.hci_core_intf(fast__9)
 # Loading work.hci_core_intf(fast__10)
 # run -a
-# comp_fmt: 4, gemm_op: 1, mem_fmt: 4
+# comp_fmt: 1, gemm_op: 1, mem_fmt: 4
 # Triggering accelerator and going to sleep...
 # Resumed!
-# Index 0: Golden: 0x40226268; Actual: 0x4022626b
-# Index 1: Golden: 0x400b536c; Actual: 0x400b536d
-# Index 2: Golden: 0x3fbf64ca; Actual: 0x3fbf64cb
-# Index 3: Golden: 0x4003e892; Actual: 0x4003e894
-# Index 4: Golden: 0x40187e6c; Actual: 0x40187e6e
-# Index 5: Golden: 0x3ff2a34e; Actual: 0x3ff2a353
-# Index 6: Golden: 0x40043a64; Actual: 0x40043a66
-# Index 7: Golden: 0x4028003f; Actual: 0x40280042
-# Index 8: Golden: 0x4028f739; Actual: 0x4028f73b
-# Index 9: Golden: 0x3fc21af8; Actual: 0x3fc21afb
-# Index 10: Golden: 0x3f946eed; Actual: 0x3f946eef
-# Index 11: Golden: 0x4010393c; Actual: 0x4010393e
-# Index 12: Golden: 0x3fdaeed0; Actual: 0x3fdaeed2
-# Index 13: Golden: 0x400e65ca; Actual: 0x400e65cd
-# Index 14: Golden: 0x4029100b; Actual: 0x4029100d
-# Index 15: Golden: 0x402231e8; Actual: 0x402231ea
-# Index 16: Golden: 0x4081bfe9; Actual: 0x4081bfeb
-# Index 17: Golden: 0x402add22; Actual: 0x402add25
-# Index 18: Golden: 0x3ff278c6; Actual: 0x3ff278ca
-# Index 19: Golden: 0x403cc5f4; Actual: 0x403cc5f5
-# Index 20: Golden: 0x403d6ad7; Actual: 0x403d6ad9
-# Index 21: Golden: 0x40141796; Actual: 0x40141799
-# Index 22: Golden: 0x4059c85e; Actual: 0x4059c860
-# Index 23: Golden: 0x407dbb6b; Actual: 0x407dbb6e
-# Index 24: Golden: 0x40398a35; Actual: 0x40398a37
-# Index 25: Golden: 0x4019fede; Actual: 0x4019fee0
-# Index 26: Golden: 0x3fb300fc; Actual: 0x3fb300ff
-# Index 27: Golden: 0x4026b2a4; Actual: 0x4026b2a8
-# Index 28: Golden: 0x402e8368; Actual: 0x402e836c
-# Index 29: Golden: 0x4022c24f; Actual: 0x4022c252
-# Index 30: Golden: 0x402e701a; Actual: 0x402e701b
-# Index 31: Golden: 0x40518b55; Actual: 0x40518b58
-# Index 32: Golden: 0x401926df; Actual: 0x401926e1
-# Index 33: Golden: 0x4026b37e; Actual: 0x4026b381
-# Index 34: Golden: 0x3f56fd40; Actual: 0x3f56fd43
-# Index 35: Golden: 0x403d459c; Actual: 0x403d459f
-# Index 36: Golden: 0x4026a1a6; Actual: 0x4026a1a9
-# Index 37: Golden: 0x3fdf292a; Actual: 0x3fdf292c
-# Index 38: Golden: 0x403d3949; Actual: 0x403d394c
-# Index 39: Golden: 0x403a24ad; Actual: 0x403a24b0
-# Index 40: Golden: 0x402852d4; Actual: 0x402852d8
-# Index 41: Golden: 0x400c6792; Actual: 0x400c6795
-# Index 42: Golden: 0x3fa99264; Actual: 0x3fa99267
-# Index 43: Golden: 0x405d027a; Actual: 0x405d027c
-# Index 44: Golden: 0x40284f72; Actual: 0x40284f75
-# Index 45: Golden: 0x402f35bc; Actual: 0x402f35be
-# Index 46: Golden: 0x4030b50a; Actual: 0x4030b50c
-# Index 47: Golden: 0x406200ee; Actual: 0x406200f1
-# Index 48: Golden: 0x4087d832; Actual: 0x4087d835
-# Index 49: Golden: 0x405100c5; Actual: 0x405100c7
-# Index 50: Golden: 0x3fc62e56; Actual: 0x3fc62e58
-# Index 51: Golden: 0x40539528; Actual: 0x4053952a
-# Index 52: Golden: 0x404a8650; Actual: 0x404a8653
-# Index 53: Golden: 0x4048e87e; Actual: 0x4048e881
-# Index 54: Golden: 0x406a88e4; Actual: 0x406a88e8
-# Index 55: Golden: 0x408d23fa; Actual: 0x408d23fb
-# Index 56: Golden: 0x3fa6fa34; Actual: 0x3fa6fa37
-# Index 57: Golden: 0x3fea2e0b; Actual: 0x3fea2e0f
-# Index 58: Golden: 0x3f1bb5e8; Actual: 0x3f1bb5eb
-# Index 59: Golden: 0x400e5e36; Actual: 0x400e5e38
-# Index 60: Golden: 0x40123922; Actual: 0x40123925
-# Index 61: Golden: 0x3f9ebc82; Actual: 0x3f9ebc84
-# Index 62: Golden: 0x3fe923b7; Actual: 0x3fe923ba
-# Index 63: Golden: 0x3feb1c9f; Actual: 0x3feb1ca2
+# Index 0: Golden: 0x40226362; Actual: 0x40225fd6 Diff: 0x0000038c
+# Index 1: Golden: 0x400b3b9e; Actual: 0x400b50de Diff: 0x00001540
+# Index 2: Golden: 0x3fbf64da; Actual: 0x3fbf628a Diff: 0x00000250
+# Index 3: Golden: 0x4003e9db; Actual: 0x4003e9d1 Diff: 0x0000000a
+# Index 4: Golden: 0x40187b5e; Actual: 0x40187f0c Diff: 0x000003ae
+# Index 5: Golden: 0x3ff292c8; Actual: 0x3ff2a423 Diff: 0x0000115b
+# Index 6: Golden: 0x40043457; Actual: 0x400434f2 Diff: 0x0000009b
+# Index 7: Golden: 0x40280467; Actual: 0x4027fd5a Diff: 0x0000070d
+# Index 8: Golden: 0x4028e1c1; Actual: 0x4028fb35 Diff: 0x00001974
+# Index 9: Golden: 0x3fc21334; Actual: 0x3fc21fc2 Diff: 0x00000c8e
+# Index 10: Golden: 0x3f947486; Actual: 0x3f9470c6 Diff: 0x000003c0
+# Index 11: Golden: 0x4010387b; Actual: 0x40104056 Diff: 0x000007db
+# Index 12: Golden: 0x3fdb0f48; Actual: 0x3fdaf46d Diff: 0x00001adb
+# Index 13: Golden: 0x400e7300; Actual: 0x400e68f5 Diff: 0x00000a0b
+# Index 14: Golden: 0x40291073; Actual: 0x40291377 Diff: 0x00000304
+# Index 15: Golden: 0x40224e02; Actual: 0x40223608 Diff: 0x000017fa
+# Index 16: Golden: 0x4081c1b6; Actual: 0x4081c314 Diff: 0x0000015e
+# Index 17: Golden: 0x402ae0b3; Actual: 0x402add85 Diff: 0x0000032e
+# Index 18: Golden: 0x3ff27ca0; Actual: 0x3ff27e73 Diff: 0x000001d3
+# Index 19: Golden: 0x403cb24a; Actual: 0x403cc9b4 Diff: 0x0000176a
+# Index 20: Golden: 0x403d62a8; Actual: 0x403d6f75 Diff: 0x00000ccd
+# Index 21: Golden: 0x40140fca; Actual: 0x401413dc Diff: 0x00000412
+# Index 22: Golden: 0x4059b03d; Actual: 0x4059c70e Diff: 0x000016d1
+# Index 23: Golden: 0x407dca3f; Actual: 0x407db988 Diff: 0x000010b7
+# Index 24: Golden: 0x403985af; Actual: 0x403992dc Diff: 0x00000d2d
+# Index 25: Golden: 0x4019e877; Actual: 0x401a00d1 Diff: 0x0000185a
+# Index 26: Golden: 0x3fb2fec4; Actual: 0x3fb3014d Diff: 0x00000289
+# Index 27: Golden: 0x4026b7f1; Actual: 0x4026b6b8 Diff: 0x00000139
+# Index 28: Golden: 0x402e8802; Actual: 0x402e8758 Diff: 0x000000aa
+# Index 29: Golden: 0x4022d248; Actual: 0x4022c42e Diff: 0x00000e1a
+# Index 30: Golden: 0x402e763e; Actual: 0x402e6ed3 Diff: 0x0000076b
+# Index 31: Golden: 0x40518362; Actual: 0x405189f4 Diff: 0x00000692
+# Index 32: Golden: 0x40192998; Actual: 0x40192cd8 Diff: 0x00000340
+# Index 33: Golden: 0x4026b602; Actual: 0x4026b4be Diff: 0x00000144
+# Index 34: Golden: 0x3f570eba; Actual: 0x3f570276 Diff: 0x00000c44
+# Index 35: Golden: 0x403d37c2; Actual: 0x403d4b72 Diff: 0x000013b0
+# Index 36: Golden: 0x40269ef6; Actual: 0x4026a513 Diff: 0x0000061d
+# Index 37: Golden: 0x3fdf2662; Actual: 0x3fdf2635 Diff: 0x0000002d
+# Index 38: Golden: 0x403d436f; Actual: 0x403d3c40 Diff: 0x0000072f
+# Index 39: Golden: 0x403a3363; Actual: 0x403a256e Diff: 0x00000df5
+# Index 40: Golden: 0x402852e1; Actual: 0x40285b45 Diff: 0x00000864
+# Index 41: Golden: 0x400c6bba; Actual: 0x400c66b0 Diff: 0x0000050a
+# Index 42: Golden: 0x3fa9a2a8; Actual: 0x3fa994b4 Diff: 0x00000df4
+# Index 43: Golden: 0x405d0d28; Actual: 0x405d0888 Diff: 0x000004a0
+# Index 44: Golden: 0x40285180; Actual: 0x402851f8 Diff: 0x00000078
+# Index 45: Golden: 0x402f2c2a; Actual: 0x402f34f2 Diff: 0x000008c8
+# Index 46: Golden: 0x4030a8a5; Actual: 0x4030b409 Diff: 0x00000b64
+# Index 47: Golden: 0x4061f584; Actual: 0x4062010f Diff: 0x00000b8b
+# Index 48: Golden: 0x4087d8b8; Actual: 0x4087dc22 Diff: 0x0000036a
+# Index 49: Golden: 0x4050eeb6; Actual: 0x405100ae Diff: 0x000011f8
+# Index 50: Golden: 0x3fc63eec; Actual: 0x3fc62e9a Diff: 0x00001052
+# Index 51: Golden: 0x4053aa10; Actual: 0x4053985b Diff: 0x000011b5
+# Index 52: Golden: 0x404a80c1; Actual: 0x404a88fd Diff: 0x0000083c
+# Index 53: Golden: 0x4048f621; Actual: 0x4048e6ab Diff: 0x00000f76
+# Index 54: Golden: 0x406a805a; Actual: 0x406a840c Diff: 0x000003b2
+# Index 55: Golden: 0x408d2249; Actual: 0x408d2508 Diff: 0x000002bf
+# Index 56: Golden: 0x3fa70a58; Actual: 0x3fa703f0 Diff: 0x00000668
+# Index 57: Golden: 0x3fea3073; Actual: 0x3fea3260 Diff: 0x000001ed
+# Index 58: Golden: 0x3f1bb01f; Actual: 0x3f1bba50 Diff: 0x00000a31
+# Index 59: Golden: 0x400e6f37; Actual: 0x400e6180 Diff: 0x00000db7
+# Index 60: Golden: 0x4012428c; Actual: 0x40123cdd Diff: 0x000005af
+# Index 61: Golden: 0x3f9ea706; Actual: 0x3f9ebcac Diff: 0x000015a6
+# Index 62: Golden: 0x3fe92327; Actual: 0x3fe9226d Diff: 0x000000ba
+# Index 63: Golden: 0x3feb0d7d; Actual: 0x3feb1c70 Diff: 0x00000ef3
 # Terminated test with 0 errors. See you!
 # [TB] - cnt_rd=432     
 # [TB] - cnt_wr=72      
@@ -220,9 +220,9 @@
 # DATA_W = 1056
 # BITW=32, NumByte=4, ADDR_W=32
 # NumByte*BITW/ADDR_w: 4 
-# Measured count: 1, Start counter: 1706, End counter: 1707
-# Periphery Measured count: 556, Start counter: 1147, End counter: 1703
+# Measured count: 1, Start counter: 1707, End counter: 1708
+# Periphery Measured count: 556, Start counter: 1148, End counter: 1704
 # ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
-#    Time: 192264 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
-# End time: 17:44:04 on Mar 27,2025, Elapsed time: 0:00:16
+#    Time: 237190 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# End time: 11:35:29 on Mar 28,2025, Elapsed time: 0:00:20
 # Errors: 0, Warnings: 0
