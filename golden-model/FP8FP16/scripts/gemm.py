@@ -36,113 +36,140 @@ m_size = args.m_size
 n_size = args.n_size
 k_size = args.k_size
 
-assert (n_size % 2 == 0), "Number of columns must be even for packing fp16 to 32-bit"
+assert (n_size % 2 == 0), "Number of columns must be even for packing fp8 to 16-bit"
 
-def pack_fp16(tensor):
-  t_int16 = tensor.contiguous().view(torch.int16)
+def pack_fp8(tensor):
+  t_uint8 = tensor.contiguous().view(torch.uint8)
   new_shape = tensor.shape[:-1] + (tensor.shape[-1] // 2, 2)
-  t_int16_pairs = t_int16.view(new_shape)
-  lower = t_int16_pairs[..., 0].to(torch.int32) & 0xFFFF
-  upper = t_int16_pairs[..., 1].to(torch.int32) & 0xFFFF
-  packed = lower | (upper << 16)
+  t_uint8_pairs = t_uint8.view(new_shape)
+  lower = t_uint8_pairs[..., 0].to(torch.int16) & 0xFF
+  upper = t_uint8_pairs[..., 1].to(torch.int16) & 0xFF
+  packed = lower | (upper << 8)
   return packed
 
-def unpack_fp16(packed_val):
-  lower_int = int(packed_val.item() & 0xFFFF)
-  upper_int = int((packed_val.item() >> 16) & 0xFFFF)
-  lower_fp16 = torch.tensor([lower_int], dtype=torch.int16).view(torch.float16)[0]
-  upper_fp16 = torch.tensor([upper_int], dtype=torch.int16).view(torch.float16)[0]
+def unpack_fp8(packed_val):
+  lower_int = int(packed_val.item() & 0xFF)
+  upper_int = int((packed_val.item() >> 8) & 0xFF)
+  lower_fp16 = fp8_to_fp16(lower_int)
+  upper_fp16 = fp8_to_fp16(upper_int)
   return lower_fp16, upper_fp16
 
-
-def pack_fp16_axis0(tensor):
+def pack_fp8_axis0(tensor):
   N = tensor.shape[0]
   assert N % 2 == 0, "Number of rows must be even for packing"
-  t_int16 = tensor.contiguous().view(torch.int16)
+  t_uint8 = tensor.contiguous().view(torch.uint8)
   new_shape = (N // 2, 2) + tensor.shape[1:]
-  t_int16_pairs = t_int16.view(new_shape)
-  lower = t_int16_pairs[:, 0].to(torch.int32) & 0xFFFF
-  upper = t_int16_pairs[:, 1].to(torch.int32) & 0xFFFF
-  packed = lower | (upper << 16)
+  t_uint8_pairs = t_uint8.view(new_shape)
+  lower = t_uint8_pairs[:, 0].to(torch.int16) & 0xFF
+  upper = t_uint8_pairs[:, 1].to(torch.int16) & 0xFF
+  packed = lower | (upper << 8)
   return packed
+
+def half_to_fp8(tensor): # E5M2
+  bits = tensor.view(torch.int16)
+  sign = (bits >> 15) & 0x1
+  exp  = (bits >> 10) & 0x1F
+  frac = bits & 0x3FF
+  new_exp = exp
+  new_frac = frac >> 8
+  new_exp = torch.where(exp == 0, torch.tensor(0, dtype=new_exp.dtype, device=new_exp.device), new_exp)
+  new_frac = torch.where(exp == 0, torch.tensor(0, dtype=new_frac.dtype, device=new_frac.device), new_frac)
+  new_exp = torch.clamp(new_exp, 0, 31)
+  fp8 = (sign << 7) | (new_exp << 2) | (new_frac & 0x3)
+  return fp8.to(torch.uint8)
+
+def fp8_to_fp16(fp8_int):
+  sign = (fp8_int >> 7) & 0x1
+  exp  = (fp8_int >> 2) & 0x1F
+  frac = fp8_int & 0x3
+  if exp == 0:
+    new_exp = 0
+    new_frac = 0
+  else:
+    new_exp = exp
+    new_frac = frac << 8
+  fp16_bits = (sign << 15) | (new_exp << 10) | new_frac
+  fp16_tensor = torch.tensor([fp16_bits], dtype=torch.int16).view(torch.float16)[0]
+  return fp16_tensor
 
 f = open(args.file_name, "w")
 
 # We want to perform a GEMM, of the kind Z = Y + X*W
 # Test Matrices
-X = torch.rand(m_size, n_size).float()
-W = torch.rand(n_size, k_size).float()
-Y = torch.rand(m_size, k_size).float()
-Z = torch.rand(m_size, k_size).float()
+X = torch.rand(m_size, n_size).half()
+W = torch.rand(n_size, k_size).half()
+Y = torch.rand(m_size, k_size).half()
+Z = torch.rand(m_size, k_size).half()
 
 
 print("\nInput Data: ")
 print("\nX is: ", X, X.shape, X.dtype)
-f.write('fp32 X[IN_CH*MID_CH] = {'+dump.tensor_to_string(X)+'};\n')
+f.write('fp16 X[IN_CH*MID_CH] = {'+dump.tensor_to_string(X)+'};\n')
 
 print("\nW is: ", W, W.shape, W.dtype)
-f.write('fp32 W[MID_CH*OUT_CH] = {'+dump.tensor_to_string(W)+'};\n')
+f.write('fp16 W[MID_CH*OUT_CH] = {'+dump.tensor_to_string(W)+'};\n')
 
 print("\nY is: ", Y, Y.shape, Y.dtype)
-f.write('fp32 Y[MID_CH*OUT_CH] = {'+dump.tensor_to_string(Y)+'};\n')
+f.write('fp16 Y[MID_CH*OUT_CH] = {'+dump.tensor_to_string(Y)+'};\n')
 
 print("\nComputing matrix multiplication with FP16 mult..")
 X_half = X.half()
 W_half = W.half()
-X_packed = pack_fp16(X_half)
-W_packed = pack_fp16_axis0(W_half)
-print("\nPacked X (32-bit words): ", X_packed, X_packed.shape, X_packed.dtype)
-print("\nPacked W (32-bit words): ", W_packed, W_packed.shape, W_packed.dtype)
+X_fp8 = half_to_fp8(X_half)
+W_fp8 = half_to_fp8(W_half)
+X_packed = pack_fp8(X_fp8)
+W_packed = pack_fp8_axis0(W_fp8)
+print("\nPacked X (16-bit words): ", X_packed, X_packed.shape, X_packed.dtype)
+print("\nPacked W (16-bit words): ", W_packed, W_packed.shape, W_packed.dtype)
 
-product = torch.zeros((m_size, m_size), dtype=torch.float32)
+product = torch.zeros((m_size, m_size), dtype=torch.float16)
 
 for i in range(m_size): 
   for j in range(k_size): 
     dot_sum = 0.0
     for p in range(n_size // 2):
-      lower_x, upper_x = unpack_fp16(X_packed[i, p])
-      lower_w, upper_w = unpack_fp16(W_packed[p, j])
+      lower_x, upper_x = unpack_fp8(X_packed[i, p])
+      lower_w, upper_w = unpack_fp8(W_packed[p, j])
       dot_sum += lower_x * lower_w + upper_x * upper_w
     product[i, j] = dot_sum
 
 print("\nProduct from packed multiplications is: ", product, product.shape, product.dtype)
 Z = torch.add(input = Y, other = product)
 print("\nZ | gemm packed is: ", Z, Z.shape, Z.dtype)
-f.write('fp32 Z[IN_CH*OUT_CH] = {'+dump.tensor_to_string(Z)+'};\n')
+f.write('fp16 Z[IN_CH*OUT_CH] = {'+dump.tensor_to_string(Z)+'};\n')
 f.close()
 
 Z_golden = torch.add(input = Y, other = torch.mm(input = X, mat2 = W))
 print("\nZ_golden | gemm packed is: ", Z_golden, Z_golden.shape, Z_golden.dtype)
-if (np.allclose(Z, Z_golden, rtol=1e-3, atol=1e-3)): print("\nGolden model and packed model are equivalent.")
+if (np.allclose(Z, Z_golden, rtol=0.15, atol=0.15)): print("\nGolden model and packed model are equivalent.")
 else: print("\nGolden model and packed model are not equivalent.")
 
 # Matrices conversion to hexadecimal and txt files generation
 txt_path = args.txt_dir
 for f in os.listdir(txt_path): os.remove(os.path.join(txt_path, f))
-f_x = open(''+txt_path+'/x_input.txt', "w")
+
+f_x = open(os.path.join(txt_path, 'x_input.txt'), "w")
 for i in range(m_size):
-  for j in range (n_size):
-    x_bin = bin(np.float16(X[i][j]).view('H'))[2:].zfill(16)
+  for j in range(n_size):
+    x_bin = bin(np.uint8(X_fp8[i][j].item()))[2:].zfill(8)
     x_hex = hex(int(x_bin, 2))[2:]
-    f_x.write(x_hex)
-    f_x.write(' ')
+    f_x.write(x_hex + ' ')
   f_x.write("\n")
 f_x.close()
 
-f_w = open(''+txt_path+'/w_input.txt', "w")
+f_w = open(os.path.join(txt_path, 'w_input.txt'), "w")
 for i in range(n_size):
-  for j in range (k_size):
-    w_bin = bin(np.float16(W[i][j]).view('H'))[2:].zfill(16)
+  for j in range(k_size):
+    w_bin = bin(np.uint8(W_fp8[i][j].item()))[2:].zfill(8)
     w_hex = hex(int(w_bin, 2))[2:]
-    f_w.write(w_hex)
-    f_w.write(' ')
+    f_w.write(w_hex + ' ')
   f_w.write("\n")
 f_w.close()
 
 f_y = open(''+txt_path+'/y_input.txt', "w")
 for i in range(m_size):
   for j in range (k_size):
-    y_bin = bin(np.float32(Y[i][j]).view('I'))[2:].zfill(32)
+    y_bin = bin(np.float16(Y[i][j]).view('H'))[2:].zfill(16)
     y_hex = hex(int(y_bin, 2))[2:]
     f_y.write(y_hex)
     f_y.write(' ')
@@ -152,7 +179,7 @@ f_y.close()
 f_z = open(''+txt_path+'/z_output.txt', "w")
 for i in range(m_size):
   for j in range (k_size):
-    z_bin = bin(np.float32(Z[i][j]).view('I'))[2:].zfill(32)
+    z_bin = bin(np.float16(Z[i][j]).view('H'))[2:].zfill(16)
     z_hex = hex(int(z_bin, 2))[2:]
     f_z.write(z_hex)
     f_z.write(' ')
@@ -193,7 +220,7 @@ new_out_int = str(int(m_size*k_size))
 
 f_x = open(os.path.join(inc_path, 'x_input.h'), "w")
 f_x.write(header)
-f_x.write('uint32_t x_inp [' + new_x_dim + '] = {\n')
+f_x.write('uint16_t x_inp [' + new_x_dim + '] = {\n')
 total_values = X_packed.numel() 
 value_index = 0
 for i in range(X_packed.shape[0]):
@@ -209,7 +236,7 @@ f_x.close()
 
 f_x2 = open(os.path.join(inc_path, 'x_2D.h'), "w")
 f_x2.write(header)
-f_x2.write('uint32_t x_inp_2D [' + new_in_rows + '][' + new_in_cols + '] = {\n')
+f_x2.write('uint16_t x_inp_2D [' + new_in_rows + '][' + new_in_cols + '] = {\n')
 value_index = 0
 for i in range(X_packed.shape[0]):
   for j in range(X_packed.shape[1]):
@@ -223,7 +250,7 @@ f_x2.close()
 
 f_w = open(os.path.join(inc_path, 'w_input.h'), "w")
 f_w.write(header)
-f_w.write('uint32_t w_inp [' + new_w_dim + '] = {\n')
+f_w.write('uint16_t w_inp [' + new_w_dim + '] = {\n')
 total_values = W_packed.numel() 
 value_index = 0
 for i in range(W_packed.shape[0]):
@@ -236,9 +263,10 @@ for i in range(W_packed.shape[0]):
 f_w.write("};")
 f_w.close()
 
+
 f_w2 = open(os.path.join(inc_path, 'w_2D.h'), "w")
 f_w2.write(header)
-f_w2.write('uint32_t w_inp_2D [' + new_in_cols + '][' + new_out_cols + '] = {\n')
+f_w2.write('uint16_t w_inp_2D [' + new_in_cols + '][' + new_out_cols + '] = {\n')
 value_index = 0
 for i in range(W_packed.shape[0]):
   for j in range(W_packed.shape[1]):
@@ -250,15 +278,16 @@ for i in range(W_packed.shape[0]):
 f_w2.write("};")
 f_w2.close()
 
+
 # --- Write Y as a flat array ---
 f_y = open(inc_path + '/y_input.h', "w")
 f_y.write(header)
-f_y.write('uint32_t y_inp [' + new_y_dim + '] = {\n')
+f_y.write('uint16_t y_inp [' + new_y_dim + '] = {\n')
 total_values = m_size * k_size
 value_index = 0
 for i in range(m_size):
   for j in range(k_size):
-    y_val = np.array(Y[i][j].item(), dtype=np.float32).view(np.uint32)
+    y_val = np.array(Y[i][j].item(), dtype=np.float16).view(np.uint16)
     value_index += 1
     if value_index == total_values: f_y.write('0x' + hex(y_val)[2:] + ' ')
     else: f_y.write('0x' + hex(y_val)[2:] + ', ')
@@ -269,11 +298,11 @@ f_y.close()
 # --- Write Y as a 2D array ---
 f_y = open(inc_path + '/y_2D.h', "w")
 f_y.write(header)
-f_y.write('uint32_t y_inp_2D [' + new_in_rows + '][' + new_out_cols + '] = {\n')
+f_y.write('uint16_t y_inp_2D [' + new_in_rows + '][' + new_out_cols + '] = {\n')
 value_index = 0
 for i in range(m_size):
   for j in range(k_size):
-    y_val = np.array(Y[i][j].item(), dtype=np.float32).view(np.uint32)
+    y_val = np.array(Y[i][j].item(), dtype=np.float16).view(np.uint16)
     value_index += 1
     if value_index == total_values: f_y.write('0x' + hex(y_val)[2:] + ' ')
     else: f_y.write('0x' + hex(y_val)[2:] + ', ')
@@ -283,12 +312,12 @@ f_y.close()
 
 f_z = open(inc_path + '/z_output.h', "w")
 f_z.write(header)
-f_z.write('uint32_t z_oup [' + new_z_dim + '] = {\n')
+f_z.write('uint16_t z_oup [' + new_z_dim + '] = {\n')
 total_values = m_size * k_size
 value_index = 0
 for i in range(m_size):
   for j in range(k_size):
-    z_val = np.array(Z[i][j].item(), dtype=np.float32).view(np.uint32)
+    z_val = np.array(Z[i][j].item(), dtype=np.float16).view(np.uint16)
     value_index += 1
     if value_index == total_values: f_z.write('0x' + hex(z_val)[2:] + ' ')
     else: f_z.write('0x' + hex(z_val)[2:] + ', ')
@@ -299,11 +328,11 @@ f_z.close()
 # --- Write Z as a 2D array ---
 f_z = open(inc_path + '/z_2D.h', "w")
 f_z.write(header)
-f_z.write('uint32_t z_oup_2D [' + new_in_rows + '][' + new_out_cols + '] = {\n')
+f_z.write('uint16_t z_oup_2D [' + new_in_rows + '][' + new_out_cols + '] = {\n')
 value_index = 0
 for i in range(m_size):
   for j in range(k_size):
-    z_val = np.array(Z[i][j].item(), dtype=np.float32).view(np.uint32)
+    z_val = np.array(Z[i][j].item(), dtype=np.float16).view(np.uint16)
     value_index += 1
     if value_index == total_values: f_z.write('0x' + hex(z_val)[2:] + ' ')
     else: f_z.write('0x' + hex(z_val)[2:] + ', ')
@@ -319,9 +348,9 @@ f_d.write('#define __TENSOR_DIM__\n\n'   )
 f_d.write('#define M_SIZE  '+new_in_rows+' \n' )
 f_d.write('#define N_SIZE  '+new_in_cols+' \n' )
 f_d.write('#define K_SIZE  '+new_out_cols+'\n' )
-f_d.write('#define COMP_FMT FP16\n'     )
-f_d.write('#define MEM_FMT FP32\n'     )
-f_d.write('#define FPFORMAT 32\n'      )
+f_d.write('#define COMP_FMT FP8\n'     )
+f_d.write('#define MEM_FMT FP16\n'     )
+f_d.write('#define FPFORMAT 16\n'      )
 f_d.write('uint8_t gemm_ops = GEMM; \n'  )
 f_d.write('\n#endif\n'           )
 f_d.close()
@@ -330,14 +359,24 @@ f_d.close()
 #                   32-bits parser                     #
 #------------------------------------------------------------------------------------------#
 
-f_c = open(inc_path + '/golden.h', "w")
-f_c.write(header)
-f_c.write('uint32_t golden [' + new_out_int + '] = {\n')
+f_c = open(''+inc_path+'/golden.h', "w")
+f_c.write(''+header+'')
+f_c.write('uint32_t golden ['+out_int+'] = {\n')
 
 ZFlattened = torch.flatten(Z)
-for i in range(ZFlattened.size(dim=-1)):
-  val_uint32 = np.array(ZFlattened[i].item(), dtype=np.float32).view(np.uint32)
-  f_c.write('0x' + hex(val_uint32)[2:] + ',\n')
+i = 0
+while i < ZFlattened.size(dim = -1) - 1:
+  c_bin_0 = bin(np.float16(ZFlattened[i]).view('H'))[2:].zfill(16)
+  c_bin_1 = bin(np.float16(ZFlattened[i+1]).view('H'))[2:].zfill(16)
+  c_hex_0 = hex(int(c_bin_0, 2))[2:]
+  c_hex_1 = hex(int(c_bin_1, 2))[2:]
+  c_hex   = c_hex_1+c_hex_0
+  f_c.write('0x'+c_hex+',\n')
+  i += 2
+if ZFlattened.size(dim = -1) % 2 != 0:
+  c_bin_0 = bin(np.float16(ZFlattened[i]).view('H'))[2:].zfill(16)
+  c_hex_0 = hex(int(c_bin_0, 2))[2:]
+  f_c.write('0x0000'+c_hex_0+',\n')
 f_c.write("};")
 f_c.close()
 
