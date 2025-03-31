@@ -1,5 +1,5 @@
 # vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
-# Start time: 12:58:30 on Mar 31,2025
+# Start time: 14:44:18 on Mar 31,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -144,12 +144,22 @@
 # Loading work.hci_core_intf(fast__9)
 # Loading work.hci_core_intf(fast__10)
 # run -a
-# comp_fmt: ** Warning: (vsim-8315) No condition is true in the unique/priority if/case statement.
-#    Time: 539 ns  Iteration: 7  Process: /redmule_tb_wrap/i_redmule_tb/i_cv32e40p_core/load_store_unit_i/#implicit#unique__419 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/cv32e40p-0c712058920bd787/rtl/cv32e40p_load_store_unit.sv Line: 419
-# ** Warning: (vsim-8315) No condition is true in the unique/priority if/case statement.
-#    Time: 540 ns  Iteration: 6  Process: /redmule_tb_wrap/i_redmule_tb/i_cv32e40p_core/load_store_unit_i/#implicit#unique__419 File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/cv32e40p-0c712058920bd787/rtl/cv32e40p_load_store_unit.sv Line: 419
-# Break key hit
-# Simulation stop requested.
-# Stopped at /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/rtl/tc_clk.sv line 51
-# End time: 13:27:59 on Mar 31,2025, Elapsed time: 0:29:29
-# Errors: 0, Warnings: 2
+# comp_fmt: 1, gemm_op: 1, mem_fmt: 4
+# Triggering accelerator and going to sleep...
+# Resumed!
+# Terminated test with 8990 errors. See you!
+# [TB] - cnt_rd= 8640    
+# [TB] - cnt_wr= 1728    
+# [TB] - Fail!
+# ** Error: [TB] - errors=0000231e
+#    Time: 137878 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
+# FPFORMAT = 0 (FP16=2, FP32=0)
+# DATA_W = 1056
+# BITW=32, NumByte=4, ADDR_W=32
+# NumByte*BITW/ADDR_w: 4 
+# Measured count: 1, Start counter: 4012, End counter: 4013
+# Periphery Measured count: 2881, Start counter: 1147, End counter: 4028
+# ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
+#    Time: 137878 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# End time: 14:45:01 on Mar 31,2025, Elapsed time: 0:00:43
+# Errors: 1, Warnings: 0

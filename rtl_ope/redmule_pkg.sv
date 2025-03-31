@@ -35,10 +35,6 @@ package redmule_pkg;
   parameter int unsigned DW_CUT   = DATA_W - ARRAY_HEIGHT*(PIPE_REGS + 1)*MIN_FMT;
   parameter int unsigned ECC_CHUNK_SIZE = 32;
   parameter int unsigned ECC_N_CHUNK    = DATA_W / ECC_CHUNK_SIZE;
-  
-
-  parameter int unsigned X_BUFFER_DEPTH = 2;
-  parameter int unsigned W_BUFFER_DEPTH = 2;
 
   // Register File mapping
   /**********************
@@ -90,6 +86,9 @@ package redmule_pkg;
   // [12:10] -> computing format
   // [0:0]   -> GEMM selection
   parameter int unsigned OP_SELECTION = 17; // 0x44
+  parameter int unsigned M_SIZE = 18; 
+  parameter int unsigned N_SIZE = 19; 
+  parameter int unsigned K_SIZE = 20; 
 
   parameter bit[6:0] MCNFIG = 7'b0001011; // 0x0B
   parameter bit[6:0] MARITH = 7'b0101011; // 0x2B
@@ -136,9 +135,6 @@ package redmule_pkg;
   } flgs_streamer_t;
 
   typedef struct packed {
-    logic read_buffer;
-    logic store_buffer;
-    logic [$clog2(X_BUFFER_DEPTH) - 1 : 0 ] x_buffer_addr;
     logic h_shift;
     logic load;
     logic pad_setup;
@@ -198,6 +194,10 @@ package redmule_pkg;
 
   typedef struct packed {
     logic first_load;
+    logic start_load_x;
+    logic start_load_w;
+    logic start_load_y;
+    logic start_store_z;
     logic rst;
     logic finished;
   } cntrl_scheduler_t;

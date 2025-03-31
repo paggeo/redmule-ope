@@ -310,7 +310,7 @@ print(f"Updated {pkg_file} with new binary value = {new_binary_value}")
 pkg_file = "../../rtl/redmule_pkg.sv"
 with open(pkg_file, 'r') as file: lines = file.readlines()
 pattern = re.compile(r'(^\s*parameter\s+int\s+unsigned\s+DATA_W\s*=\s*)([^;]+)(\s*;)', re.MULTILINE)
-new_value = "512" # ArrayHeight*(PIPEREG +1)*FMT
+new_value = "1024" # ArrayHeight*(PIPEREG +1)*FMT
 updated_lines = [pattern.sub(f'  parameter int unsigned            DATA_W       = {new_value} + 32; ', line) if pattern.search(line) else line for line in lines]
 with open(pkg_file, 'w') as file: file.writelines(updated_lines)
 print(f"Updated {pkg_file} with new value = {new_value}")

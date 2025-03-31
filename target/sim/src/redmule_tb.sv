@@ -452,8 +452,8 @@ module redmule_tb
              redmule_tb.i_dummy_dmemory.cnt_wr[6] +
              redmule_tb.i_dummy_dmemory.cnt_wr[7] +
              redmule_tb.i_dummy_dmemory.cnt_wr[8];
-    $display("[TB] - cnt_rd=%-8d", cnt_rd);
-    $display("[TB] - cnt_wr=%-8d", cnt_wr);
+    $display("[TB] - cnt_rd= %-8d", cnt_rd);
+    $display("[TB] - cnt_wr= %-8d", cnt_wr);
     if(errors != 0) begin
       $display("[TB] - Fail!");
       $error("[TB] - errors=%08x", errors);
