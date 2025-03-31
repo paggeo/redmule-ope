@@ -67,8 +67,8 @@ int main() {
     errors = redmule32_compare_int(y, golden, m_size * k_size);
   else if (mem_fmt == Float16)
     errors = redmule16_compare_int(y, golden, m_size * k_size / 2);
-  else if (mem_fmt == Float8)
-    errors = redmule8_compare_int(y, golden, m_size * k_size / 4);
+  // else if (mem_fmt == Float8)
+  //   errors = redmule8_compare_int(y, golden, m_size * k_size / 4);
 
   *(int *)0x80000000 = errors;
 

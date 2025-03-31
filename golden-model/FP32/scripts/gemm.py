@@ -255,12 +255,14 @@ f_d = open(''+inc_path+'/tensor_dim.h', "w")
 f_d.write(''+header+'')
 f_d.write('#ifndef __TENSOR_DIM__\n'       )
 f_d.write('#define __TENSOR_DIM__\n\n'     )
+f_d.write('#include "archi_redmule.h"\n\n' )
 f_d.write('#define M_SIZE  '+in_rows+' \n' )
 f_d.write('#define N_SIZE  '+in_cols+' \n' )
 f_d.write('#define K_SIZE  '+out_cols+'\n' )
-f_d.write('#define COMP_FMT FP32\n'         )
+f_d.write('#define COMP_FMT FP32\n'        )
 f_d.write('#define MEM_FMT FP32\n'         )
 f_d.write('#define FPFORMAT 32\n'          )
+f_d.write('#define ERR 0x00ff \n\n'        )
 f_d.write('uint8_t gemm_ops = GEMM; \n'    )
 f_d.write('\n#endif\n'                     )
 f_d.close()
@@ -290,11 +292,18 @@ updated_lines = [pattern.sub(rf'  \1{new_format}\3', line) if pattern.search(lin
 with open(pkg_file, 'w') as file: file.writelines(updated_lines)
 print(f"Updated {pkg_file} with new FPFORMAT = {new_format}")
 
-
-pkg_file = "../../target/sim/src/redmule_tb.sv"
+pkg_file = "../../rtl/redmule_pkg.sv"
 with open(pkg_file, 'r') as file: lines = file.readlines()
-pattern = re.compile(r'^\s*(parameter\s+int\s+EXPECTED_VALID_COUNT\s*=\s*)(\d+)(\s*;)', re.MULTILINE)
-new_value = int(in_rows)*int(out_cols)
-updated_lines = [pattern.sub(rf'  parameter int EXPECTED_VALID_COUNT = {str(new_value)};', line) if pattern.search(line) else line for line in lines]
+pattern = re.compile(r'(^\s*parameter\s+fpnew_pkg::fmt_logic_t\s+FpFmtConfig\s*=\s*6\'b)([01]+)(\s*;)', re.MULTILINE)
+new_binary_value = "101000"
+updated_lines = [pattern.sub(f'  parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6\'b{new_binary_value};', line) if pattern.search(line) else line for line in lines]
 with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-print(f"EXPECTED_VALID_COUNT updated successfully with new value: {new_value}.")
+print(f"Updated {pkg_file} with new binary value = {new_binary_value}")
+
+pkg_file = "../../rtl/redmule_pkg.sv"
+with open(pkg_file, 'r') as file: lines = file.readlines()
+pattern = re.compile(r'(^\s*parameter\s+int\s+unsigned\s+DATA_W\s*=\s*)([^;]+)(\s*;)', re.MULTILINE)
+new_value = "512" # ArrayHeight*(PIPEREG +1)*FMT
+updated_lines = [pattern.sub(f'  parameter int unsigned            DATA_W       = {new_value} + 32; ', line) if pattern.search(line) else line for line in lines]
+with open(pkg_file, 'w') as file: file.writelines(updated_lines)
+print(f"Updated {pkg_file} with new value = {new_value}")

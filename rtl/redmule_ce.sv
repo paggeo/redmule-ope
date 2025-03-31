@@ -158,7 +158,7 @@ module redmule_ce
 
   redmule_sdotp_wrapper #(
     .LaneWidth        ( fpnew_pkg::fp_width(FpFormat) ), // Should be 32
-    .FpFmtConfig      ( 6'b101000                     ),
+    .FpFmtConfig      ( FpFmtConfig                   ),
     .NumPipeRegs      ( NumPipeRegs                   ),
     .PipeConfig       ( PipeConfig                    ),
     .Stallable        ( Stallable                     ) 
