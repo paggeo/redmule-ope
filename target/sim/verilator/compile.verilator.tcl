@@ -1,5 +1,6 @@
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -12,6 +13,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/common_verification-149a8baf816d0f55/src/signal_highlighter.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -22,6 +24,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/rtl/tc_sram_impl.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -31,6 +34,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/rtl/tc_clk.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -42,6 +46,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/deprecated/pulp_clk_cells.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -52,6 +57,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/binary_to_gray.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -109,6 +115,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/multiaddr_decode.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -148,6 +155,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/mem_to_banks.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -172,6 +180,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/edge_propagator_rx.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -189,6 +198,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/fpu_div_sqrt_mvp-6f47e499794a44e3/hdl/div_sqrt_mvp_wrapper.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -241,6 +251,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/cluster_interconnect-3cafd41fb1ea3828/rtl/peripheral_interco/XBAR_PE.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -278,6 +289,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/fpnew-596368a327261645/src/fpnew_top.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -324,6 +336,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/streamer/hwpe_stream_sink.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -363,6 +376,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/l2_tcdm_hybrid_interco-c454a1d770326823/RTL/XBAR_BRIDGE/XBAR_BRIDGE.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -400,6 +414,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/cv32e40p-0c712058920bd787/rtl/cv32e40p_sleep_unit.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -412,6 +427,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/cv32e40p-0c712058920bd787/rtl/cv32e40p_register_file_ff.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -424,6 +440,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/cv32e40p-0c712058920bd787/bhv/cv32e40p_sim_clock_gate.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -454,6 +471,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/hci_interconnect.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -472,6 +490,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-ctrl-baf519a1b44955c2/rtl/hwpe_ctrl_slave.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -483,6 +502,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/ibex-b31972101ad06c84/rtl/ibex_register_file_fpga.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -513,6 +533,7 @@
 /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/ibex-b31972101ad06c84/rtl/ibex_core.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -522,29 +543,22 @@
 +incdir+/scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include
 +incdir+/scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/cv32e40x-b02547e8c1b6e597/sva
 +incdir+/scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_pkg.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_tiler.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_ctrl.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_scheduler.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_castin.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_castout.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_streamer.sv
-/scratch/ope_pagonis/redmule-ope/rtl/x_buffer/redmule_x_buffer.sv
-/scratch/ope_pagonis/redmule-ope/rtl/x_buffer/redmule_x_pad_scm.sv
-/scratch/ope_pagonis/redmule-ope/rtl/x_buffer/redmule_x_buffer_scm.sv
-/scratch/ope_pagonis/redmule-ope/rtl/w_buffer/redmule_w_buffer.sv
-/scratch/ope_pagonis/redmule-ope/rtl/w_buffer/redmule_w_buffer_scm.sv
-/scratch/ope_pagonis/redmule-ope/rtl/z_buffer/redmule_z_buffer.sv
-/scratch/ope_pagonis/redmule-ope/rtl/z_buffer/redmule_z_buffer_scm.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_fma.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_noncomp.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_ce.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_row.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_engine.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_top.sv
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_memory_scheduler.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_pkg.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/ope_regbuffer.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_ce.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_ctrl.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_fma.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_memory_scheduler.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_scheduler.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_sdotp_wrapper.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_sdotp.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_streamer.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_tiler.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -554,9 +568,10 @@
 +incdir+/scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include
 +incdir+/scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/cv32e40x-b02547e8c1b6e597/sva
 +incdir+/scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common
-/scratch/ope_pagonis/redmule-ope/rtl/redmule_wrap.sv
+/scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_wrap.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL
@@ -569,6 +584,7 @@
 /scratch/ope_pagonis/redmule-ope/target/sim/src/tb_dummy_memory.sv
 
 +define+TARGET_CV32E40P_EXCLUDE_TRACER
++define+TARGET_DEBUG
 +define+TARGET_REDMULE_HWPE
 +define+TARGET_REDMULE_TEST_HWPE
 +define+TARGET_RTL

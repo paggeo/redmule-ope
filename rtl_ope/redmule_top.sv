@@ -119,6 +119,8 @@ flgs_scheduler_t  flgs_scheduler;
 ctrl_regfile_t reg_file;
 flags_fifo_t   w_fifo_flgs;
 
+x_regbuffer_ctrl_t x_regbuffer_ctrl;
+
 /*--------------------------------------------------------------*/
 /* |                         Streamer                         | */
 /*--------------------------------------------------------------*/
@@ -163,7 +165,7 @@ redmule_streamer #(
   .ctrl_i          ( cntrl_streamer  ),
   .flags_o         ( flgs_streamer   )
 );
-
+/*
 hwpe_stream_fifo #(
   .DATA_WIDTH     ( DATAW_ALIGN   ),
   .FIFO_DEPTH     ( 4             )
@@ -175,6 +177,8 @@ hwpe_stream_fifo #(
   .push_i         ( x_buffer_d    ),
   .pop_o          ( x_buffer_fifo )
 );
+
+assign x_buffer_fifo.ready = x_regbuffer_ctrl.load;
 
 hwpe_stream_fifo #(
   .DATA_WIDTH     ( DATAW_ALIGN   ),
@@ -213,16 +217,62 @@ hwpe_stream_fifo #(
 );
 
 // Valid/Ready assignment
-assign x_buffer_fifo.ready = x_buffer_ctrl.load;
 assign w_buffer_fifo.ready = w_buffer_flgs.w_ready;
 
-assign y_buffer_fifo.ready = z_buffer_flgs.y_ready;
+assign y_buffer_fifo.ready = cntrl
 
 assign z_buffer_q.valid    = z_buffer_flgs.z_valid;
-
+*/
 /*----------------------------------------------------------------*/
 /* |                          Buffers                           | */
 /*----------------------------------------------------------------*/
+
+
+// logic [Height-1:0][BITW-1:0] x_buffer_input, x_buffer_output; // These buffer require the TCDM data width to be Width*BITW
+
+// ope_regbuffer #(
+//   .DATA_WIDTH (DATAW_ALIGN),
+//   .DEPTH      (X_BUFFER_DEPTH)
+// ) i_x_buffer_reg(
+//   .clk_i        ( clk_i                       ),
+//   .rst_ni       ( rst_ni                      ),
+//   .clear_i      ( clear                       ),
+//   .read_buff_i  ( x_regbuffer_ctrl.read_buffer   ),
+//   .store_buff_i ( x_regbuffer_ctrl.store_buffer  ),
+//   .addr_i       ( x_regbuffer_ctrl.x_buffer_addr ),
+//   .data_i       ( x_buffer_fifo.data          ),
+//   .data_o       ( x_buffer_input              )
+// );
+
+// logic [Width-1:0][BITW-1:0] w_buffer_input, w_buffer_output; // These buffer require the TCDM data width to be Width*BITW
+
+// ope_regbuffer #(
+//   .DATA_WIDTH (DATAW_ALIGN),
+//   .DEPTH      (W_BUFFER_DEPTH)
+// ) i_w_buffer_reg(
+//   .clk_i        ( clk_i                       ),
+//   .rst_ni       ( rst_ni                      ),
+//   .clear_i      ( clear                       ),
+//   .read_buff_i  ( w_buffer_ctrl.read_buffer   ),
+//   .store_buff_i ( w_buffer_ctrl.store_buffer  ),
+//   .addr_i       ( w_buffer_ctrl.x_buffer_addr ),
+//   .data_i       ( w_buffer_fifo.data          ),
+//   .data_o       ( w_buffer_input              )
+// );
+
+// hwpe_stream_fifo #(
+//   .DATA_WIDTH     ( DATAW_ALIGN   ),
+//   .FIFO_DEPTH     ( 4             )
+// ) i_y_buffer_fifo (
+//   .clk_i          ( clk_i         ),
+//   .rst_ni         ( rst_ni        ),
+//   .clear_i        ( clear         ),
+//   .flags_o        (               ),
+//   .push_i         ( y_buffer_d    ),
+//   .pop_o          ( y_buffer_fifo )
+// );
+
+assign y_buffer_d.ready = (cntrl_engine.mode == cntrl_engine_mode_e'(Y_LOAD)) ? 1'b1 : 1'b0;
 
 
 logic [Height-1:0][BITW-1:0] x_buffer_input, x_buffer_output; // These buffer require the TCDM data width to be Width*BITW
@@ -234,29 +284,14 @@ ope_regbuffer #(
   .clk_i        ( clk_i                       ),
   .rst_ni       ( rst_ni                      ),
   .clear_i      ( clear                       ),
-  .read_buff_i  ( x_buffer_ctrl.read_buffer   ),
-  .store_buff_i ( x_buffer_ctrl.store_buffer  ),
-  .addr_i       ( x_buffer_ctrl.x_buffer_addr ),
-  .data_i       ( x_buffer_fifo.data          ),
+  .read_buff_i  ( x_regbuffer_ctrl.read_buffer   ),
+  .store_buff_i ( x_regbuffer_ctrl.store_buffer  ),
+  .addr_i       ( x_regbuffer_ctrl.x_buffer_addr ),
+  .data_i       ( x_buffer_d.data          ),
   .data_o       ( x_buffer_input              )
 );
-
-logic [Width-1:0][BITW-1:0] x_buffer_input, x_buffer_output; // These buffer require the TCDM data width to be Width*BITW
-
-ope_regbuffer #(
-  .DATA_WIDTH (DATAW_ALIGN),
-  .DEPTH      (W_BUFFER_DEPTH)
-) i_w_buffer_reg(
-  .clk_i        ( clk_i                       ),
-  .rst_ni       ( rst_ni                      ),
-  .clear_i      ( clear                       ),
-  .read_buff_i  ( w_buffer_ctrl.read_buffer   ),
-  .store_buff_i ( w_buffer_ctrl.store_buffer  ),
-  .addr_i       ( w_buffer_ctrl.x_buffer_addr ),
-  .data_i       ( w_buffer_fifo.data          ),
-  .data_o       ( w_buffer_input              )
-);
-
+// After I have loaded the first element in the x buffer, and all the elements in the w buffer
+assign x_buffer_d.ready = x_buffer_non_empty_o && !(w_buffer_full_o) ? 1'b1 : 1'b0;
 
 /*---------------------------------------------------------------*/
 /* |                          Engine                           | */
@@ -338,7 +373,7 @@ ope_engine     #(
   .rst_ni             ( rst_ni           ),
   .x_input_i          ( x_buffer_q       ),
   .w_input_i          ( w_buffer_q       ),
-  .y_bias_i           ( y_bias_q         ),
+  .y_bias_i           ( y_buffer_d.data),
   .z_output_o         ( z_buffer_d       ),
   .fma_is_boxed_i     ( fma_is_boxed     ),
   .noncomp_is_boxed_i ( noncomp_is_boxed ),
@@ -353,6 +388,7 @@ ope_engine     #(
   .tag_i              ( in_tag           ),
   .aux_i              ( in_aux           ),
   .in_valid_i         ( in_valid         ),
+  .y_in_valid_i       ( y_buffer_d.valid),
   .in_ready_o         ( in_ready         ),
   .reg_enable_i       ( reg_enable       ),
   .flush_i            ( flush            ),
@@ -365,7 +401,7 @@ ope_engine     #(
   .out_valid_o        ( out_valid        ),
   .out_ready_i        ( out_ready        ),
   .busy_o             ( busy             ),
-  .ctrl_engine_i      ( cntrl_engine     )
+  .cntrl_engine_i     ( cntrl_engine     )
 );
 
 /*---------------------------------------------------------------*/
@@ -416,45 +452,15 @@ redmule_ctrl        #(
   .w_loaded_i        ( flgs_scheduler.w_loaded ),
   .flush_o           ( engine_flush            ),
   .cntrl_scheduler_o ( cntrl_scheduler         ),
+  .x_regbuffer_ctrl_o ( x_regbuffer_ctrl       ),
+  .cntrl_engine_o     ( cntrl_engine            ),
   .periph            ( periph                  )
 );
 
 
-
-// `ifdef DEBUG
   assign debug_cntrl_scheduler_o = cntrl_scheduler;
-// `endif
 
-/*---------------------------------------------------------------*/
-/* |                        Local FSM                          | */
-/*---------------------------------------------------------------*/
-redmule_scheduler #(
-  .Height      ( Height         ),
-  .Width       ( Width          ),
-  .NumPipeRegs ( NumPipeRegs    )
-) i_scheduler (
-  .clk_i             ( clk_i               ),
-  .rst_ni            ( rst_ni              ),
-  .test_mode_i       ( test_mode_i         ),
-  .clear_i           ( clear               ),
-  .x_valid_i         ( x_buffer_fifo.valid ),
-  .w_valid_i         ( w_buffer_fifo.valid ),
-  .y_valid_i         ( y_buffer_fifo.valid ),
-  .z_ready_i         ( z_buffer_q.ready    ),
-  .engine_flush_i    ( engine_flush        ),
-  .reg_file_i        ( reg_file            ),
-  .flgs_streamer_i   ( flgs_streamer       ),
-  .flgs_x_buffer_i   ( x_buffer_flgs       ),
-  .flgs_w_buffer_i   ( w_buffer_flgs       ),
-  .flgs_z_buffer_i   ( z_buffer_flgs       ),
-  .flgs_engine_i     ( flgs_engine         ),
-  .cntrl_scheduler_i ( cntrl_scheduler     ),
-  .reg_enable_o      ( reg_enable          ),
-  .cntrl_engine_o    ( cntrl_engine        ),
-  .cntrl_x_buffer_o  ( x_buffer_ctrl       ),
-  .cntrl_w_buffer_o  ( w_buffer_ctrl       ),
-  .cntrl_z_buffer_o  ( z_buffer_ctrl       ),
-  .flgs_scheduler_o  ( flgs_scheduler      )
-);
+
+
 
 endmodule : redmule_top

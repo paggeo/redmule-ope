@@ -11,7 +11,8 @@ import hwpe_stream_package::*;
 
 package redmule_pkg;
 
-  parameter int unsigned            DATA_W       = 1024 + 32;                                  
+  parameter int unsigned            DATA_W       = 32*4 + 32;
+  // parameter int unsigned            DATA_W       = 32*4 + 32;                                  
   parameter int unsigned            MemDw        = 32;
   parameter int unsigned            NumByte      = MemDw/8;
   parameter int unsigned            ADDR_W       = hci_package::DEFAULT_AW;
@@ -20,21 +21,23 @@ package redmule_pkg;
   parameter int unsigned            N_CONTEXT    = 2;
   parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP32;
   parameter int unsigned            BITW         = fpnew_pkg::fp_width(FPFORMAT);
-  parameter int unsigned            ARRAY_HEIGHT = 16;
+  parameter int unsigned            ARRAY_HEIGHT = 4;
   parameter int unsigned            PIPE_REGS    = 3;
-  parameter int unsigned            ARRAY_WIDTH  = 16; // Superior limit, smaller values are allowed.
-  // parameter int unsigned            ARRAY_WIDTH  = ARRAY_HEIGHT*PIPE_REGS; // Superior limit, smaller values are allowed.
+  parameter int unsigned            ARRAY_WIDTH  = 4; // Superior limit, smaller values are allowed.
   parameter int unsigned            TOT_DEPTH    = DATAW/BITW;
   parameter int unsigned            DEPTH        = TOT_DEPTH/ARRAY_HEIGHT;
   parameter int unsigned            STRB         = DATA_W/8;
   parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b101000;
-  // parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b101101;
   parameter fpnew_pkg::ifmt_logic_t IntFmtConfig = 4'b1000;
   parameter fpnew_pkg::operation_e  CAST_OP      = fpnew_pkg::F2F;
   parameter int unsigned MIN_FMT  = fpnew_pkg::min_fp_width(FpFmtConfig);
   parameter int unsigned DW_CUT   = DATA_W - ARRAY_HEIGHT*(PIPE_REGS + 1)*MIN_FMT;
   parameter int unsigned ECC_CHUNK_SIZE = 32;
   parameter int unsigned ECC_N_CHUNK    = DATA_W / ECC_CHUNK_SIZE;
+
+  parameter int unsigned X_BUFFER_DEPTH = 2;
+  parameter int unsigned W_BUFFER_DEPTH = 2;
+  parameter int unsigned REG_PER_CE     = X_BUFFER_DEPTH * W_BUFFER_DEPTH;
 
   // Register File mapping
   /**********************
@@ -116,6 +119,13 @@ package redmule_pkg;
   typedef enum logic { LD_IN_FMP, LD_WEIGHT } source_sel_e;
   typedef enum logic { LOAD, STORE }          ld_st_sel_e;
 
+  typedef enum logic[1:0] {
+    IDLE,
+    Y_LOAD, 
+    COMPUTE, 
+    Z_READ
+  } cntrl_engine_mode_e;
+
   typedef struct packed {
     hci_package::hci_streamer_ctrl_t x_stream_source_ctrl;
     hci_package::hci_streamer_ctrl_t w_stream_source_ctrl;
@@ -126,6 +136,13 @@ package redmule_pkg;
     fpnew_pkg::fp_format_e           output_cast_src_fmt;
     fpnew_pkg::fp_format_e           output_cast_dst_fmt;
   } cntrl_streamer_t;
+
+  typedef struct packed {
+    logic load;
+    logic read_buffer;
+    logic store_buffer;
+    logic [$clog2(X_BUFFER_DEPTH) -1 : 0 ] x_buffer_addr;
+  } x_regbuffer_ctrl_t; 
 
   typedef struct packed {
     hci_package::hci_streamer_flags_t x_stream_source_flags;
@@ -200,6 +217,10 @@ package redmule_pkg;
     logic start_store_z;
     logic rst;
     logic finished;
+    logic loading_y;
+    logic loading_x;
+    logic loading_w;
+    logic storing_z;
   } cntrl_scheduler_t;
 
   typedef struct packed {
@@ -266,6 +287,8 @@ package redmule_pkg;
     logic                         out_ready;
     logic                         accumulate;
     logic       [ARRAY_WIDTH-1:0] row_clk_gate_en;
+    cntrl_engine_mode_e           mode;
+    logic       [$clog2(ARRAY_HEIGHT) - 1: 0] row_index;
   } cntrl_engine_t;
 
   typedef enum {

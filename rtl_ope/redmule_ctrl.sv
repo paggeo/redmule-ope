@@ -31,6 +31,7 @@ module redmule_ctrl
   input  logic                    reg_enable_i      ,
   input  logic                    start_cfg_i       ,
   input  flgs_streamer_t          flgs_streamer_i   ,
+  // input  flags_fifo_t             x_fifo_flgs_i     ,
   output logic                    cfg_complete_o    ,
   // Flags coming from the state machine
   input  logic                    w_loaded_i        ,
@@ -38,6 +39,8 @@ module redmule_ctrl
   output logic                    flush_o           ,
   // Control signals for the state machine
   output cntrl_scheduler_t        cntrl_scheduler_o ,
+  output x_regbuffer_ctrl_t       x_regbuffer_ctrl_o,
+  output cntrl_engine_t           cntrl_engine_o    ,
   // Peripheral slave port
   hwpe_ctrl_intf_periph.slave     periph
 );
@@ -45,15 +48,20 @@ module redmule_ctrl
   logic        clear, latch_clear;
   logic        tiler_setback, tiler_valid;
 
-  typedef enum logic [2:0] {
-    REDMULE_LATCH_RST,
-    REDMULE_IDLE,
-    REDMULE_STARTING,
-    REDMULE_COMPUTING,
-    REDMULE_FINISHED
-  } redmule_ctrl_state_e;
+  typedef enum logic [3:0] {
+    OPE_LATCH_RST,
+    OPE_IDLE,
+    OPE_STARTING,
+    OPE_LOAD_Y,
+    OPE_COMPUTE_INNER_LOOP, 
+    OPE_STORE_Z,
+    OPE_FINISHED
+    // OPE_STARTING,
+    // REDMULE_COMPUTING,
+    // REDMULE_FINISHED
+  } ope_ctrl_state_e;
 
-  redmule_ctrl_state_e current, next;
+  ope_ctrl_state_e current, next;
 
   hwpe_ctrl_package::ctrl_regfile_t reg_file_d, reg_file_q;
   hwpe_ctrl_package::ctrl_slave_t   cntrl_slave;
@@ -96,10 +104,10 @@ module redmule_ctrl
   // State register
   always_ff @(posedge clk_i or negedge rst_ni) begin : state_register
     if(~rst_ni) begin
-       current <= REDMULE_LATCH_RST;
+       current <= OPE_LATCH_RST;
     end else begin
       if (clear)
-        current <= REDMULE_IDLE;
+        current <= OPE_IDLE;
       else
         current <= next;
     end
@@ -126,43 +134,118 @@ module redmule_ctrl
   /*                                        Controller FSM                                       */
   /*---------------------------------------------------------------------------------------------*/
 
-  assign cntrl_scheduler_o.first_load = current == REDMULE_STARTING;
-  assign tiler_setback                = current == REDMULE_IDLE && next == REDMULE_STARTING;
-  assign cntrl_slave.done             = current == REDMULE_FINISHED;
-  assign busy_o                       = current != REDMULE_LATCH_RST || current != REDMULE_IDLE || current != REDMULE_FINISHED;
-  assign flush_o                      = current == REDMULE_FINISHED;
-  assign cntrl_scheduler_o.rst        = current == REDMULE_FINISHED;
-  assign cntrl_scheduler_o.finished   = current == REDMULE_FINISHED;
-  assign latch_clear                  = current == REDMULE_LATCH_RST;
+
+
+  assign cntrl_scheduler_o.start_store_z = current == OPE_STORE_Z;
+
+  assign tiler_setback                  = current == OPE_IDLE && next == OPE_STARTING;
+  assign cntrl_slave.done               = current == OPE_FINISHED;
+  assign busy_o                         = current != OPE_LATCH_RST || current != OPE_IDLE || current != OPE_FINISHED;
+  assign flush_o                        = current == OPE_FINISHED;
+  assign cntrl_scheduler_o.rst          = current == OPE_FINISHED;
+  assign cntrl_scheduler_o.finished     = current == OPE_FINISHED;
+  assign latch_clear                    = current == OPE_LATCH_RST;
+
+  logic [$clog2(Height) - 1: 0] y_row_index_q, y_row_index_d;
+  assign cntrl_engine_o.mode = (current == OPE_LOAD_Y) ? cntrl_engine_mode_e'(Y_LOAD): cntrl_engine_mode_e'(IDLE);
+  assign cntrl_engine_o.row_index = y_row_index_q;
+  
+
+  assign cntrl_scheduler_o.start_load_x = current == OPE_COMPUTE_INNER_LOOP;
+  assign cntrl_scheduler_o.start_load_w = current == OPE_COMPUTE_INNER_LOOP;
+
+
+  // // FIXME: check this if X_BUFFER_DEPTH != W_BUFFER_DEPTH
+  // logic [$clog2(X_BUFFER_DEPTH) - 1: 0] x_regbuf_q, x_regbuf_d; 
+  // logic [$clog2(W_BUFFER_DEPTH) - 1: 0] w_regbuf_q, w_regbuf_d;
+
+
+  // always_comb begin
+
+  //   if (current == OPE_LOAD_Y && next = OPE_COMPUTE_INNER_LOOP) begin 
+  //     x_regbuf_d = 0;
+  //     w_regbuf_d = 0;
+  //   end else if (current == OPE_COMPUTE_INNER_LOOP) begin
+  //     if (!x_fifo_flgs.empty && !flgs_stremer_i.w_stream_source_flags.done) begin
+  //       x_regbuf_d = x_regbuf_q 
+  //     end else begin
+  //       x_regbuf_d = x_regbuf_q;
+  //     end
+  //   end
+  // end
+
+  assign cntrl_scheduler_o.start_load_y = current == OPE_LOAD_Y;
+
+  always_comb begin 
+    if (current == OPE_STARTING && next == OPE_LOAD_Y) begin
+      y_row_index_d = 0;
+    end else if (current == OPE_LOAD_Y) begin
+      y_row_index_d = y_row_index_q + 1;
+    end
+  end
+
+  always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (~rst_ni) begin
+      y_row_index_q <= 'b0;
+    end else begin
+      if (clear || latch_clear)
+        y_row_index_q <= 'b0;
+      else
+        y_row_index_q <= y_row_index_d;
+    end
+  end
 
   always_comb begin : controller_fsm
     next = current;
 
     case (current)
-      REDMULE_LATCH_RST: begin
-        next = REDMULE_IDLE;
+      OPE_LATCH_RST: begin
+        next = OPE_IDLE;
       end
 
-      REDMULE_IDLE: begin
-        if ((slave_start & tiler_valid) || test_mode_i) begin
-          next = REDMULE_STARTING;
+      OPE_IDLE: begin
+        if (slave_start & tiler_valid) begin
+          next = OPE_STARTING;
         end
       end
 
-      REDMULE_STARTING: begin
-        if (w_loaded_i) begin
-          next = REDMULE_COMPUTING;
+      OPE_STARTING: begin
+        next = OPE_LOAD_Y;
+      end
+
+      OPE_LOAD_Y: begin
+        if (flgs_streamer_i.y_stream_source_flags.done) begin
+          next = OPE_COMPUTE_INNER_LOOP;
+        end
+      end
+      
+      OPE_COMPUTE_INNER_LOOP: begin
+        if (flgs_streamer_i.x_stream_source_flags.done && flgs_streamer_i.w_stream_source_flags.done) begin
+          // next = OPE_STORE_Z;
+          next = OPE_FINISHED;
         end
       end
 
-      REDMULE_COMPUTING: begin
-        if (flgs_streamer_i.z_stream_sink_flags.done) begin
-          next = REDMULE_FINISHED;
-        end
-      end
+      // OPE_LOAD_W: begin
+      //   if (w_loaded_i) begin
+      //     next = OPE_COMPUTE;
+      //   end
+      // end
 
-      REDMULE_FINISHED: begin
-        next = REDMULE_IDLE;
+      // OPE_COMPUTE: begin
+      //   // if (!z_buffer_flag_i.empty) begin
+      //     next = OPE_STORE_Z;
+      //   // end
+      // end
+
+      // OPE_STORE_Z: begin
+      //   if (flgs_streamer_i.z_stream_sink_flags.done) begin
+      //     next = OPE_FINISHED;
+      //   end
+      // end
+      
+      OPE_FINISHED: begin
+        next = OPE_IDLE;
       end
     endcase
   end

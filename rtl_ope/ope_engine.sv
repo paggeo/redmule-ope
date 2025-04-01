@@ -47,6 +47,7 @@ module ope_engine
   input  AuxType                                           aux_i              , //0
   // fpnew_fma Input Handshake
   input  logic                                             in_valid_i         ,
+  input  logic                                             y_in_valid_i       ,
   output logic                    [W-1:0][H-1:0]           in_ready_o         ,
   input  logic                                             reg_enable_i       ,
   input  logic                                             flush_i            ,
@@ -63,11 +64,51 @@ module ope_engine
   // fpnew_fma Indication of valid data in flight
   output logic                    [W-1:0][H-1:0]           busy_o             ,
   // control bus from FSM
-  input  cntrl_ope_engine_t                                cntrl_ope_engine_i  // This include the mode (idle, load, compute, read) and the row_index
+  input  cntrl_engine_t                                    cntrl_engine_i  // This include the mode (idle, load, compute, read) and the row_index
 );
 
 
-logic [H-1:0][W-1:0][BITW-1:0] internal_reg_q, internal_reg_d;
+
+// FIXME: This loops around, and overwrites the same row, can you fix this
+logic [H-1:0][W-1:0][BITW-1:0] internal_reg_q, internal_reg_d; // For now this is only one per ce
+
+logic [$clog2(Height) - 1: 0] y_row_index_q, y_row_index_d;
+always_comb begin
+  y_row_index_d = y_row_index_q;
+  if (cntrl_engine_i.mode == cntrl_engine_mode_e'(Y_LOAD)) begin
+    if (y_in_valid_i) y_row_index_d = y_row_index_q + 1;
+    else y_row_index_d = y_row_index_q;
+  end
+end
+always_ff @(posedge clk_i or negedge rst_ni) begin
+  if (~rst_ni) begin
+    y_row_index_q <= 'b0;
+  end else begin
+    if (flush_i) y_row_index_q <= 'b0;
+    else y_row_index_q <= y_row_index_d;
+  end
+end
+
+always_comb begin 
+  internal_reg_d = internal_reg_q;
+  if(cntrl_engine_i.mode == cntrl_engine_mode_e'(Y_LOAD) && y_in_valid_i) begin
+    for (int row_index = 0; row_index < Height; row_index++) begin
+      if (row_index == y_row_index_q) internal_reg_d[row_index] = y_bias_i;
+      else internal_reg_d[row_index] = internal_reg_q[row_index];
+    end
+  end
+end
+
+always_ff @(posedge clk_i or negedge rst_ni) begin
+  if (~rst_ni) begin
+    internal_reg_q <= 0;
+  end else begin
+    if (flush_i) internal_reg_q <= 0;
+    else internal_reg_q <= internal_reg_d;
+  end
+end
+
+/*
 logic [H-1:0][W-1:0][BITW-1:0] ce_output;
 logic [H-1:0][W-1:0]           ce_in_ready;
 logic [H-1:0][W-1:0]           ce_out_valid;
@@ -104,14 +145,6 @@ always_comb begin
   endcase
 end
 
-always_ff @(posedge clk_i or negedge rst_ni) begin
-  if (~rst_ni) begin
-    internal_reg_q <= 0;
-  end else begin
-    if (flush_i) internal_reg_q <= 0;
-    else internal_reg_q <= internal_reg_d;
-  end
-end
 
 logic [H-1:0][W-1:0][2:0][BITW-1:0] ce_operands;
 always_comb begin 
@@ -177,5 +210,5 @@ assign is_class_o      = 'b0;
       end
     end
   endgenerate
-
+  */
 endmodule: ope_engine

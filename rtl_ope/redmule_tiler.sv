@@ -273,5 +273,8 @@ assign reg_file_o.hwpe_params[OP_SELECTION][0]     = config_q.gemm_selection;
 assign reg_file_o.hwpe_params[M_SIZE][15:0]        = config_q.m_size;
 assign reg_file_o.hwpe_params[N_SIZE][15:0]        = config_q.n_size;
 assign reg_file_o.hwpe_params[K_SIZE][15:0]        = config_q.k_size;
+assign reg_file_o.hwpe_params[M_SIZE][31:16]       = 'b0;
+assign reg_file_o.hwpe_params[N_SIZE][31:16]       = 'b0;
+assign reg_file_o.hwpe_params[K_SIZE][31:16]       = 'b0;
 
 endmodule: redmule_tiler

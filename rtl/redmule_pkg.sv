@@ -11,7 +11,7 @@ import hwpe_stream_package::*;
 
 package redmule_pkg;
 
-  parameter int unsigned            DATA_W       = 1024 + 32;                                  
+  parameter int unsigned            DATA_W       = 1024 + 32;                                     
   parameter int unsigned            MemDw        = 32;
   parameter int unsigned            NumByte      = MemDw/8;
   parameter int unsigned            ADDR_W       = hci_package::DEFAULT_AW;
@@ -37,8 +37,7 @@ package redmule_pkg;
   parameter int unsigned ECC_N_CHUNK    = DATA_W / ECC_CHUNK_SIZE;
   
 
-  parameter int unsigned X_BUFFER_DEPTH = 2;
-  parameter int unsigned W_BUFFER_DEPTH = 2;
+
 
   // Register File mapping
   /**********************

@@ -71,7 +71,7 @@ LINKSCRIPT := $(SW)/kernel/link.ld
 CC=$(Gcc)$(ISA)$(XLEN)-unknown-elf-gcc
 LD=$(CC)
 OBJDUMP=$(Gcc)$(ISA)$(XLEN)-unknown-elf-objdump
-CC_OPTS=-march=$(ARCH)$(XLEN)$(XTEN) -mabi=ilp32 -D__$(ISA)__ -O2 -g -Wextra -Wall -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wundef -fdata-sections -ffunction-sections -MMD -MP
+CC_OPTS=-march=$(ARCH)$(XLEN)$(XTEN) -mabi=ilp32 -D__$(ISA)__ -O2 -g -Wextra -Wall -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wundef -fdata-sections -ffunction-sections -MMD -MP -Wincompatible-pointer-types -Wimplicit-fallthrough
 LD_OPTS=-march=$(ARCH)$(XLEN)$(XTEN) -mabi=ilp32 -D__$(ISA)__ -MMD -MP -nostartfiles -nostdlib -Wl,--gc-sections
 
 # Setup build object dirs

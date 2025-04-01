@@ -670,27 +670,19 @@ if {0 == [analyze -format sv \
         DEBUG \
     } \
     [list \
-        "$ROOT/rtl/redmule_pkg.sv" \
-        "$ROOT/rtl/redmule_tiler.sv" \
-        "$ROOT/rtl/redmule_ctrl.sv" \
-        "$ROOT/rtl/redmule_scheduler.sv" \
-        "$ROOT/rtl/redmule_streamer.sv" \
-        "$ROOT/rtl/x_buffer/redmule_x_buffer.sv" \
-        "$ROOT/rtl/x_buffer/redmule_x_pad_scm.sv" \
-        "$ROOT/rtl/x_buffer/redmule_x_buffer_scm.sv" \
-        "$ROOT/rtl/w_buffer/redmule_w_buffer.sv" \
-        "$ROOT/rtl/w_buffer/redmule_w_buffer_scm.sv" \
-        "$ROOT/rtl/z_buffer/redmule_z_buffer.sv" \
-        "$ROOT/rtl/z_buffer/redmule_z_buffer_scm.sv" \
-        "$ROOT/rtl/redmule_fma.sv" \
-        "$ROOT/rtl/redmule_noncomp.sv" \
-        "$ROOT/rtl/redmule_ce.sv" \
-        "$ROOT/rtl/redmule_row.sv" \
-        "$ROOT/rtl/redmule_engine.sv" \
-        "$ROOT/rtl/redmule_top.sv" \
-        "$ROOT/rtl/redmule_memory_scheduler.sv" \
-        "$ROOT/rtl/redmule_sdotp.sv" \
-        "$ROOT/rtl/redmule_sdotp_wrapper.sv" \
+        "$ROOT/rtl_ope/redmule_pkg.sv" \
+        "$ROOT/rtl_ope/ope_engine.sv" \
+        "$ROOT/rtl_ope/ope_regbuffer.sv" \
+        "$ROOT/rtl_ope/redmule_ce.sv" \
+        "$ROOT/rtl_ope/redmule_ctrl.sv" \
+        "$ROOT/rtl_ope/redmule_fma.sv" \
+        "$ROOT/rtl_ope/redmule_memory_scheduler.sv" \
+        "$ROOT/rtl_ope/redmule_scheduler.sv" \
+        "$ROOT/rtl_ope/redmule_sdotp_wrapper.sv" \
+        "$ROOT/rtl_ope/redmule_sdotp.sv" \
+        "$ROOT/rtl_ope/redmule_streamer.sv" \
+        "$ROOT/rtl_ope/redmule_tiler.sv" \
+        "$ROOT/rtl_ope/redmule_top.sv" \
     ]
 ]} {return 1}
 
@@ -711,7 +703,7 @@ if {0 == [analyze -format sv \
         DEBUG \
     } \
     [list \
-        "$ROOT/rtl/redmule_wrap.sv" \
+        "$ROOT/rtl_ope/redmule_wrap.sv" \
     ]
 ]} {return 1}
 

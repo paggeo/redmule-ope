@@ -51,34 +51,34 @@ module redmule_memory_scheduler
     // Here we initialize the streamer source signals
     // for the X stream source
     // X: M*N | W: N*K | Y: N*K | Z: N*K
-    cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.base_addr     = reg_file_i.hwpe_params[X_ADDR] + i_counter_q*BITW/4;
+    cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.base_addr     = reg_file_i.hwpe_params[X_ADDR] + i_counter_q * BITW/8;
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.tot_len       = reg_file_i.hwpe_params[M_SIZE];
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d0_len        = reg_file_i.hwpe_params[M_SIZE];
-    cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d0_stride     = reg_file_i.hwpe_params[N_SIZE];
+    cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d0_stride     = reg_file_i.hwpe_params[N_SIZE] * BITW/8;
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.dim_enable_1h = 2'b11;
 
     // Here we initialize the streamer source signals
     // for the W stream source
-    cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.base_addr     = reg_file_i.hwpe_params[W_ADDR] + j_counter_q*BITW/4;
+    cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.base_addr     = reg_file_i.hwpe_params[W_ADDR] + j_counter_q * BITW/8;
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.tot_len       = reg_file_i.hwpe_params[N_SIZE];
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d0_len        = reg_file_i.hwpe_params[N_SIZE];
-    cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d0_stride     = reg_file_i.hwpe_params[K_SIZE];
+    cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d0_stride     = reg_file_i.hwpe_params[K_SIZE] * BITW/8;
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.dim_enable_1h = 2'b11;
 
     // Here we initialize the streamer source signals
     // for the Y stream source
-    cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.base_addr     = reg_file_i.hwpe_params[W_ADDR] + i_counter_q * BITW/4 * reg_file_i.hwpe_params[K_SIZE] + j_counter_q*BITW/4;
+    cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.base_addr     = reg_file_i.hwpe_params[Z_ADDR] + i_counter_q * BITW/8 * reg_file_i.hwpe_params[K_SIZE] + j_counter_q * BITW/8;
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.tot_len       = ARRAY_HEIGHT;
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d0_len        = ARRAY_HEIGHT;
-    cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d0_stride     = reg_file_i.hwpe_params[K_SIZE];
+    cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d0_stride     = reg_file_i.hwpe_params[K_SIZE] * BITW/8;
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.dim_enable_1h = 2'b11;
 
     // Here we initialize the streamer sink signals for
     // the Z stream sink
-    cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.base_addr       = reg_file_i.hwpe_params[W_ADDR] + i_counter_q * BITW/4 * reg_file_i.hwpe_params[K_SIZE] + j_counter_q*BITW/4;
+    cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.base_addr       = reg_file_i.hwpe_params[Z_ADDR] + i_counter_q * BITW/8 * reg_file_i.hwpe_params[K_SIZE] + j_counter_q * BITW/8;
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.tot_len         = ARRAY_HEIGHT;
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d0_len          = ARRAY_HEIGHT;
-    cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d0_stride       = reg_file_i.hwpe_params[K_SIZE];
+    cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d0_stride       = reg_file_i.hwpe_params[K_SIZE] * BITW/8;
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.dim_enable_1h   = 2'b11;
   end
 
