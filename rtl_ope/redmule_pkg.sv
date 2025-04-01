@@ -126,6 +126,12 @@ package redmule_pkg;
     Z_READ
   } cntrl_engine_mode_e;
 
+
+  typedef enum logic[0] {
+    WAIT_LOAD_FIRST,
+    WAIT_LOAD_LAST
+  } pingpong_e;
+
   typedef struct packed {
     hci_package::hci_streamer_ctrl_t x_stream_source_ctrl;
     hci_package::hci_streamer_ctrl_t w_stream_source_ctrl;

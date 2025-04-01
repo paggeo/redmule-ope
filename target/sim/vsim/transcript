@@ -13,7 +13,7 @@
 # //  18 U.S.C. Section 1905.
 # //
 # vsim redmule_tb_wrap_opt -do "set TbType redmule_tb" -do "log -r /*" -do "source /scratch/ope_pagonis/redmule-ope/target/sim/vsim/wave.tcl" -do "run -a" -suppress 3009 
-# Start time: 17:15:31 on Apr 01,2025
+# Start time: 18:32:32 on Apr 01,2025
 # Loading sv_std.std
 # Loading work.fpnew_pkg(fast)
 # Loading work.hwpe_stream_package(fast)
@@ -122,11 +122,11 @@
 # Loading work.hci_core_intf(fast__10)
 # Loading work.hwpe_stream_intf_stream(fast__10)
 # ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (1) for port 'x_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(29).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 352
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 388
 # ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (1) for port 'w_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(30).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 352
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 388
 # ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (1) for port 'z_output_o'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(33).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 352
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 388
 # set TbType redmule_tb
 # redmule_tb
 # log -r /*
@@ -136,26 +136,10 @@
 #    Time: 0 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.genblk4.dw File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/core/hci_core_sink.sv Line: 349
 # comp_fmt: 4, gemm_op: 1, mem_fmt: 4
 # Triggering accelerator and going to sleep...
-# Resumed!
-# Terminated test with 16 errors. See you!
-# [TB] - cnt_rd= 292     
-# [TB] - cnt_wr= 105     
-# [TB] - Fail!
-# ** Error: [TB] - errors=00000010
-#    Time: 2890 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
-# FPFORMAT = 0 (FP16=2, FP32=0)
-# DATA_W = 160
-# BITW=32, NumByte=4, ADDR_W=32
-# NumByte*BITW/ADDR_w: 4 
-# Measured count: 0, Start counter: 1624, End counter: 0
-# Periphery Measured count: 483, Start counter: 1147, End counter: 1630
-# ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
-#    Time: 2890 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
-# 1
-# Break in Module redmule_tb at /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv line 470
+# Break key hit
+# Simulation stop requested.
+add wave -position insertpoint sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/x_buffer_d/*
 add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/y_bias_i
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/internal_reg_q
-# End time: 17:17:59 on Apr 01,2025, Elapsed time: 0:02:28
-# Errors: 2, Warnings: 3
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_streamer/ctrl_i
+# End time: 18:37:02 on Apr 01,2025, Elapsed time: 0:04:30
+# Errors: 1, Warnings: 3

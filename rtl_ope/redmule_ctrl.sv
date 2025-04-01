@@ -147,7 +147,9 @@ module redmule_ctrl
   assign latch_clear                    = current == OPE_LATCH_RST;
 
   logic [$clog2(Height) - 1: 0] y_row_index_q, y_row_index_d;
-  assign cntrl_engine_o.mode = (current == OPE_LOAD_Y) ? cntrl_engine_mode_e'(Y_LOAD): cntrl_engine_mode_e'(IDLE);
+  assign cntrl_engine_o.mode = (current == OPE_LOAD_Y) ? cntrl_engine_mode_e'(Y_LOAD): 
+                               (current == OPE_COMPUTE_INNER_LOOP)? cntrl_engine_mode_e'(COMPUTE):  
+                                cntrl_engine_mode_e'(IDLE);
   assign cntrl_engine_o.row_index = y_row_index_q;
   
 

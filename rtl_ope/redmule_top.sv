@@ -272,26 +272,29 @@ assign z_buffer_q.valid    = z_buffer_flgs.z_valid;
 //   .pop_o          ( y_buffer_fifo )
 // );
 
-assign y_buffer_d.ready = (cntrl_engine.mode == cntrl_engine_mode_e'(Y_LOAD)) ? 1'b1 : 1'b0;
 
 
 logic [Height-1:0][BITW-1:0] x_buffer_input, x_buffer_output; // These buffer require the TCDM data width to be Width*BITW
 
-ope_regbuffer #(
-  .DATA_WIDTH (DATAW_ALIGN),
-  .DEPTH      (X_BUFFER_DEPTH)
-) i_x_buffer_reg(
-  .clk_i        ( clk_i                       ),
-  .rst_ni       ( rst_ni                      ),
-  .clear_i      ( clear                       ),
-  .read_buff_i  ( x_regbuffer_ctrl.read_buffer   ),
-  .store_buff_i ( x_regbuffer_ctrl.store_buffer  ),
-  .addr_i       ( x_regbuffer_ctrl.x_buffer_addr ),
-  .data_i       ( x_buffer_d.data          ),
-  .data_o       ( x_buffer_input              )
-);
-// After I have loaded the first element in the x buffer, and all the elements in the w buffer
-assign x_buffer_d.ready = x_buffer_non_empty_o && !(w_buffer_full_o) ? 1'b1 : 1'b0;
+// ope_regbuffer #(
+//   .PINGPONG   ( redmule_pkg::WAIT_LOAD_FIRST ),
+//   .DATA_WIDTH (DATAW_ALIGN),
+//   .DEPTH      (X_BUFFER_DEPTH)
+// ) i_x_buffer_reg(
+//   .clk_i        ( clk_i                       ),
+//   .rst_ni       ( rst_ni                      ),
+//   .clear_i      ( clear                       ),
+//   .read_buff_i  ( x_regbuffer_ctrl.read_buffer   ),
+//   .store_buff_i ( x_regbuffer_ctrl.store_buffer  ),
+//   .addr_i       ( x_regbuffer_ctrl.x_buffer_addr ),
+//   .data_i       ( x_buffer_d.data          ),
+//   .data_o       ( x_buffer_input              )
+// );
+// logic store_buffer;
+
+// assign store_buffer = (cntrl_engine.mode == cntrl_engine_mode_e'(COMPUTE)) ? 1'b1 : 1'b0;
+// // After I have loaded the first element in the x buffer, and all the elements in the w buffer
+// assign x_buffer_d.ready = x_buffer_non_empty_o && !(w_buffer_full_o) ? 1'b1 : 1'b0;
 
 /*---------------------------------------------------------------*/
 /* |                          Engine                           | */
