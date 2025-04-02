@@ -671,6 +671,7 @@ if {0 == [analyze -format sv \
     } \
     [list \
         "$ROOT/rtl_ope/redmule_pkg.sv" \
+        "$ROOT/rtl_ope/ope_engine_reg.sv" \
         "$ROOT/rtl_ope/ope_engine.sv" \
         "$ROOT/rtl_ope/ope_regbuffer.sv" \
         "$ROOT/rtl_ope/redmule_ce.sv" \

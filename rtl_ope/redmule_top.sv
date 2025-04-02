@@ -464,6 +464,7 @@ redmule_ctrl        #(
   assign debug_cntrl_scheduler_o = cntrl_scheduler;
 
 
+assign y_buffer_d.ready = 1'b1;
 
 
 endmodule : redmule_top

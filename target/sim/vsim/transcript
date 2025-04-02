@@ -13,7 +13,7 @@
 # //  18 U.S.C. Section 1905.
 # //
 # vsim redmule_tb_wrap_opt -do "set TbType redmule_tb" -do "log -r /*" -do "source /scratch/ope_pagonis/redmule-ope/target/sim/vsim/wave.tcl" -do "run -a" -suppress 3009 
-# Start time: 18:32:32 on Apr 01,2025
+# Start time: 14:06:27 on Apr 02,2025
 # Loading sv_std.std
 # Loading work.fpnew_pkg(fast)
 # Loading work.hwpe_stream_package(fast)
@@ -74,6 +74,7 @@
 # Loading work.hwpe_stream_assign_sv_unit(fast)
 # Loading work.hwpe_stream_assign(fast)
 # Loading work.ope_engine(fast)
+# Loading work.ope_engine_reg(fast)
 # Loading work.redmule_memory_scheduler(fast)
 # Loading work.redmule_ctrl_sv_unit(fast)
 # Loading work.redmule_ctrl(fast)
@@ -121,12 +122,12 @@
 # Loading work.hci_core_intf(fast__9)
 # Loading work.hci_core_intf(fast__10)
 # Loading work.hwpe_stream_intf_stream(fast__10)
-# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (1) for port 'x_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(29).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 388
-# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (1) for port 'w_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(30).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 388
-# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (1) for port 'z_output_o'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(33).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 388
+# ** Warning: (vsim-3015) [PCDPC] - Port size (64) does not match connection size (1) for port 'x_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(29).
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 374
+# ** Warning: (vsim-3015) [PCDPC] - Port size (64) does not match connection size (1) for port 'w_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(30).
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 374
+# ** Warning: (vsim-3015) [PCDPC] - Port size (64) does not match connection size (1) for port 'z_output_o'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(33).
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 374
 # set TbType redmule_tb
 # redmule_tb
 # log -r /*
@@ -138,8 +139,17 @@
 # Triggering accelerator and going to sleep...
 # Break key hit
 # Simulation stop requested.
-add wave -position insertpoint sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/x_buffer_d/*
 add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_streamer/ctrl_i
-# End time: 18:37:02 on Apr 01,2025, Elapsed time: 0:04:30
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/engine_in_valid
+add wave -position insertpoint  \
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[0]/gen_col[0]/reg_i/internal_reg_q}
+add wave -position insertpoint  \
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[0]/gen_col[1]/reg_i/internal_reg_q}
+add wave -position insertpoint  \
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[1]/gen_col[0]/reg_i/internal_reg_q}
+add wave -position insertpoint  \
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[1]/gen_col[1]/reg_i/internal_reg_q}
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control/flgs_streamer_i
+# End time: 14:24:16 on Apr 02,2025, Elapsed time: 0:17:49
 # Errors: 1, Warnings: 3

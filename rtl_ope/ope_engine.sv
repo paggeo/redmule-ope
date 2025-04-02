@@ -67,46 +67,76 @@ module ope_engine
   input  cntrl_engine_t                                    cntrl_engine_i  // This include the mode (idle, load, compute, read) and the row_index
 );
 
+  // ******** OPE Registers ********
+  // They store the intermediate results
+  // They should be loaded first the internal registers then move to the next row
 
+  logic [Height-1:0][Width-1:0][BITW-1:0] engine_reg_output;
+  logic [Height-1:0][Width-1:0]           engine_reg_out_valid;
+  logic [Height-1:0][Width-1:0]           engine_in_valid;
 
-// FIXME: This loops around, and overwrites the same row, can you fix this
-logic [H-1:0][W-1:0][BITW-1:0] internal_reg_q, internal_reg_d; // For now this is only one per ce
+  logic [$clog2(REG_PER_CE)-1:0] internal_write_index_q, internal_write_index_d;
+  logic [$clog2(Height) - 1: 0] y_row_index_q, y_row_index_d;
 
-logic [$clog2(Height) - 1: 0] y_row_index_q, y_row_index_d;
-always_comb begin
-  y_row_index_d = y_row_index_q;
-  if (cntrl_engine_i.mode == cntrl_engine_mode_e'(Y_LOAD)) begin
-    if (y_in_valid_i) y_row_index_d = y_row_index_q + 1;
-    else y_row_index_d = y_row_index_q;
-  end
-end
-always_ff @(posedge clk_i or negedge rst_ni) begin
-  if (~rst_ni) begin
-    y_row_index_q <= 'b0;
-  end else begin
-    if (flush_i) y_row_index_q <= 'b0;
-    else y_row_index_q <= y_row_index_d;
-  end
-end
-
-always_comb begin 
-  internal_reg_d = internal_reg_q;
-  if(cntrl_engine_i.mode == cntrl_engine_mode_e'(Y_LOAD) && y_in_valid_i) begin
+  always_comb begin
     for (int row_index = 0; row_index < Height; row_index++) begin
-      if (row_index == y_row_index_q) internal_reg_d[row_index] = y_bias_i;
-      else internal_reg_d[row_index] = internal_reg_q[row_index];
+      for (int col_index = 0; col_index < Width; col_index++) begin
+        engine_in_valid[row_index][col_index] = y_in_valid_i && (row_index == y_row_index_q);
+      end
     end
   end
-end
 
-always_ff @(posedge clk_i or negedge rst_ni) begin
-  if (~rst_ni) begin
-    internal_reg_q <= 0;
-  end else begin
-    if (flush_i) internal_reg_q <= 0;
-    else internal_reg_q <= internal_reg_d;
+  generate
+    for (genvar row_index = 0; row_index < Height; row_index++) begin: gen_row
+      for (genvar col_index = 0; col_index < Width; col_index++) begin: gen_col
+        ope_engine_reg #(
+          .DATA_WIDTH ( BITW          ),
+          .D          ( REG_PER_CE    )
+        ) reg_i (
+          .clk_i      ( clk_i                                                               ),
+          .rst_ni     ( rst_ni                                                              ),
+          .flush_i    ( flush_i                                                             ),
+          .input_i    ( y_bias_i[col_index]                                                 ),         
+          .in_valid_i ( engine_in_valid[row_index][col_index]                               ),
+          .read_i     ( cntrl_engine_i.mode == cntrl_engine_mode_e'(Y_LOAD) || y_in_valid_i ),
+          .output_o   ( engine_reg_output[row_index][col_index]                             ),
+          .out_valid_o( engine_reg_out_valid[row_index][col_index]                          )      
+        );
+      end
+    end
+  endgenerate
+
+
+  always_comb begin 
+    internal_write_index_d = internal_write_index_q;
+    y_row_index_d = y_row_index_q;
+    if (cntrl_engine_i.mode == cntrl_engine_mode_e'(Y_LOAD)) begin
+      if (y_in_valid_i) begin
+        if (internal_write_index_q == REG_PER_CE - 1) begin
+          internal_write_index_d = 'b0;
+          y_row_index_d = y_row_index_q + 1;
+        end else begin
+          internal_write_index_d = internal_write_index_q + 1;
+          y_row_index_d = y_row_index_q;
+        end
+      end
+    end
   end
-end
+
+  always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (~rst_ni) begin
+      y_row_index_q <= 'b0;
+      internal_write_index_q <= 'b0;
+    end else begin
+      if (flush_i) begin
+        y_row_index_q <= 'b0;
+        internal_write_index_q <= 'b0;
+      end else begin 
+        y_row_index_q <= y_row_index_d;
+        internal_write_index_q <= internal_write_index_d;
+      end
+    end
+  end
 
 /*
 logic [H-1:0][W-1:0][BITW-1:0] ce_output;

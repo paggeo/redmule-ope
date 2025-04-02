@@ -11,7 +11,7 @@ import hwpe_stream_package::*;
 
 package redmule_pkg;
 
-  parameter int unsigned            DATA_W       = 32*4 + 32;
+  parameter int unsigned            DATA_W       = 32*2 + 32;
   // parameter int unsigned            DATA_W       = 32*4 + 32;                                  
   parameter int unsigned            MemDw        = 32;
   parameter int unsigned            NumByte      = MemDw/8;
@@ -21,9 +21,9 @@ package redmule_pkg;
   parameter int unsigned            N_CONTEXT    = 2;
   parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP32;
   parameter int unsigned            BITW         = fpnew_pkg::fp_width(FPFORMAT);
-  parameter int unsigned            ARRAY_HEIGHT = 4;
+  parameter int unsigned            ARRAY_HEIGHT = 2;
   parameter int unsigned            PIPE_REGS    = 3;
-  parameter int unsigned            ARRAY_WIDTH  = 4; // Superior limit, smaller values are allowed.
+  parameter int unsigned            ARRAY_WIDTH  = 2; // Superior limit, smaller values are allowed.
   parameter int unsigned            TOT_DEPTH    = DATAW/BITW;
   parameter int unsigned            DEPTH        = TOT_DEPTH/ARRAY_HEIGHT;
   parameter int unsigned            STRB         = DATA_W/8;
@@ -35,9 +35,9 @@ package redmule_pkg;
   parameter int unsigned ECC_CHUNK_SIZE = 32;
   parameter int unsigned ECC_N_CHUNK    = DATA_W / ECC_CHUNK_SIZE;
 
-  parameter int unsigned X_BUFFER_DEPTH = 2;
-  parameter int unsigned W_BUFFER_DEPTH = 2;
-  parameter int unsigned REG_PER_CE     = X_BUFFER_DEPTH * W_BUFFER_DEPTH;
+  parameter int unsigned X_REGBUFFER_DEPTH = 2;
+  parameter int unsigned W_REGBUFFER_DEPTH = 2;
+  parameter int unsigned REG_PER_CE     = X_REGBUFFER_DEPTH * W_REGBUFFER_DEPTH;
 
   // Register File mapping
   /**********************
@@ -147,7 +147,7 @@ package redmule_pkg;
     logic load;
     logic read_buffer;
     logic store_buffer;
-    logic [$clog2(X_BUFFER_DEPTH) -1 : 0 ] x_buffer_addr;
+    logic [$clog2(X_REGBUFFER_DEPTH) -1 : 0 ] x_buffer_addr;
   } x_regbuffer_ctrl_t; 
 
   typedef struct packed {

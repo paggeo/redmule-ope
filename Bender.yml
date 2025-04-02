@@ -50,6 +50,7 @@ sources:
   #   - rtl/redmule_sdotp_wrapper.sv
   # OPE
     - rtl_ope/redmule_pkg.sv
+    - rtl_ope/ope_engine_reg.sv
     - rtl_ope/ope_engine.sv
     - rtl_ope/ope_regbuffer.sv
     - rtl_ope/redmule_ce.sv

@@ -671,6 +671,7 @@ if {[catch { vlog -incr -sv \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40x-b02547e8c1b6e597/sva" \
     "+incdir+$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common" \
     "$ROOT/rtl_ope/redmule_pkg.sv" \
+    "$ROOT/rtl_ope/ope_engine_reg.sv" \
     "$ROOT/rtl_ope/ope_engine.sv" \
     "$ROOT/rtl_ope/ope_regbuffer.sv" \
     "$ROOT/rtl_ope/redmule_ce.sv" \
