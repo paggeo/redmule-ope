@@ -6,9 +6,9 @@
 // Andrea Belano <andrea.belano2@unibo.it>
 //
 
-import redmule_pkg::*;
 
 module redmule_ctrl
+  import redmule_pkg::*;
   import hwpe_ctrl_package::*;
 #(
   parameter  int unsigned N_CORES       = 8                      ,
@@ -153,9 +153,43 @@ module redmule_ctrl
   assign cntrl_engine_o.row_index = y_row_index_q;
   
 
-  assign cntrl_scheduler_o.start_load_x = current == OPE_COMPUTE_INNER_LOOP;
-  assign cntrl_scheduler_o.start_load_w = current == OPE_COMPUTE_INNER_LOOP;
+  assign cntrl_scheduler_o.start_load_x = current == OPE_LOAD_Y && next == OPE_COMPUTE_INNER_LOOP;
+  assign cntrl_scheduler_o.start_load_w = current == OPE_LOAD_Y && next == OPE_COMPUTE_INNER_LOOP;
 
+  logic look_x_done_q, look_x_done_d;
+  logic look_w_done_q, look_w_done_d;
+
+  always_comb begin
+    look_x_done_d = look_x_done_q;
+    look_w_done_d = look_w_done_q;
+
+    if (current == OPE_LOAD_Y && next == OPE_COMPUTE_INNER_LOOP) begin
+      look_x_done_d = 1'b0;
+      look_w_done_d = 1'b0;
+    end else if (current == OPE_COMPUTE_INNER_LOOP) begin
+      if (flgs_streamer_i.x_stream_source_flags.done) begin
+        look_x_done_d = 1'b1;
+      end
+      if (flgs_streamer_i.w_stream_source_flags.done) begin
+        look_w_done_d = 1'b1;
+      end
+    end
+  end
+
+  always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (~rst_ni) begin
+      look_x_done_q <= 1'b0;
+      look_w_done_q <= 1'b0;
+    end else begin
+      if (clear || latch_clear) begin
+        look_x_done_q <= 1'b0;
+        look_w_done_q <= 1'b0;
+      end else begin
+        look_x_done_q <= look_x_done_d;
+        look_w_done_q <= look_w_done_d;
+      end
+    end
+  end
 
   // // FIXME: check this if X_BUFFER_DEPTH != W_BUFFER_DEPTH
   // logic [$clog2(X_BUFFER_DEPTH) - 1: 0] x_regbuf_q, x_regbuf_d; 
@@ -221,8 +255,9 @@ module redmule_ctrl
         end
       end
       
+      // FIXME: This is not correct, because the done is only for one cycle, replace it when the last operartion is completed
       OPE_COMPUTE_INNER_LOOP: begin
-        if (flgs_streamer_i.x_stream_source_flags.done && flgs_streamer_i.w_stream_source_flags.done) begin
+        if (look_x_done_q && look_w_done_q) begin
           // next = OPE_STORE_Z;
           next = OPE_FINISHED;
         end

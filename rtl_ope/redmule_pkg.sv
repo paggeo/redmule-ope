@@ -127,6 +127,7 @@ package redmule_pkg;
   } cntrl_engine_mode_e;
 
 
+
   typedef enum logic[0] {
     WAIT_LOAD_FIRST,
     WAIT_LOAD_LAST

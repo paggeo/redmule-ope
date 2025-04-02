@@ -143,27 +143,36 @@ hwpe_stream_intf_stream #( .DATA_WIDTH ( DATAW_ALIGN ) ) y_buffer_fifo      ( .c
 hwpe_stream_intf_stream #( .DATA_WIDTH ( DATAW_ALIGN ) ) z_buffer_q         ( .clk( clk_i ) );
 hwpe_stream_intf_stream #( .DATA_WIDTH ( DATAW_ALIGN ) ) z_buffer_fifo      ( .clk( clk_i ) );
 
+logic w_granted, x_granted;
+logic [NumStreamSources-1:0][$clog2(NumStreamSources)-1:0] custom_priority;
+logic custom_priority_force;
+
 // The streamer will present a single master TCDM port used to stream data to and from the memeory.
 redmule_streamer #(
   .DW             ( DW                           ),
   .`HCI_SIZE_PARAM(tcdm) ( `HCI_SIZE_PARAM(tcdm) )
 ) i_streamer      (
-  .clk_i           ( clk_i           ),
-  .rst_ni          ( rst_ni          ),
-  .test_mode_i     ( test_mode_i     ),
+  .clk_i                    ( clk_i                 ),
+  .rst_ni                   ( rst_ni                ),
+  .test_mode_i              ( test_mode_i           ),
   // Controller generated signals
-  .enable_i        ( 1'b1            ),
-  .clear_i         ( clear           ),
+  .enable_i                 ( 1'b1                  ),
+  .clear_i                  ( clear                 ),
   // Source interfaces for the incoming streams
-  .x_stream_o      ( x_buffer_d      ),
-  .w_stream_o      ( w_buffer_d      ),
-  .y_stream_o      ( y_buffer_d      ),
+  .x_stream_o               ( x_buffer_d            ),
+  .w_stream_o               ( w_buffer_d            ),
+  .y_stream_o               ( y_buffer_d            ),
   // Sink interface for the outgoing stream
-  .z_stream_i      ( z_buffer_fifo   ),
+  .z_stream_i               ( z_buffer_fifo         ),
   // Master TCDM interface ports for the memory side
-  .tcdm            ( tcdm            ),
-  .ctrl_i          ( cntrl_streamer  ),
-  .flags_o         ( flgs_streamer   )
+  .tcdm                     ( tcdm                  ),
+  .custom_priority_force_i  ( custom_priority_force ),
+  .custom_priority_i        ( custom_priority       ),
+  .x_granted_o              ( x_granted             ),
+  .w_granted_o              ( w_granted             ),
+
+  .ctrl_i                   ( cntrl_streamer        ),
+  .flags_o                  ( flgs_streamer         )
 );
 /*
 hwpe_stream_fifo #(
@@ -432,39 +441,57 @@ redmule_memory_scheduler #(
 /*---------------------------------------------------------------*/
 
 redmule_ctrl        #(
-  .N_CORES           ( N_CORES                 ),
-  .IO_REGS           ( REDMULE_REGS            ),
-  .ID_WIDTH          ( ID_WIDTH                ),
-  .N_CONTEXT         ( NumContext              ),
-  .SysDataWidth      ( SysDataWidth            ),
-  .Height            ( Height                  ),
-  .Width             ( Width                   ),
-  .NumPipeRegs       ( NumPipeRegs             )
-) i_control          (
-  .clk_i             ( clk_i                   ),
-  .rst_ni            ( rst_ni                  ),
-  .test_mode_i       ( test_mode_i             ),
-  .flgs_streamer_i   ( flgs_streamer           ),
-  .busy_o            ( busy_o                  ),
-  .clear_o           ( clear                   ),
-  .evt_o             ( evt_o                   ),
-  .reg_file_o        ( reg_file                ),
-  .reg_enable_i      ( reg_enable              ),
-  .start_cfg_i       ( start_cfg               ),
-  .cfg_complete_o    ( cfg_complete            ),
-  .w_loaded_i        ( flgs_scheduler.w_loaded ),
-  .flush_o           ( engine_flush            ),
-  .cntrl_scheduler_o ( cntrl_scheduler         ),
-  .x_regbuffer_ctrl_o ( x_regbuffer_ctrl       ),
+  .N_CORES            ( N_CORES                 ),
+  .IO_REGS            ( REDMULE_REGS            ),
+  .ID_WIDTH           ( ID_WIDTH                ),
+  .N_CONTEXT          ( NumContext              ),
+  .SysDataWidth       ( SysDataWidth            ),
+  .Height             ( Height                  ),
+  .Width              ( Width                   ),
+  .NumPipeRegs        ( NumPipeRegs             )
+) i_control           (
+  .clk_i              ( clk_i                   ),
+  .rst_ni             ( rst_ni                  ),
+  .test_mode_i        ( test_mode_i             ),
+  .flgs_streamer_i    ( flgs_streamer           ),
+  .busy_o             ( busy_o                  ),
+  .clear_o            ( clear                   ),
+  .evt_o              ( evt_o                   ),
+  .reg_file_o         ( reg_file                ),
+  .reg_enable_i       ( reg_enable              ),
+  .start_cfg_i        ( start_cfg               ),
+  .cfg_complete_o     ( cfg_complete            ),
+  .w_loaded_i         ( flgs_scheduler.w_loaded ),
+  .flush_o            ( engine_flush            ),
+  .cntrl_scheduler_o  ( cntrl_scheduler         ),
+  .x_regbuffer_ctrl_o ( x_regbuffer_ctrl        ),
   .cntrl_engine_o     ( cntrl_engine            ),
-  .periph            ( periph                  )
+  .periph             ( periph                  )
 );
 
+
+logic priority_enforcer_enable;
+assign priority_enforcer_enable = (cntrl_engine.mode == cntrl_engine_mode_e'(COMPUTE)) ? 1'b1 : 1'b0;
+
+ope_priority_enforcer #(
+  .CHANGE_DEGREE ( X_REGBUFFER_DEPTH    ),
+  .NSS           ( NumStreamSources     )
+) i_priority_enforcer (
+  .clk_i                   ( clk_i                    ),
+  .rst_ni                  ( rst_ni                   ),
+  .enable_i                ( priority_enforcer_enable ),
+  .x_granted_i             ( x_granted                ),
+  .w_granted_i             ( w_granted                ),
+  .custom_priority_force_o ( custom_priority_force    ),
+  .custom_priority_o       ( custom_priority          )
+);
 
   assign debug_cntrl_scheduler_o = cntrl_scheduler;
 
 
-assign y_buffer_d.ready = 1'b1;
+  assign y_buffer_d.ready = 1'b1;
+  assign x_buffer_d.ready = 1'b1;
+  assign w_buffer_d.ready = 1'b1;
 
 
 endmodule : redmule_top

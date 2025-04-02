@@ -13,7 +13,7 @@
 # //  18 U.S.C. Section 1905.
 # //
 # vsim redmule_tb_wrap_opt -do "set TbType redmule_tb" -do "log -r /*" -do "source /scratch/ope_pagonis/redmule-ope/target/sim/vsim/wave.tcl" -do "run -a" -suppress 3009 
-# Start time: 14:06:27 on Apr 02,2025
+# Start time: 17:49:16 on Apr 02,2025
 # Loading sv_std.std
 # Loading work.fpnew_pkg(fast)
 # Loading work.hwpe_stream_package(fast)
@@ -76,7 +76,6 @@
 # Loading work.ope_engine(fast)
 # Loading work.ope_engine_reg(fast)
 # Loading work.redmule_memory_scheduler(fast)
-# Loading work.redmule_ctrl_sv_unit(fast)
 # Loading work.redmule_ctrl(fast)
 # Loading work.hwpe_ctrl_slave(fast)
 # Loading work.hwpe_ctrl_regfile(fast)
@@ -86,6 +85,7 @@
 # Loading work.redmule_tiler(fast)
 # Loading work.hwpe_ctrl_seq_mult(fast)
 # Loading work.hwpe_ctrl_seq_mult(fast__1)
+# Loading work.ope_priority_enforcer(fast)
 # Loading work.tb_dummy_memory(fast)
 # Loading work.tb_dummy_memory(fast__1)
 # Loading work.tb_dummy_memory(fast__2)
@@ -123,11 +123,11 @@
 # Loading work.hci_core_intf(fast__10)
 # Loading work.hwpe_stream_intf_stream(fast__10)
 # ** Warning: (vsim-3015) [PCDPC] - Port size (64) does not match connection size (1) for port 'x_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(29).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 374
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 383
 # ** Warning: (vsim-3015) [PCDPC] - Port size (64) does not match connection size (1) for port 'w_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(30).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 374
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 383
 # ** Warning: (vsim-3015) [PCDPC] - Port size (64) does not match connection size (1) for port 'z_output_o'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(33).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 374
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 383
 # set TbType redmule_tb
 # redmule_tb
 # log -r /*
@@ -137,19 +137,58 @@
 #    Time: 0 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.genblk4.dw File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/core/hci_core_sink.sv Line: 349
 # comp_fmt: 4, gemm_op: 1, mem_fmt: 4
 # Triggering accelerator and going to sleep...
-# Break key hit
-# Simulation stop requested.
+# Resumed!
+# Terminated test with 16 errors. See you!
+# [TB] - cnt_rd= 324     
+# [TB] - cnt_wr= 105     
+# [TB] - Fail!
+# ** Error: [TB] - errors=00000010
+#    Time: 2916 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
+# FPFORMAT = 0 (FP16=2, FP32=0)
+# DATA_W = 96
+# BITW=32, NumByte=4, ADDR_W=32
+# NumByte*BITW/ADDR_w: 4 
+# Measured count: 0, Start counter: 1624, End counter: 0
+# Periphery Measured count: 509, Start counter: 1147, End counter: 1656
+# ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
+#    Time: 2916 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# 1
+# Break in Module redmule_tb at /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv line 470
 add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/engine_in_valid
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/x_buffer_d/clk
 add wave -position insertpoint  \
-{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[0]/gen_col[0]/reg_i/internal_reg_q}
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/x_buffer_d/valid
 add wave -position insertpoint  \
-{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[0]/gen_col[1]/reg_i/internal_reg_q}
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/x_buffer_d/data
 add wave -position insertpoint  \
-{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[1]/gen_col[0]/reg_i/internal_reg_q}
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/w_buffer_d/clk
 add wave -position insertpoint  \
-{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[1]/gen_col[1]/reg_i/internal_reg_q}
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/w_buffer_d/valid
 add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control/flgs_streamer_i
-# End time: 14:24:16 on Apr 02,2025, Elapsed time: 0:17:49
-# Errors: 1, Warnings: 3
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/w_buffer_d/data
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_priority_enforcer/x_granted_i
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_priority_enforcer/w_granted_i
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_priority_enforcer/custom_priority_q
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_priority_enforcer/w_counter_q
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_priority_enforcer/x_counter_q
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/tcdm/add
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_streamer/i_ldst_mux/priority_i
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_streamer/i_ldst_mux/priority_force_i
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_streamer/i_ldst_mux/in_req
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_streamer/i_ldst_mux/in_gnt
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_streamer/i_ldst_mux/in_add
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_streamer/i_ldst_mux/winner_q
+# End time: 17:56:35 on Apr 02,2025, Elapsed time: 0:07:19
+# Errors: 2, Warnings: 3

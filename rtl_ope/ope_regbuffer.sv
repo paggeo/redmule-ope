@@ -8,7 +8,7 @@
 module ope_regbuffer #(
   parameter PINGPONG = redmule_pkg::WAIT_LOAD_FIRST,
   parameter DATA_WIDTH = 8,
-  parameter DEPTH = 16
+  parameter DEPTH = 2
 ) (
   input  logic                     clk_i, 
   input  logic                     rst_ni,
