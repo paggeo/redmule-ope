@@ -13,7 +13,7 @@
 # //  18 U.S.C. Section 1905.
 # //
 # vsim redmule_tb_wrap_opt -do "set TbType redmule_tb" -do "log -r /*" -do "source /scratch/ope_pagonis/redmule-ope/target/sim/vsim/wave.tcl" -do "run -a" -suppress 3009 
-# Start time: 11:14:49 on Apr 03,2025
+# Start time: 18:11:26 on Apr 03,2025
 # Loading sv_std.std
 # Loading work.fpnew_pkg(fast)
 # Loading work.hwpe_stream_package(fast)
@@ -73,6 +73,8 @@
 # Loading work.hwpe_stream_fifo(fast__6)
 # Loading work.hwpe_stream_assign_sv_unit(fast)
 # Loading work.hwpe_stream_assign(fast)
+# Loading work.ope_regbuffer(fast)
+# Loading work.ope_regbuffer(fast__1)
 # Loading work.ope_engine(fast)
 # Loading work.ope_engine_reg(fast)
 # Loading work.redmule_memory_scheduler(fast)
@@ -123,11 +125,11 @@
 # Loading work.hci_core_intf(fast__10)
 # Loading work.hwpe_stream_intf_stream(fast__10)
 # ** Warning: (vsim-3015) [PCDPC] - Port size (64) does not match connection size (1) for port 'x_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(29).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 383
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 438
 # ** Warning: (vsim-3015) [PCDPC] - Port size (64) does not match connection size (1) for port 'w_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(30).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 383
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 438
 # ** Warning: (vsim-3015) [PCDPC] - Port size (64) does not match connection size (1) for port 'z_output_o'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(33).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 383
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 438
 # set TbType redmule_tb
 # redmule_tb
 # log -r /*
@@ -143,17 +145,22 @@
 # [TB] - cnt_wr= 105     
 # [TB] - Fail!
 # ** Error: [TB] - errors=00000010
-#    Time: 2916 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
+#    Time: 2917 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
 # FPFORMAT = 0 (FP16=2, FP32=0)
 # DATA_W = 96
 # BITW=32, NumByte=4, ADDR_W=32
 # NumByte*BITW/ADDR_w: 4 
 # Measured count: 0, Start counter: 1624, End counter: 0
-# Periphery Measured count: 509, Start counter: 1147, End counter: 1656
+# Periphery Measured count: 510, Start counter: 1147, End counter: 1657
 # ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
-#    Time: 2916 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+#    Time: 2917 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
 # 1
 # Break in Module redmule_tb at /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv line 470
-add wave -position insertpoint sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_priority_enforcer/*
-# End time: 11:19:41 on Apr 03,2025, Elapsed time: 0:04:52
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_x_buffer_reg/data_o
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_x_buffer_reg/valid_o
+add wave -position insertpoint  \
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_x_buffer_reg/accessed_counter_q
+# End time: 18:12:47 on Apr 03,2025, Elapsed time: 0:01:21
 # Errors: 2, Warnings: 3

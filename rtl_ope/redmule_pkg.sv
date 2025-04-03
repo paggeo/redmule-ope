@@ -129,9 +129,9 @@ package redmule_pkg;
 
 
   typedef enum logic[0] {
-    WAIT_LOAD_FIRST,
-    WAIT_LOAD_LAST
-  } pingpong_e;
+    INTERLEAVED,
+    SERIALLY
+  } reg_reading_policy_e;
 
   typedef struct packed {
     hci_package::hci_streamer_ctrl_t x_stream_source_ctrl;
@@ -296,6 +296,7 @@ package redmule_pkg;
     logic       [ARRAY_WIDTH-1:0] row_clk_gate_en;
     cntrl_engine_mode_e           mode;
     logic       [$clog2(ARRAY_HEIGHT) - 1: 0] row_index;
+    logic      iteration_change;
   } cntrl_engine_t;
 
   typedef enum {

@@ -151,6 +151,8 @@ module redmule_ctrl
                                (current == OPE_COMPUTE_INNER_LOOP)? cntrl_engine_mode_e'(COMPUTE):  
                                 cntrl_engine_mode_e'(IDLE);
   assign cntrl_engine_o.row_index = y_row_index_q;
+
+  assign cntrl_engine_o.iteration_change = 1'b0;
   
 
   assign cntrl_scheduler_o.start_load_x = current == OPE_LOAD_Y && next == OPE_COMPUTE_INNER_LOOP;

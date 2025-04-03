@@ -174,6 +174,61 @@ redmule_streamer #(
   .ctrl_i                   ( cntrl_streamer        ),
   .flags_o                  ( flgs_streamer         )
 );
+
+
+
+/*---------------------------------------------------------------*/
+/* |                          INPUT_REGISTERS                    | */
+/*---------------------------------------------------------------*/
+
+logic not_empty_x_reg, not_empty_w_reg;
+logic start_register_reading;
+
+assign start_register_reading = not_empty_x_reg && not_empty_w_reg;
+
+logic reg_to_engine_valid;
+logic x_reg_to_engine_valid, w_reg_to_engine_valid;
+logic [DATAW - 1: 0] x_reg_to_engine_data, w_reg_to_engine_data;
+
+assign reg_to_engine_valid = x_reg_to_engine_valid && w_reg_to_engine_valid;
+
+ope_regbuffer #(
+  .READING_POLICY   ( redmule_pkg::SERIALLY ),
+  .DATA_WIDTH       (DATAW),
+  .DEPTH            (X_REGBUFFER_DEPTH)
+) i_x_buffer_reg(
+  .clk_i              ( clk_i                       ),
+  .rst_ni             ( rst_ni                      ),
+  .clear_i            ( clear                       ),
+  .iteration_change_i ( cntrl_engine.iteration_change ),
+  .reading_reg_i      ( start_register_reading  ),
+  .data_i             ( x_buffer_d.data          ),
+  .valid_i            ( x_buffer_d.valid         ),
+  .ready_o            ( x_buffer_d.ready         ),
+  .data_o             ( x_reg_to_engine_data),
+  .valid_o            (x_reg_to_engine_valid),
+  .not_empty_o        ( not_empty_x_reg)
+);
+
+ope_regbuffer #(
+  .READING_POLICY   ( redmule_pkg::INTERLEAVED ),
+  .DATA_WIDTH       (DATAW),
+  .DEPTH            (W_REGBUFFER_DEPTH)
+) i_w_buffer_reg(
+  .clk_i              ( clk_i                       ),
+  .rst_ni             ( rst_ni                      ),
+  .clear_i            ( clear                       ),
+  .iteration_change_i ( cntrl_engine.iteration_change ),
+  .reading_reg_i      ( start_register_reading ), // When both the x and w buffer are not empty
+  .data_i             ( w_buffer_d.data          ),
+  .valid_i            ( w_buffer_d.valid         ),
+  .ready_o            ( w_buffer_d.ready         ),
+  .data_o             (w_reg_to_engine_data                ),
+  .valid_o            (w_reg_to_engine_valid),
+  .not_empty_o        ( not_empty_w_reg       )     
+);
+
+
 /*
 hwpe_stream_fifo #(
   .DATA_WIDTH     ( DATAW_ALIGN   ),
@@ -490,8 +545,6 @@ ope_priority_enforcer #(
 
 
   assign y_buffer_d.ready = 1'b1;
-  assign x_buffer_d.ready = 1'b1;
-  assign w_buffer_d.ready = 1'b1;
 
 
 endmodule : redmule_top
