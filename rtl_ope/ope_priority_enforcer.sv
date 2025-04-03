@@ -21,8 +21,8 @@ module ope_priority_enforcer
   // FIXME: This is what I have to do
   // I think this should go one step back in the time, because I miss one cycle because of the register
 
-  logic [$clog2(CHANGE_DEGREE):0]   x_counter_d, x_counter_q;
-  logic [$clog2(CHANGE_DEGREE):0]   w_counter_d, w_counter_q;
+  logic [$clog2(CHANGE_DEGREE-1):0]   x_counter_d, x_counter_q;
+  logic [$clog2(CHANGE_DEGREE-1):0]   w_counter_d, w_counter_q;
   logic [NSS-1:0][$clog2(NSS) - 1: 0] custom_priority_q, custom_priority_d;
   logic custom_priority_force_q, custom_priority_force_d;
 
@@ -32,9 +32,9 @@ module ope_priority_enforcer
     w_counter_d = w_counter_q;
     if (enable_i) begin
       if (x_granted_i) begin
-        x_counter_d = (x_counter_q == CHANGE_DEGREE) ? '0 : x_counter_q + 1;
+        x_counter_d = (x_counter_q == CHANGE_DEGREE-1) ? '0 : x_counter_q + 1;
       end else if (w_granted_i) begin
-        w_counter_d = (w_counter_q == CHANGE_DEGREE) ? '0 : w_counter_q + 1;
+        w_counter_d = (w_counter_q == CHANGE_DEGREE-1) ? '0 : w_counter_q + 1;
       end
     end
   end
@@ -53,9 +53,7 @@ module ope_priority_enforcer
         custom_priority_d[WsourceStreamId] = 1;
         custom_priority_d[YsourceStreamId] = 2;
       end else begin
-        custom_priority_d[XsourceStreamId] = 0;
-        custom_priority_d[WsourceStreamId] = 1;
-        custom_priority_d[YsourceStreamId] = 2;
+        custom_priority_d  = custom_priority_q;
       end
     end else begin
       custom_priority_force_d = 1'b0;
