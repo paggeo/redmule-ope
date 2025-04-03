@@ -182,15 +182,23 @@ redmule_streamer #(
 /*---------------------------------------------------------------*/
 
 logic not_empty_x_reg, not_empty_w_reg;
-logic start_register_reading;
+logic start_register_reading_q, start_register_reading_d;
 
-assign start_register_reading = not_empty_x_reg && not_empty_w_reg;
+assign start_register_reading_d = not_empty_x_reg && not_empty_w_reg;
 
 logic reg_to_engine_valid;
 logic x_reg_to_engine_valid, w_reg_to_engine_valid;
 logic [DATAW - 1: 0] x_reg_to_engine_data, w_reg_to_engine_data;
 
 assign reg_to_engine_valid = x_reg_to_engine_valid && w_reg_to_engine_valid;
+
+always_ff @(posedge clk_i or negedge rst_ni) begin
+  if (!rst_ni) begin
+    start_register_reading_q <= 1'b0;
+  end else begin
+    start_register_reading_q <= start_register_reading_d;
+  end
+end
 
 ope_regbuffer #(
   .READING_POLICY   ( redmule_pkg::SERIALLY ),
@@ -201,7 +209,7 @@ ope_regbuffer #(
   .rst_ni             ( rst_ni                      ),
   .clear_i            ( clear                       ),
   .iteration_change_i ( cntrl_engine.iteration_change ),
-  .reading_reg_i      ( start_register_reading  ),
+  .reading_reg_i      ( start_register_reading_q  ),
   .data_i             ( x_buffer_d.data          ),
   .valid_i            ( x_buffer_d.valid         ),
   .ready_o            ( x_buffer_d.ready         ),
@@ -219,7 +227,7 @@ ope_regbuffer #(
   .rst_ni             ( rst_ni                      ),
   .clear_i            ( clear                       ),
   .iteration_change_i ( cntrl_engine.iteration_change ),
-  .reading_reg_i      ( start_register_reading ), // When both the x and w buffer are not empty
+  .reading_reg_i      ( start_register_reading_q ), // When both the x and w buffer are not empty
   .data_i             ( w_buffer_d.data          ),
   .valid_i            ( w_buffer_d.valid         ),
   .ready_o            ( w_buffer_d.ready         ),
