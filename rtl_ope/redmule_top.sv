@@ -181,6 +181,9 @@ redmule_streamer #(
 /* |                          INPUT_REGISTERS                    | */
 /*---------------------------------------------------------------*/
 
+// NOTE: consider a out_ready_i signal to synchronize everything
+// Right now, it is not needed
+
 logic not_empty_x_reg, not_empty_w_reg;
 logic start_register_reading_q, start_register_reading_d;
 
@@ -236,138 +239,6 @@ ope_regbuffer #(
   .not_empty_o        ( not_empty_w_reg       )     
 );
 
-
-/*
-hwpe_stream_fifo #(
-  .DATA_WIDTH     ( DATAW_ALIGN   ),
-  .FIFO_DEPTH     ( 4             )
-) i_x_buffer_fifo (
-  .clk_i          ( clk_i         ),
-  .rst_ni         ( rst_ni        ),
-  .clear_i        ( clear         ),
-  .flags_o        (               ),
-  .push_i         ( x_buffer_d    ),
-  .pop_o          ( x_buffer_fifo )
-);
-
-assign x_buffer_fifo.ready = x_regbuffer_ctrl.load;
-
-hwpe_stream_fifo #(
-  .DATA_WIDTH     ( DATAW_ALIGN   ),
-  .FIFO_DEPTH     ( 4             )
-) i_w_buffer_fifo (
-  .clk_i          ( clk_i         ),
-  .rst_ni         ( rst_ni        ),
-  .clear_i        ( clear         ),
-  .flags_o        ( w_fifo_flgs   ),
-  .push_i         ( w_buffer_d    ),
-  .pop_o          ( w_buffer_fifo )
-);
-
-hwpe_stream_fifo #(
-  .DATA_WIDTH     ( DATAW_ALIGN   ),
-  .FIFO_DEPTH     ( 4             )
-) i_y_buffer_fifo (
-  .clk_i          ( clk_i         ),
-  .rst_ni         ( rst_ni        ),
-  .clear_i        ( clear         ),
-  .flags_o        (               ),
-  .push_i         ( y_buffer_d    ),
-  .pop_o          ( y_buffer_fifo )
-);
-
-hwpe_stream_fifo #(
-  .DATA_WIDTH     ( DATAW_ALIGN   ),
-  .FIFO_DEPTH     ( 2             )
-) i_z_buffer_fifo (
-  .clk_i          ( clk_i         ),
-  .rst_ni         ( rst_ni        ),
-  .clear_i        ( clear         ),
-  .flags_o        (               ),
-  .push_i         ( z_buffer_q    ),
-  .pop_o          ( z_buffer_fifo )
-);
-
-// Valid/Ready assignment
-assign w_buffer_fifo.ready = w_buffer_flgs.w_ready;
-
-assign y_buffer_fifo.ready = cntrl
-
-assign z_buffer_q.valid    = z_buffer_flgs.z_valid;
-*/
-/*----------------------------------------------------------------*/
-/* |                          Buffers                           | */
-/*----------------------------------------------------------------*/
-
-
-// logic [Height-1:0][BITW-1:0] x_buffer_input, x_buffer_output; // These buffer require the TCDM data width to be Width*BITW
-
-// ope_regbuffer #(
-//   .DATA_WIDTH (DATAW_ALIGN),
-//   .DEPTH      (X_BUFFER_DEPTH)
-// ) i_x_buffer_reg(
-//   .clk_i        ( clk_i                       ),
-//   .rst_ni       ( rst_ni                      ),
-//   .clear_i      ( clear                       ),
-//   .read_buff_i  ( x_regbuffer_ctrl.read_buffer   ),
-//   .store_buff_i ( x_regbuffer_ctrl.store_buffer  ),
-//   .addr_i       ( x_regbuffer_ctrl.x_buffer_addr ),
-//   .data_i       ( x_buffer_fifo.data          ),
-//   .data_o       ( x_buffer_input              )
-// );
-
-// logic [Width-1:0][BITW-1:0] w_buffer_input, w_buffer_output; // These buffer require the TCDM data width to be Width*BITW
-
-// ope_regbuffer #(
-//   .DATA_WIDTH (DATAW_ALIGN),
-//   .DEPTH      (W_BUFFER_DEPTH)
-// ) i_w_buffer_reg(
-//   .clk_i        ( clk_i                       ),
-//   .rst_ni       ( rst_ni                      ),
-//   .clear_i      ( clear                       ),
-//   .read_buff_i  ( w_buffer_ctrl.read_buffer   ),
-//   .store_buff_i ( w_buffer_ctrl.store_buffer  ),
-//   .addr_i       ( w_buffer_ctrl.x_buffer_addr ),
-//   .data_i       ( w_buffer_fifo.data          ),
-//   .data_o       ( w_buffer_input              )
-// );
-
-// hwpe_stream_fifo #(
-//   .DATA_WIDTH     ( DATAW_ALIGN   ),
-//   .FIFO_DEPTH     ( 4             )
-// ) i_y_buffer_fifo (
-//   .clk_i          ( clk_i         ),
-//   .rst_ni         ( rst_ni        ),
-//   .clear_i        ( clear         ),
-//   .flags_o        (               ),
-//   .push_i         ( y_buffer_d    ),
-//   .pop_o          ( y_buffer_fifo )
-// );
-
-
-
-logic [Height-1:0][BITW-1:0] x_buffer_input, x_buffer_output; // These buffer require the TCDM data width to be Width*BITW
-
-// ope_regbuffer #(
-//   .PINGPONG   ( redmule_pkg::WAIT_LOAD_FIRST ),
-//   .DATA_WIDTH (DATAW_ALIGN),
-//   .DEPTH      (X_BUFFER_DEPTH)
-// ) i_x_buffer_reg(
-//   .clk_i        ( clk_i                       ),
-//   .rst_ni       ( rst_ni                      ),
-//   .clear_i      ( clear                       ),
-//   .read_buff_i  ( x_regbuffer_ctrl.read_buffer   ),
-//   .store_buff_i ( x_regbuffer_ctrl.store_buffer  ),
-//   .addr_i       ( x_regbuffer_ctrl.x_buffer_addr ),
-//   .data_i       ( x_buffer_d.data          ),
-//   .data_o       ( x_buffer_input              )
-// );
-// logic store_buffer;
-
-// assign store_buffer = (cntrl_engine.mode == cntrl_engine_mode_e'(COMPUTE)) ? 1'b1 : 1'b0;
-// // After I have loaded the first element in the x buffer, and all the elements in the w buffer
-// assign x_buffer_d.ready = x_buffer_non_empty_o && !(w_buffer_full_o) ? 1'b1 : 1'b0;
-
 /*---------------------------------------------------------------*/
 /* |                          Engine                           | */
 /*---------------------------------------------------------------*/
@@ -404,7 +275,7 @@ logic       [Width-1:0][Height-1:0] out_aux;
 logic       [Width-1:0][Height-1:0] out_valid;
 logic                               out_ready;
 // fpnew_fma Indication of valid data in flight
-logic       [Width-1:0][Height-1:0] busy;
+logic        busy;
 
 // Binding from engine interface types to cntrl_engine_t and
 assign fma_is_boxed     = cntrl_engine.fma_is_boxed;
@@ -431,11 +302,11 @@ always_comb begin
       flgs_engine.status        [w][h] = status        [w][h];
       flgs_engine.extension_bit [w][h] = extension_bit [w][h];
       flgs_engine.out_valid     [w][h] = out_valid     [w][h];
-      flgs_engine.busy          [w][h] = busy          [w][h];
     end
   end
 end
 
+assign reg_enable = cntrl_engine.mode == cntrl_engine_mode_e'(COMPUTE) ? 1'b1 : 1'b0;
 // Engine instance
 ope_engine     #(
   .FpFormat        ( FpFormat),
@@ -446,10 +317,10 @@ ope_engine     #(
 ) i_redmule_engine (
   .clk_i              ( clk_i            ),
   .rst_ni             ( rst_ni           ),
-  .x_input_i          ( x_buffer_q       ),
-  .w_input_i          ( w_buffer_q       ),
+  .x_input_i          ( x_reg_to_engine_data       ),
+  .w_input_i          ( w_reg_to_engine_data       ),
   .y_bias_i           ( y_buffer_d.data),
-  .z_output_o         ( z_buffer_d       ),
+  .z_output_o         ( z_buffer_q.data),
   .fma_is_boxed_i     ( fma_is_boxed     ),
   .noncomp_is_boxed_i ( noncomp_is_boxed ),
   .stage1_rnd_i       ( stage1_rnd       ),
@@ -462,11 +333,11 @@ ope_engine     #(
   .op_mod_i           ( op_mod           ),
   .tag_i              ( in_tag           ),
   .aux_i              ( in_aux           ),
-  .in_valid_i         ( in_valid         ),
+  .in_valid_i         ( reg_to_engine_valid         ),
   .y_in_valid_i       ( y_buffer_d.valid),
   .in_ready_o         ( in_ready         ),
   .reg_enable_i       ( reg_enable       ),
-  .flush_i            ( flush            ),
+  .flush_i            ( engine_flush            ),
   .status_o           ( status           ),
   .extension_bit_o    ( extension_bit    ),
   .class_mask_o       ( class_mask       ),
@@ -499,6 +370,10 @@ redmule_memory_scheduler #(
 
 
 
+logic system_busy; 
+
+assign system_busy = busy || not_empty_x_reg || not_empty_w_reg;
+
 /*---------------------------------------------------------------*/
 /* |                        Controller                         | */
 /*---------------------------------------------------------------*/
@@ -517,6 +392,7 @@ redmule_ctrl        #(
   .rst_ni             ( rst_ni                  ),
   .test_mode_i        ( test_mode_i             ),
   .flgs_streamer_i    ( flgs_streamer           ),
+  .system_busy_i     ( system_busy             ),
   .busy_o             ( busy_o                  ),
   .clear_o            ( clear                   ),
   .evt_o              ( evt_o                   ),

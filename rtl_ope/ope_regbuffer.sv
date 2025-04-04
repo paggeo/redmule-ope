@@ -77,33 +77,7 @@ module ope_regbuffer
         reg_valid_d       = reg_valid_q;
     end
   end
-/*
-    if (reading_counter_q != storing_counter_q) begin
-      if (reading_reg_i && reg_valid_q[reading_counter_q]) begin
-        accessed_counter_d[reading_counter_q] = (accessed_counter_q[reading_counter_q] == 0) ? 'b0: accessed_counter_q[reading_counter_q] - 1;
-        reg_valid_d[reading_counter_q] = (accessed_counter_q[reading_counter_q] == 0) ? 1'b0: reg_valid_q[reading_counter_q];
-      end
-      if (valid_i) begin 
-        accessed_counter_d[storing_counter_q] = DEPTH-1;
-        reg_valid_d[storing_counter_q] = 1'b1;
-      end
-    end else begin 
-      if (reading_reg_i && reg_valid_q[reading_counter_q] && valid_i) begin // both read and write
-        accessed_counter_d[storing_counter_q] = DEPTH-1;
-        reg_valid_d[storing_counter_q] = 1'b1;
-      end else if (reading_reg_i && reg_valid_q[reading_counter_q]) begin // read only
-        accessed_counter_d[reading_counter_q] = (accessed_counter_q[reading_counter_q] == 0) ? 'b0: accessed_counter_q[reading_counter_q] - 1;
-        reg_valid_d[reading_counter_q] = (accessed_counter_q[reading_counter_q] == 0) ? 1'b0: reg_valid_q[reading_counter_q];
-      end else if (valid_i) begin // write only
-        accessed_counter_d[storing_counter_q] = DEPTH-1;
-        reg_valid_d[storing_counter_q] = 1'b1;
-      end else begin 
-        accessed_counter_d = accessed_counter_q; 
-        reg_valid_d       = reg_valid_q;
-      end
-    end
-  end
-*/
+
   // **** READY SIGNAL ****
   always_comb begin
     ready_o = 1'b1;

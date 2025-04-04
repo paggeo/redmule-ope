@@ -13,7 +13,7 @@
 # //  18 U.S.C. Section 1905.
 # //
 # vsim redmule_tb_wrap_opt -do "set TbType redmule_tb" -do "log -r /*" -do "source /scratch/ope_pagonis/redmule-ope/target/sim/vsim/wave.tcl" -do "run -a" -suppress 3009 
-# Start time: 22:59:15 on Apr 03,2025
+# Start time: 17:48:05 on Apr 04,2025
 # Loading sv_std.std
 # Loading work.fpnew_pkg(fast)
 # Loading work.hwpe_stream_package(fast)
@@ -30,6 +30,7 @@
 # Loading work.hwpe_stream_intf_stream(fast__1)
 # Loading work.hwpe_stream_intf_stream(fast__2)
 # Loading work.hwpe_stream_intf_stream(fast__3)
+# Loading work.hwpe_stream_intf_stream(fast__4)
 # Loading work.redmule_streamer(fast)
 # Loading work.hci_core_intf(fast__2)
 # Loading work.hci_core_intf(fast__3)
@@ -41,8 +42,8 @@
 # Loading work.hci_core_r_valid_filter(fast)
 # Loading work.hci_core_intf(fast__5)
 # Loading work.hci_core_sink(fast)
-# Loading work.hwpe_stream_intf_stream(fast__4)
 # Loading work.hwpe_stream_intf_stream(fast__5)
+# Loading work.hwpe_stream_intf_stream(fast__6)
 # Loading work.hci_core_intf(fast__6)
 # Loading work.hwpe_stream_addressgen_v3_sv_unit(fast)
 # Loading work.hwpe_stream_addressgen_v3(fast)
@@ -52,10 +53,10 @@
 # Loading work.hci_core_intf(fast__7)
 # Loading work.hci_core_intf(fast__8)
 # Loading work.hci_core_fifo(fast)
-# Loading work.hwpe_stream_intf_stream(fast__6)
 # Loading work.hwpe_stream_intf_stream(fast__7)
 # Loading work.hwpe_stream_intf_stream(fast__8)
 # Loading work.hwpe_stream_intf_stream(fast__9)
+# Loading work.hwpe_stream_intf_stream(fast__10)
 # Loading work.hwpe_stream_fifo(fast__1)
 # Loading work.hwpe_stream_fifo(fast__2)
 # Loading work.hci_core_assign(fast__2)
@@ -64,12 +65,12 @@
 # Loading work.hwpe_stream_fifo(fast__3)
 # Loading work.hwpe_stream_fifo(fast__4)
 # Loading work.hci_core_source(fast)
-# Loading work.hwpe_stream_intf_stream(fast__11)
 # Loading work.hwpe_stream_intf_stream(fast__12)
+# Loading work.hwpe_stream_intf_stream(fast__13)
 # Loading work.hwpe_stream_addressgen_v3(fast__1)
 # Loading work.hwpe_stream_fifo(fast__5)
-# Loading work.hwpe_stream_intf_stream(fast__13)
 # Loading work.hwpe_stream_intf_stream(fast__14)
+# Loading work.hwpe_stream_intf_stream(fast__15)
 # Loading work.hwpe_stream_fifo(fast__6)
 # Loading work.hwpe_stream_assign_sv_unit(fast)
 # Loading work.hwpe_stream_assign(fast)
@@ -77,13 +78,25 @@
 # Loading work.ope_regbuffer(fast__1)
 # Loading work.ope_engine(fast)
 # Loading work.ope_engine_reg(fast)
+# Loading work.tc_clk_gating(fast)
+# Loading work.redmule_ce(fast)
+# Loading work.redmule_sdotp_wrapper(fast)
+# Loading work.redmule_sdotp(fast)
+# Loading work.fpnew_classifier(fast)
+# Loading work.fpnew_classifier(fast__1)
+# Loading work.fpnew_classifier(fast__2)
+# Loading work.cf_math_pkg(fast)
+# Loading work.lzc(fast)
+# Loading work.fpnew_rounding(fast)
+# Loading work.redmule_fma(fast)
+# Loading work.fpnew_classifier(fast__3)
+# Loading work.lzc(fast__1)
 # Loading work.redmule_memory_scheduler(fast)
 # Loading work.redmule_ctrl(fast)
 # Loading work.hwpe_ctrl_slave(fast)
 # Loading work.hwpe_ctrl_regfile(fast)
 # Loading work.hwpe_ctrl_regfile_latch_test_wrap(fast)
 # Loading work.hwpe_ctrl_regfile_ff(fast)
-# Loading work.tc_clk_gating(fast)
 # Loading work.redmule_tiler(fast)
 # Loading work.hwpe_ctrl_seq_mult(fast)
 # Loading work.hwpe_ctrl_seq_mult(fast__1)
@@ -123,13 +136,19 @@
 # Loading work.hci_core_intf(fast__4)
 # Loading work.hci_core_intf(fast__9)
 # Loading work.hci_core_intf(fast__10)
-# Loading work.hwpe_stream_intf_stream(fast__10)
-# ** Warning: (vsim-3015) [PCDPC] - Port size (64) does not match connection size (1) for port 'x_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(29).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 446
-# ** Warning: (vsim-3015) [PCDPC] - Port size (64) does not match connection size (1) for port 'w_input_i'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(30).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 446
-# ** Warning: (vsim-3015) [PCDPC] - Port size (64) does not match connection size (1) for port 'z_output_o'. The port definition is at: /scratch/ope_pagonis/redmule-ope/rtl_ope/ope_engine.sv(33).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_top.sv Line: 446
+# Loading work.hwpe_stream_intf_stream(fast__11)
+# ** Warning: (vsim-8386) Illegal assignment to type 'enum reg[2:0] fpnew_pkg::roundmode_e' from type 'reg[31:29]': An enum variable may only be assigned the same enum typed variable or one of its values.
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_ctrl.sv Line: 137
+# ** Warning: (vsim-8386) Illegal assignment to type 'enum reg[2:0] fpnew_pkg::roundmode_e' from type 'reg[28:26]': An enum variable may only be assigned the same enum typed variable or one of its values.
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_ctrl.sv Line: 138
+# ** Warning: (vsim-8386) Illegal assignment to type 'enum reg[4:0] fpnew_pkg::operation_e' from type 'reg[25:21]': An enum variable may only be assigned the same enum typed variable or one of its values.
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_ctrl.sv Line: 139
+# ** Warning: (vsim-8386) Illegal assignment to type 'enum reg[4:0] fpnew_pkg::operation_e' from type 'reg[20:16]': An enum variable may only be assigned the same enum typed variable or one of its values.
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_ctrl.sv Line: 140
+# ** Warning: (vsim-8386) Illegal assignment to type 'enum reg[2:0] redmule_pkg::fpu_fmt_e' from type 'reg[15:13]': An enum variable may only be assigned the same enum typed variable or one of its values.
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_ctrl.sv Line: 141
+# ** Warning: (vsim-8386) Illegal assignment to type 'enum reg[2:0] redmule_pkg::fpu_fmt_e' from type 'reg[12:10]': An enum variable may only be assigned the same enum typed variable or one of its values.
+#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_ctrl.sv Line: 142
 # set TbType redmule_tb
 # redmule_tb
 # log -r /*
@@ -145,38 +164,28 @@
 # [TB] - cnt_wr= 105     
 # [TB] - Fail!
 # ** Error: [TB] - errors=00000010
-#    Time: 2916 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
+#    Time: 2920 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
 # FPFORMAT = 0 (FP16=2, FP32=0)
 # DATA_W = 96
 # BITW=32, NumByte=4, ADDR_W=32
 # NumByte*BITW/ADDR_w: 4 
 # Measured count: 0, Start counter: 1624, End counter: 0
-# Periphery Measured count: 509, Start counter: 1147, End counter: 1656
+# Periphery Measured count: 513, Start counter: 1147, End counter: 1660
 # ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
-#    Time: 2916 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+#    Time: 2920 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
 # 1
 # Break in Module redmule_tb at /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv line 470
 add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_x_buffer_reg/data_i
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control/system_busy_i
 add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_x_buffer_reg/valid_i
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control/next
 add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_x_buffer_reg/ready_o
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[0]/gen_col[0]/reg_i/internal_reg_q}
 add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_x_buffer_reg/data_o
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[0]/gen_col[1]/reg_i/internal_reg_q}
 add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_x_buffer_reg/valid_o
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[1]/gen_col[0]/reg_i/internal_reg_q}
 add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_x_buffer_reg/clk_i
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_w_buffer_reg/data_i
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_w_buffer_reg/valid_i
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_w_buffer_reg/ready_o
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_w_buffer_reg/data_o
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_w_buffer_reg/valid_o
-# End time: 23:02:04 on Apr 03,2025, Elapsed time: 0:02:49
-# Errors: 2, Warnings: 3
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[1]/gen_col[1]/reg_i/internal_reg_q}
+# End time: 17:55:36 on Apr 04,2025, Elapsed time: 0:07:31
+# Errors: 2, Warnings: 6

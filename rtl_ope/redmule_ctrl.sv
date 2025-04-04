@@ -31,6 +31,7 @@ module redmule_ctrl
   input  logic                    reg_enable_i      ,
   input  logic                    start_cfg_i       ,
   input  flgs_streamer_t          flgs_streamer_i   ,
+  input logic system_busy_i,
   // input  flags_fifo_t             x_fifo_flgs_i     ,
   output logic                    cfg_complete_o    ,
   // Flags coming from the state machine
@@ -130,6 +131,15 @@ module redmule_ctrl
   /*---------------------------------------------------------------------------------------------*/
   assign reg_file_o = reg_file_q;
 
+  assign cntrl_engine_o.fma_is_boxed = 3'b111;
+  assign cntrl_engine_o.noncomp_is_boxed = 2'b11;
+  assign cntrl_engine_o.op_mod = 1'b0;
+  assign cntrl_engine_o.stage1_rnd = reg_file_q.hwpe_params[OP_SELECTION][31:29];
+  assign cntrl_engine_o.stage2_rnd = reg_file_q.hwpe_params[OP_SELECTION][28:26];
+  assign cntrl_engine_o.op1 = reg_file_q.hwpe_params[OP_SELECTION][25:21];
+  assign cntrl_engine_o.op2 = reg_file_q.hwpe_params[OP_SELECTION][20:16];
+  assign cntrl_engine_o.memory_format = reg_file_q.hwpe_params[OP_SELECTION][15:13];
+  assign cntrl_engine_o.computing_format = reg_file_q.hwpe_params[OP_SELECTION][12:10];
   /*---------------------------------------------------------------------------------------------*/
   /*                                        Controller FSM                                       */
   /*---------------------------------------------------------------------------------------------*/
@@ -141,7 +151,8 @@ module redmule_ctrl
   assign tiler_setback                  = current == OPE_IDLE && next == OPE_STARTING;
   assign cntrl_slave.done               = current == OPE_FINISHED;
   assign busy_o                         = current != OPE_LATCH_RST || current != OPE_IDLE || current != OPE_FINISHED;
-  assign flush_o                        = current == OPE_FINISHED;
+  assign flush_o                        = 'b0;
+  // assign flush_o                        = current == OPE_FINISHED;
   assign cntrl_scheduler_o.rst          = current == OPE_FINISHED;
   assign cntrl_scheduler_o.finished     = current == OPE_FINISHED;
   assign latch_clear                    = current == OPE_LATCH_RST;
@@ -193,25 +204,6 @@ module redmule_ctrl
     end
   end
 
-  // // FIXME: check this if X_BUFFER_DEPTH != W_BUFFER_DEPTH
-  // logic [$clog2(X_BUFFER_DEPTH) - 1: 0] x_regbuf_q, x_regbuf_d; 
-  // logic [$clog2(W_BUFFER_DEPTH) - 1: 0] w_regbuf_q, w_regbuf_d;
-
-
-  // always_comb begin
-
-  //   if (current == OPE_LOAD_Y && next = OPE_COMPUTE_INNER_LOOP) begin 
-  //     x_regbuf_d = 0;
-  //     w_regbuf_d = 0;
-  //   end else if (current == OPE_COMPUTE_INNER_LOOP) begin
-  //     if (!x_fifo_flgs.empty && !flgs_stremer_i.w_stream_source_flags.done) begin
-  //       x_regbuf_d = x_regbuf_q 
-  //     end else begin
-  //       x_regbuf_d = x_regbuf_q;
-  //     end
-  //   end
-  // end
-
   assign cntrl_scheduler_o.start_load_y = current == OPE_LOAD_Y;
 
   always_comb begin 
@@ -230,6 +222,27 @@ module redmule_ctrl
         y_row_index_q <= 'b0;
       else
         y_row_index_q <= y_row_index_d;
+    end
+  end
+
+  // FIXME: replace this with the finish from the dataflow
+  logic [2:0] counter_q, counter_d;
+  always_comb begin
+    counter_d = counter_q;
+    if (current == OPE_COMPUTE_INNER_LOOP && look_x_done_q && look_w_done_q) begin
+      counter_d = counter_q + 1;
+    end
+  end
+
+
+  always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (~rst_ni) begin
+      counter_q <= 'b0;
+    end else begin
+      if (clear || latch_clear)
+        counter_q <= 'b0;
+      else
+        counter_q <= counter_d;
     end
   end
 
@@ -257,9 +270,8 @@ module redmule_ctrl
         end
       end
       
-      // FIXME: This is not correct, because the done is only for one cycle, replace it when the last operartion is completed
       OPE_COMPUTE_INNER_LOOP: begin
-        if (look_x_done_q && look_w_done_q) begin
+        if (look_x_done_q && look_w_done_q && !system_busy_i) begin
           // next = OPE_STORE_Z;
           next = OPE_FINISHED;
         end
