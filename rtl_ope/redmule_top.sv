@@ -163,7 +163,7 @@ redmule_streamer #(
   .w_stream_o               ( w_buffer_d            ),
   .y_stream_o               ( y_buffer_d            ),
   // Sink interface for the outgoing stream
-  .z_stream_i               ( z_buffer_fifo         ),
+  .z_stream_i               ( z_buffer_q         ),
   // Master TCDM interface ports for the memory side
   .tcdm                     ( tcdm                  ),
   .custom_priority_force_i  ( custom_priority_force ),
@@ -307,6 +307,8 @@ always_comb begin
 end
 
 assign reg_enable = cntrl_engine.mode == cntrl_engine_mode_e'(COMPUTE) ? 1'b1 : 1'b0;
+logic engine_out_valid;
+logic [Width-1:0][BITW-1:0] engine_out_data;
 // Engine instance
 ope_engine     #(
   .FpFormat        ( FpFormat),
@@ -320,7 +322,7 @@ ope_engine     #(
   .x_input_i          ( x_reg_to_engine_data       ),
   .w_input_i          ( w_reg_to_engine_data       ),
   .y_bias_i           ( y_buffer_d.data),
-  .z_output_o         ( z_buffer_q.data),
+  .z_output_o         (engine_out_data),
   .fma_is_boxed_i     ( fma_is_boxed     ),
   .noncomp_is_boxed_i ( noncomp_is_boxed ),
   .stage1_rnd_i       ( stage1_rnd       ),
@@ -344,8 +346,8 @@ ope_engine     #(
   .is_class_o         ( is_class         ),
   .tag_o              ( out_tag          ),
   .aux_o              ( out_aux          ),
-  .out_valid_o        ( out_valid        ),
-  .out_ready_i        ( out_ready        ),
+  .out_valid_o        (engine_out_valid),
+  .out_ready_i        ( z_buffer_q.ready        ),
   .busy_o             ( busy             ),
   .cntrl_engine_i     ( cntrl_engine     )
 );

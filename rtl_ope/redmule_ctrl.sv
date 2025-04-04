@@ -146,7 +146,6 @@ module redmule_ctrl
 
 
 
-  assign cntrl_scheduler_o.start_store_z = current == OPE_STORE_Z;
 
   assign tiler_setback                  = current == OPE_IDLE && next == OPE_STARTING;
   assign cntrl_slave.done               = current == OPE_FINISHED;
@@ -160,6 +159,7 @@ module redmule_ctrl
   logic [$clog2(Height) - 1: 0] y_row_index_q, y_row_index_d;
   assign cntrl_engine_o.mode = (current == OPE_LOAD_Y) ? cntrl_engine_mode_e'(Y_LOAD): 
                                (current == OPE_COMPUTE_INNER_LOOP)? cntrl_engine_mode_e'(COMPUTE):  
+                               (current == OPE_STORE_Z)? cntrl_engine_mode_e'(Z_READ):
                                 cntrl_engine_mode_e'(IDLE);
   assign cntrl_engine_o.row_index = y_row_index_q;
 
@@ -168,6 +168,7 @@ module redmule_ctrl
 
   assign cntrl_scheduler_o.start_load_x = current == OPE_LOAD_Y && next == OPE_COMPUTE_INNER_LOOP;
   assign cntrl_scheduler_o.start_load_w = current == OPE_LOAD_Y && next == OPE_COMPUTE_INNER_LOOP;
+  assign cntrl_scheduler_o.start_store_z = current == OPE_STORE_Z;
 
   logic look_x_done_q, look_x_done_d;
   logic look_w_done_q, look_w_done_d;
@@ -272,8 +273,8 @@ module redmule_ctrl
       
       OPE_COMPUTE_INNER_LOOP: begin
         if (look_x_done_q && look_w_done_q && !system_busy_i) begin
-          // next = OPE_STORE_Z;
-          next = OPE_FINISHED;
+          next = OPE_STORE_Z;
+          // next = OPE_FINISHED;
         end
       end
 
@@ -289,11 +290,11 @@ module redmule_ctrl
       //   // end
       // end
 
-      // OPE_STORE_Z: begin
-      //   if (flgs_streamer_i.z_stream_sink_flags.done) begin
-      //     next = OPE_FINISHED;
-      //   end
-      // end
+      OPE_STORE_Z: begin
+        if (flgs_streamer_i.z_stream_sink_flags.done) begin
+          next = OPE_FINISHED;
+        end
+      end
       
       OPE_FINISHED: begin
         next = OPE_IDLE;

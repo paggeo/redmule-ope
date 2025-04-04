@@ -59,7 +59,7 @@ module ope_engine
   output TagType                  [W-1:0][H-1:0]           tag_o              , // always 0
   output AuxType                  [W-1:0][H-1:0]           aux_o              , // always 0
   // fpnew_fma Output handshake
-  output logic                    [W-1:0][H-1:0]           out_valid_o        ,
+  output logic                               out_valid_o        ,
   input  logic                                             out_ready_i        ,
   // fpnew_fma Indication of valid data in flight
   output logic                               busy_o             ,
@@ -136,6 +136,17 @@ module ope_engine
   end
 
 
+  logic register_reading_compute, register_reading_output; 
+  always_comb begin
+    register_reading_output = 1'b0;
+    register_reading_compute = 1'b0;
+    if (cntrl_engine_i.mode == cntrl_engine_mode_e'(COMPUTE) && in_valid_i) begin
+      register_reading_compute = 1'b1;
+    end else if (cntrl_engine_i.mode == cntrl_engine_mode_e'(Z_READ) && out_ready_i) begin // Note: Reset the registers, good for padding values
+      register_reading_output = 1'b1;
+    end
+  end
+
   generate
     for (genvar row_index = 0; row_index < Height; row_index++) begin: gen_row
       for (genvar col_index = 0; col_index < Width; col_index++) begin: gen_col
@@ -148,13 +159,48 @@ module ope_engine
           .flush_i    ( flush_i                                                              ),
           .input_i    ( reg_in_data[row_index][col_index]                                    ),         
           .in_valid_i ( reg_in_valid[row_index][col_index]                                   ),
-          .read_i     ( (cntrl_engine_i.mode == cntrl_engine_mode_e'(COMPUTE)) && in_valid_i ),
+          .read_i     ( register_reading_compute  || cntrl_engine_i.mode == cntrl_engine_mode_e'(Z_READ) ), // FIXME: this is not correct, you have to read only from the correct row
+          // .read_i     ( register_reading_compute || register_reading_output),
           .output_o   ( reg_out_data[row_index][col_index]                                   ),  
           .out_valid_o( reg_out_valid[row_index][col_index]                                  )         
         );
       end
     end
   endgenerate
+
+  // Register reading to the output
+  logic [$clog2(REG_PER_CE)-1:0] internal_read_index_q, internal_read_index_d;
+  logic [$clog2(Height) - 1: 0] z_row_index_q, z_row_index_d;
+
+  always_comb begin 
+    z_output_o = 'b0;
+    out_valid_o = 'b0;
+    internal_read_index_d = internal_read_index_q;
+    z_row_index_d = z_row_index_q;
+    if (register_reading_output) begin 
+      z_output_o = reg_out_data[z_row_index_q];
+      out_valid_o = &reg_out_valid[z_row_index_q];
+      internal_read_index_d = (internal_read_index_q == REG_PER_CE - 1) ? 'b0 : internal_read_index_q + 1;
+      z_row_index_d = (internal_read_index_q == REG_PER_CE - 1) ? z_row_index_q + 1 : z_row_index_q;
+    end
+  end
+
+  always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (~rst_ni) begin
+      internal_read_index_q <= 'b0;
+      z_row_index_q <= 'b0;
+    end else begin
+      if (flush_i) begin
+        internal_read_index_q <= 'b0;
+        z_row_index_q <= 'b0;
+      end else begin 
+        internal_read_index_q <= internal_read_index_d;
+        z_row_index_q <= z_row_index_d;
+      end
+    end
+  end
+
+  // *****
 
 
   logic [H-1:0][W-1:0][2:0][BITW-1:0] ce_operands;

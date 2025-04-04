@@ -13,7 +13,7 @@
 # //  18 U.S.C. Section 1905.
 # //
 # vsim redmule_tb_wrap_opt -do "set TbType redmule_tb" -do "log -r /*" -do "source /scratch/ope_pagonis/redmule-ope/target/sim/vsim/wave.tcl" -do "run -a" -suppress 3009 
-# Start time: 17:48:05 on Apr 04,2025
+# Start time: 19:02:47 on Apr 04,2025
 # Loading sv_std.std
 # Loading work.fpnew_pkg(fast)
 # Loading work.hwpe_stream_package(fast)
@@ -30,7 +30,6 @@
 # Loading work.hwpe_stream_intf_stream(fast__1)
 # Loading work.hwpe_stream_intf_stream(fast__2)
 # Loading work.hwpe_stream_intf_stream(fast__3)
-# Loading work.hwpe_stream_intf_stream(fast__4)
 # Loading work.redmule_streamer(fast)
 # Loading work.hci_core_intf(fast__2)
 # Loading work.hci_core_intf(fast__3)
@@ -42,8 +41,8 @@
 # Loading work.hci_core_r_valid_filter(fast)
 # Loading work.hci_core_intf(fast__5)
 # Loading work.hci_core_sink(fast)
+# Loading work.hwpe_stream_intf_stream(fast__4)
 # Loading work.hwpe_stream_intf_stream(fast__5)
-# Loading work.hwpe_stream_intf_stream(fast__6)
 # Loading work.hci_core_intf(fast__6)
 # Loading work.hwpe_stream_addressgen_v3_sv_unit(fast)
 # Loading work.hwpe_stream_addressgen_v3(fast)
@@ -53,10 +52,10 @@
 # Loading work.hci_core_intf(fast__7)
 # Loading work.hci_core_intf(fast__8)
 # Loading work.hci_core_fifo(fast)
+# Loading work.hwpe_stream_intf_stream(fast__6)
 # Loading work.hwpe_stream_intf_stream(fast__7)
 # Loading work.hwpe_stream_intf_stream(fast__8)
 # Loading work.hwpe_stream_intf_stream(fast__9)
-# Loading work.hwpe_stream_intf_stream(fast__10)
 # Loading work.hwpe_stream_fifo(fast__1)
 # Loading work.hwpe_stream_fifo(fast__2)
 # Loading work.hci_core_assign(fast__2)
@@ -65,12 +64,12 @@
 # Loading work.hwpe_stream_fifo(fast__3)
 # Loading work.hwpe_stream_fifo(fast__4)
 # Loading work.hci_core_source(fast)
+# Loading work.hwpe_stream_intf_stream(fast__11)
 # Loading work.hwpe_stream_intf_stream(fast__12)
-# Loading work.hwpe_stream_intf_stream(fast__13)
 # Loading work.hwpe_stream_addressgen_v3(fast__1)
 # Loading work.hwpe_stream_fifo(fast__5)
+# Loading work.hwpe_stream_intf_stream(fast__13)
 # Loading work.hwpe_stream_intf_stream(fast__14)
-# Loading work.hwpe_stream_intf_stream(fast__15)
 # Loading work.hwpe_stream_fifo(fast__6)
 # Loading work.hwpe_stream_assign_sv_unit(fast)
 # Loading work.hwpe_stream_assign(fast)
@@ -136,7 +135,7 @@
 # Loading work.hci_core_intf(fast__4)
 # Loading work.hci_core_intf(fast__9)
 # Loading work.hci_core_intf(fast__10)
-# Loading work.hwpe_stream_intf_stream(fast__11)
+# Loading work.hwpe_stream_intf_stream(fast__10)
 # ** Warning: (vsim-8386) Illegal assignment to type 'enum reg[2:0] fpnew_pkg::roundmode_e' from type 'reg[31:29]': An enum variable may only be assigned the same enum typed variable or one of its values.
 #    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control File: /scratch/ope_pagonis/redmule-ope/rtl_ope/redmule_ctrl.sv Line: 137
 # ** Warning: (vsim-8386) Illegal assignment to type 'enum reg[2:0] fpnew_pkg::roundmode_e' from type 'reg[28:26]': An enum variable may only be assigned the same enum typed variable or one of its values.
@@ -158,27 +157,12 @@
 #    Time: 0 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.genblk4.dw File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/core/hci_core_sink.sv Line: 349
 # comp_fmt: 4, gemm_op: 1, mem_fmt: 4
 # Triggering accelerator and going to sleep...
-# Resumed!
-# Terminated test with 16 errors. See you!
-# [TB] - cnt_rd= 324     
-# [TB] - cnt_wr= 105     
-# [TB] - Fail!
-# ** Error: [TB] - errors=00000010
-#    Time: 2920 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv Line: 459
-# FPFORMAT = 0 (FP16=2, FP32=0)
-# DATA_W = 96
-# BITW=32, NumByte=4, ADDR_W=32
-# NumByte*BITW/ADDR_w: 4 
-# Measured count: 0, Start counter: 1624, End counter: 0
-# Periphery Measured count: 513, Start counter: 1147, End counter: 1660
-# ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(470)
-#    Time: 2920 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
-# 1
-# Break in Module redmule_tb at /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv line 470
+# Break key hit
+# Simulation stop requested.
 add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control/system_busy_i
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/engine_out_valid
 add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control/next
+sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/engine_out_data
 add wave -position insertpoint  \
 {sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[0]/gen_col[0]/reg_i/internal_reg_q}
 add wave -position insertpoint  \
@@ -187,5 +171,13 @@ add wave -position insertpoint  \
 {sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[1]/gen_col[0]/reg_i/internal_reg_q}
 add wave -position insertpoint  \
 {sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[1]/gen_col[1]/reg_i/internal_reg_q}
-# End time: 17:55:36 on Apr 04,2025, Elapsed time: 0:07:31
-# Errors: 2, Warnings: 6
+add wave -position insertpoint  \
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[0]/gen_col[0]/reg_i/read_i}
+add wave -position insertpoint  \
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[0]/gen_col[0]/reg_i/read_index_q}
+add wave -position insertpoint  \
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[0]/gen_col[0]/reg_i/output_o}
+add wave -position insertpoint  \
+{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_redmule_engine/gen_row[0]/gen_col[0]/reg_i/out_valid_o}
+# End time: 19:07:54 on Apr 04,2025, Elapsed time: 0:05:07
+# Errors: 1, Warnings: 6
