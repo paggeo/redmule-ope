@@ -159,8 +159,7 @@ module ope_engine
           .flush_i    ( flush_i                                                              ),
           .input_i    ( reg_in_data[row_index][col_index]                                    ),         
           .in_valid_i ( reg_in_valid[row_index][col_index]                                   ),
-          .read_i     ( register_reading_compute  || cntrl_engine_i.mode == cntrl_engine_mode_e'(Z_READ) ), // FIXME: this is not correct, you have to read only from the correct row
-          // .read_i     ( register_reading_compute || register_reading_output),
+          .read_i     ( register_reading_compute  || register_reading_output), 
           .output_o   ( reg_out_data[row_index][col_index]                                   ),  
           .out_valid_o( reg_out_valid[row_index][col_index]                                  )         
         );

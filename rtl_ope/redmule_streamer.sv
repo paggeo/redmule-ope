@@ -228,7 +228,8 @@ hci_core_r_valid_filter #(
 hci_core_intf #( .DW ( DW ),
                  .UW ( UW ) ) zstream2cast ( .clk ( clk_i ) );
 hci_core_sink         #(
-  .MISALIGNED_ACCESSES ( REALIGN                      ),
+  .MISALIGNED_ACCESSES ( 1'b0                      ),
+  // .MISALIGNED_ACCESSES ( REALIGN                      ),
   .`HCI_SIZE_PARAM(tcdm) ( `HCI_SIZE_PARAM(ldst_tcdm) )
 ) i_stream_sink        (
   .clk_i               ( clk_i                       ),

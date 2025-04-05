@@ -168,7 +168,7 @@ module redmule_ctrl
 
   assign cntrl_scheduler_o.start_load_x = current == OPE_LOAD_Y && next == OPE_COMPUTE_INNER_LOOP;
   assign cntrl_scheduler_o.start_load_w = current == OPE_LOAD_Y && next == OPE_COMPUTE_INNER_LOOP;
-  assign cntrl_scheduler_o.start_store_z = current == OPE_STORE_Z;
+  assign cntrl_scheduler_o.start_store_z = current == OPE_COMPUTE_INNER_LOOP &&  next == OPE_STORE_Z;
 
   logic look_x_done_q, look_x_done_d;
   logic look_w_done_q, look_w_done_d;
@@ -205,7 +205,7 @@ module redmule_ctrl
     end
   end
 
-  assign cntrl_scheduler_o.start_load_y = current == OPE_LOAD_Y;
+  assign cntrl_scheduler_o.start_load_y = current == OPE_STARTING && next == OPE_LOAD_Y;
 
   always_comb begin 
     if (current == OPE_STARTING && next == OPE_LOAD_Y) begin

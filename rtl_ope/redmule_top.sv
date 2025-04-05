@@ -141,6 +141,7 @@ hwpe_stream_intf_stream #( .DATA_WIDTH ( DATAW_ALIGN ) ) y_buffer_fifo      ( .c
 
 // Z streaming interface + Z FIFO interface
 hwpe_stream_intf_stream #( .DATA_WIDTH ( DATAW_ALIGN ) ) z_buffer_q         ( .clk( clk_i ) );
+hwpe_stream_intf_stream #( .DATA_WIDTH ( DATAW_ALIGN ) ) z_buffer_d         ( .clk( clk_i ) );
 hwpe_stream_intf_stream #( .DATA_WIDTH ( DATAW_ALIGN ) ) z_buffer_fifo      ( .clk( clk_i ) );
 
 logic w_granted, x_granted;
@@ -163,7 +164,7 @@ redmule_streamer #(
   .w_stream_o               ( w_buffer_d            ),
   .y_stream_o               ( y_buffer_d            ),
   // Sink interface for the outgoing stream
-  .z_stream_i               ( z_buffer_q         ),
+  .z_stream_i               ( z_buffer_q),
   // Master TCDM interface ports for the memory side
   .tcdm                     ( tcdm                  ),
   .custom_priority_force_i  ( custom_priority_force ),
@@ -347,7 +348,7 @@ ope_engine     #(
   .tag_o              ( out_tag          ),
   .aux_o              ( out_aux          ),
   .out_valid_o        (engine_out_valid),
-  .out_ready_i        ( z_buffer_q.ready        ),
+  .out_ready_i        ( z_buffer_d.ready        ),
   .busy_o             ( busy             ),
   .cntrl_engine_i     ( cntrl_engine     )
 );
@@ -431,6 +432,25 @@ ope_priority_enforcer #(
 
 
   assign y_buffer_d.ready = 1'b1;
+  assign z_buffer_d.valid = engine_out_valid;
+  assign z_buffer_d.data = engine_out_data;
+  assign z_buffer_d.strb = {{DATAW_ALIGN/8{1'b1}}};
 
+
+  // FIXME: works but maybe replace this with a fifo
+  always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (!rst_ni) begin
+      z_buffer_q.valid <= 1'b0;
+      z_buffer_q.data  <= '0;
+      z_buffer_q.strb  <= '0;
+      z_buffer_d.ready <= 1'b0;
+    end else begin
+      z_buffer_d.ready <= z_buffer_q.ready;
+      z_buffer_q.valid <= z_buffer_d.valid;
+      z_buffer_q.data  <=  z_buffer_d.data;
+      // z_buffer_q.data  <= {32'b0, z_buffer_d.data};
+      z_buffer_q.strb  <= z_buffer_d.strb;
+    end
+  end
 
 endmodule : redmule_top
