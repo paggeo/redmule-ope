@@ -16,7 +16,7 @@ module redmule_wrap
 #(
   parameter  int unsigned  ID_WIDTH    = 8                    ,
   parameter  int unsigned  N_CORES     = 8                    ,
-  parameter  int unsigned  DW          = DATAW               , // TCDM port dimension (in bits)
+  parameter  int unsigned  DW          = DATA_W               , // TCDM port dimension (in bits)
   parameter  int unsigned  MP          = DW/redmule_pkg::MemDw,
   parameter  int unsigned  EW          = 0                    , // ECC signals width
   localparam fp_format_e   FpFormat    = FPFORMAT             , // Data format (default is FP16)

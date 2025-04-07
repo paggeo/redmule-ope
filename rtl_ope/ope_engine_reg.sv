@@ -7,6 +7,7 @@ module ope_engine_reg
   input  logic                  clk_i           ,
   input  logic                  rst_ni          ,
   input  logic                  flush_i         ,
+  input  logic                  iteration_change_i         ,
   input  logic [DATA_WIDTH-1:0] input_i         ,
   input  logic                  in_valid_i      ,
   input  logic                  read_i          ,
@@ -44,7 +45,7 @@ module ope_engine_reg
       read_index_q <= 'b0;
       write_index_q <= 'b0;
     end else begin
-      if (flush_i) begin
+      if (flush_i || iteration_change_i) begin
         internal_reg_q <= 'b0;
         read_index_q <= 'b0;
         write_index_q <= 'b0;

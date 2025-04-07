@@ -12,7 +12,7 @@
 #define REDMULE_UTILS_H
 
  //Expand the error tolerance because the 24-bit manissa
-#define DEBUG
+// #define DEBUG
 
 int redmule32_compare_int(uint32_t *actual_z, uint32_t *golden_z, int len) {
   int errors = 0;

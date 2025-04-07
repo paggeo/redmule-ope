@@ -36,6 +36,8 @@ module redmule_ctrl
   output logic                    cfg_complete_o    ,
   // Flags coming from the state machine
   input  logic                    w_loaded_i        ,
+  input logic               memory_scheduler_done_i,
+  input logic               memory_scheduler_next_iteration_i        , 
   // Control signals for the engine
   output logic                    flush_o           ,
   // Control signals for the state machine
@@ -157,6 +159,8 @@ module redmule_ctrl
   assign latch_clear                    = current == OPE_LATCH_RST;
 
   logic [$clog2(Height) - 1: 0] y_row_index_q, y_row_index_d;
+  // FIXME: because the store waits for the address gen to finish, the data that are read are 2 cycles more (power consumption)
+  // Maybe find a better way to do this
   assign cntrl_engine_o.mode = (current == OPE_LOAD_Y) ? cntrl_engine_mode_e'(Y_LOAD): 
                                (current == OPE_COMPUTE_INNER_LOOP)? cntrl_engine_mode_e'(COMPUTE):  
                                (current == OPE_STORE_Z)? cntrl_engine_mode_e'(Z_READ):
@@ -172,14 +176,20 @@ module redmule_ctrl
 
   logic look_x_done_q, look_x_done_d;
   logic look_w_done_q, look_w_done_d;
+  logic look_z_done_q2,look_z_done_q, look_z_done_d;
+  logic look_memory_scheduler_done_q, look_memory_scheduler_done_d;
 
   always_comb begin
     look_x_done_d = look_x_done_q;
     look_w_done_d = look_w_done_q;
+    look_z_done_d = look_z_done_q;
+    look_memory_scheduler_done_d = look_memory_scheduler_done_q;
 
     if (current == OPE_LOAD_Y && next == OPE_COMPUTE_INNER_LOOP) begin
       look_x_done_d = 1'b0;
       look_w_done_d = 1'b0;
+      look_z_done_d = 1'b0;
+      look_memory_scheduler_done_d = 1'b0;
     end else if (current == OPE_COMPUTE_INNER_LOOP) begin
       if (flgs_streamer_i.x_stream_source_flags.done) begin
         look_x_done_d = 1'b1;
@@ -188,19 +198,37 @@ module redmule_ctrl
         look_w_done_d = 1'b1;
       end
     end
+
+    if (current == OPE_STORE_Z) begin
+      if (flgs_streamer_i.z_stream_sink_flags.done) begin
+        look_z_done_d = 1'b1;
+      end
+      if (memory_scheduler_done_i) begin
+        look_memory_scheduler_done_d = 1'b1;
+      end
+    end
   end
 
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (~rst_ni) begin
       look_x_done_q <= 1'b0;
       look_w_done_q <= 1'b0;
+      look_z_done_q <= 1'b0;
+      look_z_done_q2 <= 1'b0;
+      look_memory_scheduler_done_q <= 1'b0;
     end else begin
       if (clear || latch_clear) begin
         look_x_done_q <= 1'b0;
         look_w_done_q <= 1'b0;
+        look_z_done_q <= 1'b0;
+        look_z_done_q2 <= 1'b0;
+        look_memory_scheduler_done_q <= 1'b0;
       end else begin
         look_x_done_q <= look_x_done_d;
         look_w_done_q <= look_w_done_d;
+        look_z_done_q <= look_z_done_d;
+        look_z_done_q2 <= look_z_done_q;
+        look_memory_scheduler_done_q <= look_memory_scheduler_done_d;
       end
     end
   end
@@ -274,25 +302,14 @@ module redmule_ctrl
       OPE_COMPUTE_INNER_LOOP: begin
         if (look_x_done_q && look_w_done_q && !system_busy_i) begin
           next = OPE_STORE_Z;
-          // next = OPE_FINISHED;
         end
       end
 
-      // OPE_LOAD_W: begin
-      //   if (w_loaded_i) begin
-      //     next = OPE_COMPUTE;
-      //   end
-      // end
-
-      // OPE_COMPUTE: begin
-      //   // if (!z_buffer_flag_i.empty) begin
-      //     next = OPE_STORE_Z;
-      //   // end
-      // end
-
       OPE_STORE_Z: begin
-        if (flgs_streamer_i.z_stream_sink_flags.done) begin
+        if (memory_scheduler_next_iteration_i && memory_scheduler_done_i) begin
           next = OPE_FINISHED;
+        end else if (memory_scheduler_next_iteration_i) begin 
+          next = OPE_STARTING;
         end
       end
       

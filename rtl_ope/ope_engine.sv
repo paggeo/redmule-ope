@@ -51,6 +51,7 @@ module ope_engine
   output logic                    [W-1:0][H-1:0]           in_ready_o         ,
   input  logic                                             reg_enable_i       ,
   input  logic                                             flush_i            ,
+  input logic                                            iteration_change_i  , // This signal is used to flush the registers
   // fpnew_fma Output signals
   output fpnew_pkg::status_t      [W-1:0][H-1:0]           status_o           ,
   output logic                    [W-1:0][H-1:0]           extension_bit_o    , // always 1
@@ -103,7 +104,7 @@ module ope_engine
       y_row_index_q <= 'b0;
       internal_write_index_q <= 'b0;
     end else begin
-      if (flush_i) begin
+      if (flush_i || iteration_change_i) begin
         y_row_index_q <= 'b0;
         internal_write_index_q <= 'b0;
       end else begin 
@@ -159,6 +160,7 @@ module ope_engine
           .flush_i    ( flush_i                                                              ),
           .input_i    ( reg_in_data[row_index][col_index]                                    ),         
           .in_valid_i ( reg_in_valid[row_index][col_index]                                   ),
+          .iteration_change_i (iteration_change_i),
           .read_i     ( register_reading_compute  || register_reading_output), 
           .output_o   ( reg_out_data[row_index][col_index]                                   ),  
           .out_valid_o( reg_out_valid[row_index][col_index]                                  )         
@@ -189,7 +191,7 @@ module ope_engine
       internal_read_index_q <= 'b0;
       z_row_index_q <= 'b0;
     end else begin
-      if (flush_i) begin
+      if (flush_i || iteration_change_i) begin
         internal_read_index_q <= 'b0;
         z_row_index_q <= 'b0;
       end else begin 

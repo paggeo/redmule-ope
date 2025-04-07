@@ -225,6 +225,7 @@ hci_core_r_valid_filter #(
  * side (virt_tcdm[NumStreamSources]) of the LD/ST multiplexer.                         */
 
 // Sink module that turns the incoming Z stream into TCDM.
+// FIXME: Explain that 
 hci_core_intf #( .DW ( DW ),
                  .UW ( UW ) ) zstream2cast ( .clk ( clk_i ) );
 hci_core_sink         #(

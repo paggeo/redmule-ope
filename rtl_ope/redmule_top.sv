@@ -144,6 +144,7 @@ hwpe_stream_intf_stream #( .DATA_WIDTH ( DATAW_ALIGN ) ) z_buffer_q         ( .c
 hwpe_stream_intf_stream #( .DATA_WIDTH ( DATAW_ALIGN ) ) z_buffer_d         ( .clk( clk_i ) );
 hwpe_stream_intf_stream #( .DATA_WIDTH ( DATAW_ALIGN ) ) z_buffer_fifo      ( .clk( clk_i ) );
 
+
 logic w_granted, x_granted;
 logic [NumStreamSources-1:0][$clog2(NumStreamSources)-1:0] custom_priority;
 logic custom_priority_force;
@@ -212,7 +213,7 @@ ope_regbuffer #(
   .clk_i              ( clk_i                       ),
   .rst_ni             ( rst_ni                      ),
   .clear_i            ( clear                       ),
-  .iteration_change_i ( cntrl_engine.iteration_change ),
+  .iteration_change_i (memory_scheduler_next_iteration),
   .reading_reg_i      ( start_register_reading_q  ),
   .data_i             ( x_buffer_d.data          ),
   .valid_i            ( x_buffer_d.valid         ),
@@ -230,7 +231,7 @@ ope_regbuffer #(
   .clk_i              ( clk_i                       ),
   .rst_ni             ( rst_ni                      ),
   .clear_i            ( clear                       ),
-  .iteration_change_i ( cntrl_engine.iteration_change ),
+  .iteration_change_i (memory_scheduler_next_iteration),
   .reading_reg_i      ( start_register_reading_q ), // When both the x and w buffer are not empty
   .data_i             ( w_buffer_d.data          ),
   .valid_i            ( w_buffer_d.valid         ),
@@ -341,6 +342,7 @@ ope_engine     #(
   .in_ready_o         ( in_ready         ),
   .reg_enable_i       ( reg_enable       ),
   .flush_i            ( engine_flush            ),
+  .iteration_change_i (memory_scheduler_next_iteration),
   .status_o           ( status           ),
   .extension_bit_o    ( extension_bit    ),
   .class_mask_o       ( class_mask       ),
@@ -357,6 +359,9 @@ ope_engine     #(
 /* |                    Memory Controller                      | */
 /*---------------------------------------------------------------*/
 
+logic memory_scheduler_done;
+logic memory_scheduler_next_iteration;
+
 redmule_memory_scheduler #(
   .DW (DATAW_ALIGN),
   .W  (Width),
@@ -368,6 +373,8 @@ redmule_memory_scheduler #(
   .reg_file_i        ( reg_file            ),
   .flgs_streamer_i   ( flgs_streamer       ),
   .cntrl_scheduler_i ( cntrl_scheduler     ),
+  .done_o            ( memory_scheduler_done ),
+  .next_iteration_o   ( memory_scheduler_next_iteration ),
   .cntrl_streamer_o  ( cntrl_streamer      )
 );
 
@@ -404,6 +411,8 @@ redmule_ctrl        #(
   .start_cfg_i        ( start_cfg               ),
   .cfg_complete_o     ( cfg_complete            ),
   .w_loaded_i         ( flgs_scheduler.w_loaded ),
+  .memory_scheduler_done_i ( memory_scheduler_done   ),
+  .memory_scheduler_next_iteration_i ( memory_scheduler_next_iteration ),
   .flush_o            ( engine_flush            ),
   .cntrl_scheduler_o  ( cntrl_scheduler         ),
   .x_regbuffer_ctrl_o ( x_regbuffer_ctrl        ),
@@ -443,13 +452,19 @@ ope_priority_enforcer #(
       z_buffer_q.valid <= 1'b0;
       z_buffer_q.data  <= '0;
       z_buffer_q.strb  <= '0;
-      z_buffer_d.ready <= 1'b0;
+      z_buffer_d.ready <= 1'b1;
     end else begin
-      z_buffer_d.ready <= z_buffer_q.ready;
-      z_buffer_q.valid <= z_buffer_d.valid;
-      z_buffer_q.data  <=  z_buffer_d.data;
-      // z_buffer_q.data  <= {32'b0, z_buffer_d.data};
-      z_buffer_q.strb  <= z_buffer_d.strb;
+      if (memory_scheduler_next_iteration) begin
+        z_buffer_d.ready <= 1'b1;
+        z_buffer_q.valid <= 1'b0;
+        z_buffer_q.data  <= '0;
+        z_buffer_q.strb  <= '0;
+      end else begin 
+        z_buffer_d.ready <= z_buffer_q.ready;
+        z_buffer_q.valid <= z_buffer_d.valid;
+        z_buffer_q.data  <=  z_buffer_d.data;
+        z_buffer_q.strb  <= z_buffer_d.strb;
+      end
     end
   end
 
