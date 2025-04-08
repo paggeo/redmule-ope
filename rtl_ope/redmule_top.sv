@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: SHL-0.51
 //
 // Yvan Tortorella <yvan.tortorella@unibo.it>
-//
+// George Pagonis  <gpagonis@student.ethz.ch>
 
 `include "hci_helpers.svh"
 
@@ -121,6 +121,10 @@ flags_fifo_t   w_fifo_flgs;
 
 x_regbuffer_ctrl_t x_regbuffer_ctrl;
 
+
+logic memory_scheduler_done;
+logic memory_scheduler_next_iteration;
+
 /*--------------------------------------------------------------*/
 /* |                         Streamer                         | */
 /*--------------------------------------------------------------*/
@@ -180,7 +184,7 @@ redmule_streamer #(
 
 
 /*---------------------------------------------------------------*/
-/* |                          INPUT_REGISTERS                    | */
+/* |                      INPUT_REGISTERS                      | */
 /*---------------------------------------------------------------*/
 
 // NOTE: consider a out_ready_i signal to synchronize everything
@@ -205,11 +209,11 @@ always_ff @(posedge clk_i or negedge rst_ni) begin
   end
 end
 
-ope_regbuffer #(
+reg_array_io_wrapper #(
   .READING_POLICY   ( redmule_pkg::SERIALLY ),
   .DATA_WIDTH       (DATAW),
   .DEPTH            (X_REGBUFFER_DEPTH)
-) i_x_buffer_reg(
+) i_x_reg_array_wrapper(
   .clk_i              ( clk_i                       ),
   .rst_ni             ( rst_ni                      ),
   .clear_i            ( clear                       ),
@@ -223,11 +227,11 @@ ope_regbuffer #(
   .not_empty_o        ( not_empty_x_reg)
 );
 
-ope_regbuffer #(
+reg_array_io_wrapper #(
   .READING_POLICY   ( redmule_pkg::INTERLEAVED ),
   .DATA_WIDTH       (DATAW),
   .DEPTH            (W_REGBUFFER_DEPTH)
-) i_w_buffer_reg(
+) i_w_reg_array_wrapper(
   .clk_i              ( clk_i                       ),
   .rst_ni             ( rst_ni                      ),
   .clear_i            ( clear                       ),
@@ -318,7 +322,7 @@ ope_engine     #(
   .Width           ( Width         ),
   .NumPipeRegs     ( NumPipeRegs   ),
   .PipeConfig      ( PipeConfig    )
-) i_redmule_engine (
+) i_ope_engine (
   .clk_i              ( clk_i            ),
   .rst_ni             ( rst_ni           ),
   .x_input_i          ( x_reg_to_engine_data       ),
@@ -359,11 +363,9 @@ ope_engine     #(
 /* |                    Memory Controller                      | */
 /*---------------------------------------------------------------*/
 
-logic memory_scheduler_done;
-logic memory_scheduler_next_iteration;
 
-redmule_memory_scheduler #(
-  .DW (DATAW_ALIGN),
+
+ope_memory_scheduler #(
   .W  (Width),
   .H  (Height)
 ) i_memory_scheduler (
@@ -424,7 +426,7 @@ redmule_ctrl        #(
 logic priority_enforcer_enable;
 assign priority_enforcer_enable = (cntrl_engine.mode == cntrl_engine_mode_e'(COMPUTE)) ? 1'b1 : 1'b0;
 
-ope_priority_enforcer #(
+priority_enforcer #(
   .CHANGE_DEGREE ( X_REGBUFFER_DEPTH    ),
   .NSS           ( NumStreamSources     )
 ) i_priority_enforcer (
@@ -446,7 +448,20 @@ ope_priority_enforcer #(
   assign z_buffer_d.strb = {{DATAW_ALIGN/8{1'b1}}};
 
 
+//   hwpe_stream_fifo #(
+//   .DATA_WIDTH     ( DATAW_ALIGN   ),
+//   .FIFO_DEPTH     ( 1             )
+// ) i_x_buffer_fifo (
+//   .clk_i          ( clk_i         ),
+//   .rst_ni         ( rst_ni        ),
+//   .clear_i        ( clear || memory_scheduler_next_iteration ),
+//   .flags_o        ( x_fifo_flgs   ),
+//   .push_i         ( z_buffer_d    ),
+//   .pop_o          ( z_buffer_q )
+// );
+
   // FIXME: works but maybe replace this with a fifo
+  // Check the dissasert, some values are not used because of many reads
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
       z_buffer_q.valid <= 1'b0;
@@ -462,7 +477,7 @@ ope_priority_enforcer #(
       end else begin 
         z_buffer_d.ready <= z_buffer_q.ready;
         z_buffer_q.valid <= z_buffer_d.valid;
-        z_buffer_q.data  <=  z_buffer_d.data;
+        z_buffer_q.data  <= z_buffer_d.data;
         z_buffer_q.strb  <= z_buffer_d.strb;
       end
     end

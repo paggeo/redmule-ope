@@ -20,55 +20,63 @@ set MinHeight 16
 set MaxHeight 32
 set WavesRadix hexadecimal
 
-# # Core
-# add wave -noupdate -group Core -group top -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$CorePath/*
-# # Top level
-# add wave -noupdate -group RedMulE -group top -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/*
-# add wave -noupdate -group RedMulE -group periph -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/periph/*
-# add wave -noupdate -group RedMulE -group tcdm -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/tcdm/*
-# # Streamer
-# add wave -noupdate -group Streamer -group top -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/*
-# add wave -noupdate -group Streamer -group LDST-Mux -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/i_ldst_mux/*
-# ## X stream
-# add wave -noupdate -group Streamer -group X-Stream -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/gen_tcdm2stream[0]/i_load_tcdm_fifo/*
-# ## W stream
-# add wave -noupdate -group Streamer -group W-Stream -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/gen_tcdm2stream[1]/i_load_tcdm_fifo/*
-# ## Y stream
-# add wave -noupdate -group Streamer -group Y-Stream -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/gen_tcdm2stream[2]/i_load_tcdm_fifo/*
-# ## Z stream
-# add wave -noupdate -group Streamer -group Z-Stream -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/i_stream_sink/*
-# # add wave -noupdate -group Streamer -group Z-Stream -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/i_store_cast/*
-# add wave -noupdate -group Streamer -group Z-Stream -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/i_store_fifo/*
-# # Buffers and FIFOs
-# ## X
-# add wave -noupdate -group X-channel -group x-buffer_fifo -group fifo_interface -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/x_buffer_fifo/*
-# add wave -noupdate -group X-channel -group x-buffer_fifo -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_x_buffer_fifo/*
-# add wave -noupdate -group X-channel -group x-buffer -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_x_buffer/*
-# ## W
-# add wave -noupdate -group W-channel -group w-buffer_fifo -group fifo_interface -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/w_buffer_fifo/*
-# add wave -noupdate -group W-channel -group w-buffer_fifo -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_w_buffer_fifo/*
-# add wave -noupdate -group W-channel -group w-buffer -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_w_buffer/*
-# ## Y
-# add wave -noupdate -group Y-channel -group y-buffer_fifo -group fifo_interface -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/y_buffer_fifo/*
-# add wave -noupdate -group Y-channel -group y-buffer_fifo -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_y_buffer_fifo/*
-# ## Z
-# add wave -noupdate -group Z-channel -group z-buffer_fifo -group fifo_interface -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/z_buffer_fifo/*
-# add wave -noupdate -group Z-channel -group z-buffer_fifo -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_z_buffer_fifo/*
-# add wave -noupdate -group Z-channel -group z-buffer -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_z_buffer/*
-# # Engine
-# set NumRows [examine -radix dec redmule_pkg::ARRAY_WIDTH]
-# set NumCols [examine -radix dec redmule_pkg::ARRAY_HEIGHT]
+add wave -noupdate -group Periph -group periph -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/periph/*
+add wave -noupdate -group TCDM -group tcdm -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/tcdm/*
+add wave -noupdate -group Streamer -group top -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/*
+add wave -noupdate -group Streamer -group X-Stream -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/gen_tcdm2stream[0]/i_load_tcdm_fifo/*
+add wave -noupdate -group Streamer -group W-Stream -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/gen_tcdm2stream[1]/i_load_tcdm_fifo/*
+add wave -noupdate -group Streamer -group Y-Stream -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/gen_tcdm2stream[2]/i_load_tcdm_fifo/*
+add wave -noupdate -group Streamer -group Z-Stream -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_streamer/i_stream_sink/*
+add wave -noupdate -group X-channel -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_x_reg_array_wrapper/*
+add wave -noupdate -group W-channel -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_w_reg_array_wrapper/*
+add wave -noupdate -group Y-channel -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/y_buffer_d/*
+add wave -noupdate -group Z-channel -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/z_buffer_d/*
+# Engine
+set NumRows [examine -radix dec redmule_pkg::ARRAY_WIDTH]
+set NumCols [examine -radix dec redmule_pkg::ARRAY_HEIGHT]
+for {set row 0}  {$row < $NumRows} {incr row} {
+  for {set col 0}  {$col < $NumCols} {incr col} {
+    add wave -noupdate -group Engine -group row_$row -group CE_$col -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/ce_row[$row]/ce_col[$col]/i_ce/*
+  }
+}
 
-# for {set row 0}  {$row < $NumRows} {incr row} {
-#   for {set col 0}  {$col < $NumCols} {incr col} {
-#     add wave -noupdate -group Engine -group row_$row -group CE_$col -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_redmule_engine/gen_redmule_rows[$row]/i_row/gen_computing_element[$col]/i_computing_element/*
-#   }
-# }
-# # Scheduler
-# add wave -noupdate -group Scheduler -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_scheduler/*
-# # Memory scheduler
-# add wave -noupdate -group Scheduler -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_memory_scheduler/*
-# # Controller
-# add wave -noupdate -group Controller -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_control/*
-# Remove the hierarchial strip from signals
+# Accumulation Registers
+set NumRows [examine -radix dec redmule_pkg::ARRAY_WIDTH]
+set NumCols [examine -radix dec redmule_pkg::ARRAY_HEIGHT]
+for {set row 0}  {$row < $NumRows} {incr row} {
+  for {set col 0}  {$col < $NumCols} {incr col} {
+    add wave -noupdate -group Acc-reg -group row_$row -group CE_$col -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/accumulation_reg_row[$row]/accumulation_reg_col[$col]/i_acc_reg/*
+  }
+}
+
+
+add wave -noupdate -group Engine_shortcut  -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/clk_i
+add wave -noupdate -group Engine_shortcut  -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/rst_ni
+add wave -noupdate -group Engine_shortcut  -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/iteration_change_i
+# Engine
+set NumRows [examine -radix dec redmule_pkg::ARRAY_WIDTH]
+set NumCols [examine -radix dec redmule_pkg::ARRAY_HEIGHT]
+for {set row 0}  {$row < $NumRows} {incr row} {
+  for {set col 0}  {$col < $NumCols} {incr col} {
+    add wave -noupdate -group Engine_shortcut -group row_$row -group col_$col -group CE -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/ce_row[$row]/ce_col[$col]/i_ce/x_input_i
+    add wave -noupdate -group Engine_shortcut -group row_$row -group col_$col -group CE -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/ce_row[$row]/ce_col[$col]/i_ce/w_input_i
+    add wave -noupdate -group Engine_shortcut -group row_$row -group col_$col -group CE -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/ce_row[$row]/ce_col[$col]/i_ce/y_bias_i
+    add wave -noupdate -group Engine_shortcut -group row_$row -group col_$col -group CE -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/ce_row[$row]/ce_col[$col]/i_ce/in_valid_i
+    add wave -noupdate -group Engine_shortcut -group row_$row -group col_$col -group CE -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/ce_row[$row]/ce_col[$col]/i_ce/z_output_o
+    add wave -noupdate -group Engine_shortcut -group row_$row -group col_$col -group CE -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/ce_row[$row]/ce_col[$col]/i_ce/out_valid_o
+    add wave -noupdate -group Engine_shortcut -group row_$row -group col_$col -group ACC -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/accumulation_reg_row[$row]/accumulation_reg_col[$col]/i_acc_reg/input_i
+    add wave -noupdate -group Engine_shortcut -group row_$row -group col_$col -group ACC -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/accumulation_reg_row[$row]/accumulation_reg_col[$col]/i_acc_reg/in_valid_i
+    add wave -noupdate -group Engine_shortcut -group row_$row -group col_$col -group ACC -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/accumulation_reg_row[$row]/accumulation_reg_col[$col]/i_acc_reg/read_i
+    add wave -noupdate -group Engine_shortcut -group row_$row -group col_$col -group ACC -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/accumulation_reg_row[$row]/accumulation_reg_col[$col]/i_acc_reg/output_o
+    add wave -noupdate -group Engine_shortcut -group row_$row -group col_$col -group ACC -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/accumulation_reg_row[$row]/accumulation_reg_col[$col]/i_acc_reg/out_valid_o
+    add wave -noupdate -group Engine_shortcut -group row_$row -group col_$col -group ACC -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_ope_engine/accumulation_reg_row[$row]/accumulation_reg_col[$col]/i_acc_reg/internal_reg_q
+  }
+}
+
+# Memory scheduler
+add wave -noupdate -group Scheduler -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_memory_scheduler/*
+# Controller
+add wave -noupdate -group Controller -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_control/*
+add wave -noupdate -group PriorityEnforcer -color {} -height $MinHeight -max $MaxHeight -radix $WavesRadix $Testbench/$TopLevelPath/i_priority_enforcer/*
+
 config wave -signalnamewidth 1

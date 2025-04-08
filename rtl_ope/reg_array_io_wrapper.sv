@@ -2,10 +2,9 @@
 // Solderpad Hardware License, Version 0.51, see LICENSE for details.
 // SPDX-License-Identifier: SHL-0.51
 //
-// George Pagonis
-//
+// George Pagonis  <gpagonis@student.ethz.ch>
 
-module ope_regbuffer  
+module reg_array_io_wrapper  
   import redmule_pkg::*;
 #(
   parameter int unsigned READING_POLICY = redmule_pkg::INTERLEAVED,
@@ -28,9 +27,9 @@ module ope_regbuffer
   logic [DEPTH-1:0][DATA_WIDTH-1:0]       reg_d, reg_q;
   logic [DEPTH-1:0]                       reg_valid_d, reg_valid_q;
   logic [DEPTH-1:0][$clog2(DEPTH) - 1:0]  accessed_counter_d, accessed_counter_q; // Set up to DEPTH-1 when the loading, 0 when the register is free to be written to
-  logic [$clog2(DEPTH) - 1:0]             reading_counter_d, reading_counter_q; // The counter that shows which register to be read from, depends on the reading policy
-  logic [$clog2(DEPTH) - 1:0]             storing_counter_d, storing_counter_q; // The counter that register is being written to. If accessed_counter_q[storing_counter_q] == 0, then the register is free to be written to
-  logic [$clog2(DEPTH) - 1:0]             serial_counter_d, serial_counter_q; // If serially, each register is accessed DEPTH times before moving to the next one
+  logic [$clog2(DEPTH) - 1:0]             reading_counter_d, reading_counter_q;   // The counter that shows which register to be read from, depends on the reading policy
+  logic [$clog2(DEPTH) - 1:0]             storing_counter_d, storing_counter_q;   // The counter that register is being written to. If accessed_counter_q[storing_counter_q] == 0, then the register is free to be written to
+  logic [$clog2(DEPTH) - 1:0]             serial_counter_d, serial_counter_q;     // If serially, each register is accessed DEPTH times before moving to the next one
 
   // **** READING ****
   always_comb begin
@@ -55,26 +54,26 @@ module ope_regbuffer
 
   always_comb begin 
     accessed_counter_d = accessed_counter_q;
-    reg_valid_d = reg_valid_q;
+    reg_valid_d        = reg_valid_q;
     if (reading_reg_i && reg_valid_q[reading_counter_q] && valid_i) begin // both read and write
       if (reading_counter_q != storing_counter_q) begin
         accessed_counter_d[reading_counter_q] = (accessed_counter_q[reading_counter_q] == 0) ? 'b0: accessed_counter_q[reading_counter_q] - 1;
-        reg_valid_d[reading_counter_q] = (accessed_counter_q[reading_counter_q] == 0) ? 1'b0: reg_valid_q[reading_counter_q];
+        reg_valid_d[reading_counter_q]        = (accessed_counter_q[reading_counter_q] == 0) ? 1'b0: reg_valid_q[reading_counter_q];
         accessed_counter_d[storing_counter_q] = DEPTH-1;
-        reg_valid_d[storing_counter_q] = 1'b1;
+        reg_valid_d[storing_counter_q]        = 1'b1;
       end else begin
         accessed_counter_d[storing_counter_q] = DEPTH-1;
-        reg_valid_d[storing_counter_q] = 1'b1;
+        reg_valid_d[storing_counter_q]        = 1'b1;
       end
     end else if (reading_reg_i && reg_valid_q[reading_counter_q]) begin // read only
       accessed_counter_d[reading_counter_q] = (accessed_counter_q[reading_counter_q] == 0) ? 'b0: accessed_counter_q[reading_counter_q] - 1;
-      reg_valid_d[reading_counter_q] = (accessed_counter_q[reading_counter_q] == 0) ? 1'b0: reg_valid_q[reading_counter_q];
+      reg_valid_d[reading_counter_q]        = (accessed_counter_q[reading_counter_q] == 0) ? 1'b0: reg_valid_q[reading_counter_q];
     end else if (valid_i) begin // write only
       accessed_counter_d[storing_counter_q] = DEPTH-1;
-      reg_valid_d[storing_counter_q] = 1'b1;
+      reg_valid_d[storing_counter_q]        = 1'b1;
     end else begin
         accessed_counter_d = accessed_counter_q; 
-        reg_valid_d       = reg_valid_q;
+        reg_valid_d         = reg_valid_q;
     end
   end
 
@@ -130,4 +129,4 @@ module ope_regbuffer
     end
   end
 
-endmodule: ope_regbuffer
+endmodule: reg_array_io_wrapper

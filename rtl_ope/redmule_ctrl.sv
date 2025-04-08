@@ -136,12 +136,13 @@ module redmule_ctrl
   assign cntrl_engine_o.fma_is_boxed = 3'b111;
   assign cntrl_engine_o.noncomp_is_boxed = 2'b11;
   assign cntrl_engine_o.op_mod = 1'b0;
-  assign cntrl_engine_o.stage1_rnd = reg_file_q.hwpe_params[OP_SELECTION][31:29];
-  assign cntrl_engine_o.stage2_rnd = reg_file_q.hwpe_params[OP_SELECTION][28:26];
-  assign cntrl_engine_o.op1 = reg_file_q.hwpe_params[OP_SELECTION][25:21];
-  assign cntrl_engine_o.op2 = reg_file_q.hwpe_params[OP_SELECTION][20:16];
-  assign cntrl_engine_o.memory_format = reg_file_q.hwpe_params[OP_SELECTION][15:13];
-  assign cntrl_engine_o.computing_format = reg_file_q.hwpe_params[OP_SELECTION][12:10];
+  assign cntrl_engine_o.stage1_rnd = fpnew_pkg::roundmode_e'(reg_file_q.hwpe_params[OP_SELECTION][31:29]);
+  assign cntrl_engine_o.stage2_rnd = fpnew_pkg::roundmode_e'(reg_file_q.hwpe_params[OP_SELECTION][28:26]);
+  assign cntrl_engine_o.op1 = fpnew_pkg::operation_e'(reg_file_q.hwpe_params[OP_SELECTION][25:21]);
+  assign cntrl_engine_o.op2 = fpnew_pkg::operation_e'(reg_file_q.hwpe_params[OP_SELECTION][20:16]);
+  assign cntrl_engine_o.memory_format = redmule_pkg::fpu_fmt_e'(reg_file_q.hwpe_params[OP_SELECTION][15:13]);
+
+  assign cntrl_engine_o.computing_format = redmule_pkg::fpu_fmt_e'(reg_file_q.hwpe_params[OP_SELECTION][12:10]);
   /*---------------------------------------------------------------------------------------------*/
   /*                                        Controller FSM                                       */
   /*---------------------------------------------------------------------------------------------*/
