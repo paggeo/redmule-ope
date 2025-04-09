@@ -11,7 +11,7 @@ import hwpe_stream_package::*;
 
 package redmule_pkg;
 
-  parameter int unsigned            DATA_W       = 1024 + 32;                                                            
+  parameter int unsigned            DATA_W       = 512 + 32;                           
   parameter int unsigned            MemDw        = 32;
   parameter int unsigned            NumByte      = MemDw/8;
   parameter int unsigned            ADDR_W       = hci_package::DEFAULT_AW;
@@ -20,9 +20,9 @@ package redmule_pkg;
   parameter int unsigned            N_CONTEXT    = 2;
   parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP32;
   parameter int unsigned            BITW         = fpnew_pkg::fp_width(FPFORMAT);
-  parameter int unsigned            ARRAY_HEIGHT = 16;
+  parameter int unsigned            ARRAY_HEIGHT = 8;
   parameter int unsigned            PIPE_REGS    = 3;
-  parameter int unsigned            ARRAY_WIDTH  = 16; // Superior limit, smaller values are allowed.
+  parameter int unsigned            ARRAY_WIDTH  = 8; // Superior limit, smaller values are allowed.
   // parameter int unsigned            ARRAY_WIDTH  = ARRAY_HEIGHT*PIPE_REGS; // Superior limit, smaller values are allowed.
   parameter int unsigned            TOT_DEPTH    = DATAW/BITW;
   parameter int unsigned            DEPTH        = TOT_DEPTH/ARRAY_HEIGHT;
@@ -35,9 +35,6 @@ package redmule_pkg;
   parameter int unsigned DW_CUT   = DATA_W - ARRAY_HEIGHT*(PIPE_REGS + 1)*MIN_FMT;
   parameter int unsigned ECC_CHUNK_SIZE = 32;
   parameter int unsigned ECC_N_CHUNK    = DATA_W / ECC_CHUNK_SIZE;
-  
-
-
 
   // Register File mapping
   /**********************
@@ -135,9 +132,6 @@ package redmule_pkg;
   } flgs_streamer_t;
 
   typedef struct packed {
-    logic read_buffer;
-    logic store_buffer;
-    logic [$clog2(X_BUFFER_DEPTH) - 1 : 0 ] x_buffer_addr;
     logic h_shift;
     logic load;
     logic pad_setup;

@@ -191,7 +191,7 @@ new_y_dim = str(m_size*k_size)
 new_z_dim = str(m_size*k_size)
 new_out_int = str(int(m_size*k_size))
 
-X_stored_transposed = 1
+X_stored_transposed = 0
 if (X_stored_transposed == 1):
   X_packed = X_packed.T
 
@@ -377,27 +377,27 @@ for i in range(ZFlattened.size(dim=-1)):
 f_c.write("};")
 f_c.close()
 
-import re
-pkg_file = "../../rtl/redmule_pkg.sv"
-with open(pkg_file, 'r') as file: lines = file.readlines()
-pattern = re.compile(r'^\s*(parameter\s+fpnew_pkg::fp_format_e\s+FPFORMAT\s*=\s*fpnew_pkg::)\s*(\w+)(\s*;)', re.MULTILINE)
-new_format = 'FP32'
-updated_lines = [pattern.sub(rf'  \1{new_format}\3', line) if pattern.search(line) else line for line in lines]
-with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-print(f"Updated {pkg_file} with new FPFORMAT = {new_format}")
+# import re
+# pkg_file = "../../rtl/redmule_pkg.sv"
+# with open(pkg_file, 'r') as file: lines = file.readlines()
+# pattern = re.compile(r'^\s*(parameter\s+fpnew_pkg::fp_format_e\s+FPFORMAT\s*=\s*fpnew_pkg::)\s*(\w+)(\s*;)', re.MULTILINE)
+# new_format = 'FP32'
+# updated_lines = [pattern.sub(rf'  \1{new_format}\3', line) if pattern.search(line) else line for line in lines]
+# with open(pkg_file, 'w') as file: file.writelines(updated_lines)
+# print(f"Updated {pkg_file} with new FPFORMAT = {new_format}")
 
-pkg_file = "../../rtl/redmule_pkg.sv"
-with open(pkg_file, 'r') as file: lines = file.readlines()
-pattern = re.compile(r'(^\s*parameter\s+fpnew_pkg::fmt_logic_t\s+FpFmtConfig\s*=\s*6\'b)([01]+)(\s*;)', re.MULTILINE)
-new_binary_value = "101000"
-updated_lines = [pattern.sub(f'  parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6\'b{new_binary_value};', line) if pattern.search(line) else line for line in lines]
-with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-print(f"Updated {pkg_file} with new binary value = {new_binary_value}")
+# pkg_file = "../../rtl/redmule_pkg.sv"
+# with open(pkg_file, 'r') as file: lines = file.readlines()
+# pattern = re.compile(r'(^\s*parameter\s+fpnew_pkg::fmt_logic_t\s+FpFmtConfig\s*=\s*6\'b)([01]+)(\s*;)', re.MULTILINE)
+# new_binary_value = "101000"
+# updated_lines = [pattern.sub(f'  parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6\'b{new_binary_value};', line) if pattern.search(line) else line for line in lines]
+# with open(pkg_file, 'w') as file: file.writelines(updated_lines)
+# print(f"Updated {pkg_file} with new binary value = {new_binary_value}")
 
-pkg_file = "../../rtl/redmule_pkg.sv"
-with open(pkg_file, 'r') as file: lines = file.readlines()
-pattern = re.compile(r'(^\s*parameter\s+int\s+unsigned\s+DATA_W\s*=\s*)([^;]+)(\s*;)', re.MULTILINE)
-new_value = "1024" # ArrayHeight*(PIPEREG +1)*FMT
-updated_lines = [pattern.sub(f'  parameter int unsigned            DATA_W       = {new_value} + 32; ', line) if pattern.search(line) else line for line in lines]
-with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-print(f"Updated {pkg_file} with new value = {new_value}")
+# pkg_file = "../../rtl/redmule_pkg.sv"
+# with open(pkg_file, 'r') as file: lines = file.readlines()
+# pattern = re.compile(r'(^\s*parameter\s+int\s+unsigned\s+DATA_W\s*=\s*)([^;]+)(\s*;)', re.MULTILINE)
+# new_value = "1024" # ArrayHeight*(PIPEREG +1)*FMT
+# updated_lines = [pattern.sub(f'  parameter int unsigned            DATA_W       = {new_value} + 32; ', line) if pattern.search(line) else line for line in lines]
+# with open(pkg_file, 'w') as file: file.writelines(updated_lines)
+# print(f"Updated {pkg_file} with new value = {new_value}")

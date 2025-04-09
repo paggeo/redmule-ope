@@ -217,7 +217,7 @@ module redmule_ce
     .extension_bit_o ( fma_extension_bit ),
     .tag_o           ( fma_output_tag    ),
     .aux_o           ( fma_output_aux     ),
-    .out_valid_o     ( fma_out_valid      ),
+    .out_valid_o     ( fm_out_valid      ),
     .out_ready_i     ( fma_out_ready     ),
     .busy_o          ( fma_busy          )
   );

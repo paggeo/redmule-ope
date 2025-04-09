@@ -25,9 +25,9 @@ module redmule_tb
   localparam int unsigned PROB_STALL = 0;
   localparam int unsigned NC = 1;
   localparam int unsigned ID = 10;
-  localparam int unsigned DW = redmule_pkg::DATAW;
+  localparam int unsigned DW = redmule_pkg::DATA_W;
   localparam int unsigned MP = DW/32;
-  localparam int unsigned MEMORY_SIZE = 16*192*1024;
+  localparam int unsigned MEMORY_SIZE = 3*192*1024;
   localparam int unsigned STACK_MEMORY_SIZE = 3*192*1024;
   localparam int unsigned PULP_XPULP = 1;
   localparam int unsigned FPU = 0;
@@ -420,24 +420,6 @@ module redmule_tb
   prev_finished_redmule <= finished_redmule;
   end
 
-
-
-  // Metrics
-  // TCDM access counters
-  int start_tcdm_counter = 0;
-  int end_tcdm_counter = 0;
-  int tcdm_read_counter = 0;
-  int tcdm_write_counter = 0;
-
-  always_ff @(posedge clk_i) begin
-    if (tcdm_req && start_tcdm_counter == 0) start_tcdm_counter <= global_counter;
-    if (tcdm_req) end_tcdm_counter <= global_counter;
-    if (tcdm_req && tcdm_wen) tcdm_read_counter++; 
-    if (tcdm_req && !tcdm_wen) tcdm_write_counter++;
-  end 
-
-
-  
   initial begin
 
     if (!$value$plusargs("STIM_INSTR=%s", stim_instr)) stim_instr = "../../../sw/build/stim_instr.txt";
@@ -485,9 +467,6 @@ module redmule_tb
     $display("NumByte*BITW/ADDR_w: %0d ",((NumByte*BITW)/ADDR_W));
     $display("Measured count: %0d, Start counter: %0d, End counter: %0d", measured_count, start_counter, end_counter);
     $display("Periphery Measured count: %0d, Start counter: %0d, End counter: %0d", periphery_end_counter - periphery_start_counter, periphery_start_counter, periphery_end_counter);
-    $display("TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter - start_tcdm_counter, start_tcdm_counter, end_tcdm_counter);
-    $display("TCDM Request Read count: %0d | Write count: %0d | Element read: %0d | Element write: %0d", tcdm_read_counter, tcdm_write_counter, tcdm_read_counter*MP, tcdm_write_counter*MP);
-    $display("TCDM Request count: %0d", tcdm_read_counter + tcdm_write_counter);
     $finish;
   end
 

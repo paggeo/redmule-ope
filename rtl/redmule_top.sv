@@ -118,7 +118,6 @@ flgs_scheduler_t  flgs_scheduler;
 // Register file binded from controller to FSM
 ctrl_regfile_t reg_file;
 flags_fifo_t   w_fifo_flgs;
-flags_fifo_t   x_fifo_flgs;
 
 /*--------------------------------------------------------------*/
 /* |                         Streamer                         | */
@@ -167,18 +166,20 @@ redmule_streamer #(
 
 hwpe_stream_fifo #(
   .DATA_WIDTH     ( DATAW_ALIGN   ),
-  .FIFO_DEPTH     ( 1             )
+  // .FIFO_DEPTH     ( 8             )
+  .FIFO_DEPTH     ( 4             )
 ) i_x_buffer_fifo (
   .clk_i          ( clk_i         ),
   .rst_ni         ( rst_ni        ),
   .clear_i        ( clear         ),
-  .flags_o        ( x_fifo_flgs   ),
+  .flags_o        (               ),
   .push_i         ( x_buffer_d    ),
   .pop_o          ( x_buffer_fifo )
 );
 
 hwpe_stream_fifo #(
   .DATA_WIDTH     ( DATAW_ALIGN   ),
+  // .FIFO_DEPTH     ( 8             )
   .FIFO_DEPTH     ( 4             )
 ) i_w_buffer_fifo (
   .clk_i          ( clk_i         ),
@@ -191,6 +192,7 @@ hwpe_stream_fifo #(
 
 hwpe_stream_fifo #(
   .DATA_WIDTH     ( DATAW_ALIGN   ),
+  // .FIFO_DEPTH     ( 8             )
   .FIFO_DEPTH     ( 4             )
 ) i_y_buffer_fifo (
   .clk_i          ( clk_i         ),
