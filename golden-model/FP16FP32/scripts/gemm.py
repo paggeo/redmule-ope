@@ -29,8 +29,10 @@ parser.add_argument( '--k_size', type=int, default=3 )
 parser.add_argument( '--file_name', type=str, default='net_parameters.h')
 parser.add_argument( '--inc_dir', type=str)
 parser.add_argument( '--txt_dir', type=str)
+parser.add_argument( '--transpose', type=int, default=0)
 args = parser.parse_args()
 
+transpose = args.transpose
 # Network parameters
 m_size = args.m_size
 n_size = args.n_size
@@ -191,8 +193,7 @@ new_y_dim = str(m_size*k_size)
 new_z_dim = str(m_size*k_size)
 new_out_int = str(int(m_size*k_size))
 
-X_stored_transposed = 0
-if (X_stored_transposed == 1):
+if (transpose == 1):
   X_packed = X_packed.T
 
   f_x = open(os.path.join(inc_path, 'x_input.h'), "w")

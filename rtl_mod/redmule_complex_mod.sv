@@ -5,11 +5,11 @@
 // Yvan Tortorella <yvan.tortorella@unibo.it>
 //
 
-module redmule_complex
+module redmule_complex_mod
   import cv32e40x_pkg::*;
   import fpnew_pkg::*;
   import hci_package::*;
-  import redmule_pkg::*;
+  import redmule_pkg_mod::*;
   import hwpe_ctrl_package::*;
   import hwpe_stream_package::*;
 #(
@@ -260,7 +260,7 @@ endgenerate
 
 localparam int unsigned XExt = (CoreType == CV32X) ? 1 : 0;
 
-redmule_top #(
+redmule_top_mod #(
   .ID_WIDTH           ( ID_WIDTH              ),
   .N_CORES            ( 1                     ),
   .DW                 ( DW                    ),
@@ -280,4 +280,4 @@ redmule_top #(
   .xif_mem_if_o       ( core_xif.coproc_mem        )
 );
 
-endmodule: redmule_complex
+endmodule: redmule_complex_mod

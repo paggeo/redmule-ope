@@ -5,7 +5,7 @@
 // George Pagonis  <gpagonis@student.ethz.ch>
 
 module accumulation_reg
-  import redmule_pkg::*;
+  import ope_pkg::*;
 #(
   parameter int unsigned   DATA_WIDTH   = BITW,
   parameter int unsigned   DEPTH        = REG_PER_CE

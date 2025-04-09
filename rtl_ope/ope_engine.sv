@@ -7,7 +7,7 @@
 
 module ope_engine
   import fpnew_pkg::*;
-  import redmule_pkg::*;
+  import ope_pkg::*;
 #(
  parameter  fp_format_e   FpFormat    = fpnew_pkg::FP32              ,
  parameter  int unsigned  Height      = 4                            , // Number of PEs per row
@@ -243,7 +243,7 @@ module ope_engine
   generate
     for(genvar row_index = 0; row_index < Height; row_index++) begin: ce_row
       for (genvar col_index = 0; col_index < Width; col_index++) begin: ce_col
-      redmule_ce   #(
+      ope_ce   #(
         .FpFormat    ( FpFormat    ),
         .NumPipeRegs ( NumPipeRegs ),
         .PipeConfig  ( PipeConfig  ),

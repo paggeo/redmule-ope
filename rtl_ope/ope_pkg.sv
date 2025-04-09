@@ -9,7 +9,7 @@ import fpnew_pkg::*;
 import hci_package::*;
 import hwpe_stream_package::*;
 
-package redmule_pkg;
+package ope_pkg;
 
   parameter int unsigned            DATA_W       = 32*8 + 32;
   // parameter int unsigned            DATA_W       = 32*4 + 32;                                  

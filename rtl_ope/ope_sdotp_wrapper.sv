@@ -19,7 +19,7 @@
 
 `include "common_cells/registers.svh"
 
-module redmule_sdotp_wrapper #(
+module ope_sdotp_wrapper #(
   parameter int unsigned             LaneWidth   = 64,
   parameter fpnew_pkg::fmt_logic_t   FpFmtConfig = '1,
   parameter int unsigned             NumPipeRegs = 0,
@@ -146,7 +146,7 @@ module redmule_sdotp_wrapper #(
     end
   end
 
-  redmule_sdotp #(
+  ope_sdotp #(
     .SrcDotpFpFmtConfig ( FpSrcFmtConfig ), // FP8, FP8ALT, FP16, FP16ALT
     .DstDotpFpFmtConfig ( FpDstFmtConfig ), // FP32, FP16, FP16ALT
     .NumPipeRegs        ( NumPipeRegs    ),

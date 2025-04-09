@@ -5,8 +5,8 @@
 // Yvan Tortorella <yvan.tortorella@unibo.it>
 //
 
-module redmule_inst_decoder
-  import redmule_pkg::*;
+module redmule_inst_decoder_mod
+  import redmule_pkg_mod::*;
   import cv32e40x_pkg::*;
 #(
   parameter  int unsigned SysInstWidth  = 32            ,
@@ -215,4 +215,4 @@ always_comb begin : cfg_fsm
   endcase
 end
 
-endmodule: redmule_inst_decoder
+endmodule: redmule_inst_decoder_mod

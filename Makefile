@@ -126,9 +126,10 @@ fp_fmt ?= FP16
 M      ?= 4
 N      ?= 4
 K      ?= 4
+transpose ?= 1
 
 golden: golden-clean
-	$(MAKE) -C golden-model $(OP) SW=$(SW)/inc M=$(M) N=$(N) K=$(K) fp_fmt=$(fp_fmt)
+	$(MAKE) -C golden-model $(OP) SW=$(SW)/inc M=$(M) N=$(N) K=$(K) fp_fmt=$(fp_fmt) transpose=$(transpose)
 
 golden-clean:
 	$(MAKE) -C golden-model golden-clean

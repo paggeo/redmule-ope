@@ -7,17 +7,17 @@
 
 `include "hci_helpers.svh"
 
-module redmule_wrap
+module redmule_wrap_mod
   import fpnew_pkg::*;
   import hci_package::*;
-  import redmule_pkg::*;
+  import redmule_pkg_mod::*;
   import hwpe_ctrl_package::*;
   import hwpe_stream_package::*;
 #(
   parameter  int unsigned  ID_WIDTH    = 8                    ,
   parameter  int unsigned  N_CORES     = 8                    ,
   parameter  int unsigned  DW          = DATA_W               , // TCDM port dimension (in bits)
-  parameter  int unsigned  MP          = DW/redmule_pkg::MemDw,
+  parameter  int unsigned  MP          = DW/redmule_pkg_mod::MemDw,
   parameter  int unsigned  EW          = 0                    , // ECC signals width
   localparam fp_format_e   FpFormat    = FPFORMAT             , // Data format (default is FP16)
   localparam int unsigned  Height      = ARRAY_HEIGHT         , // Number of PEs within a row
@@ -46,9 +46,7 @@ module redmule_wrap
   input  logic                      tcdm_r_opc_i    ,
   input  logic                      tcdm_r_user_i   ,
   input  logic [      EW-1:0]       tcdm_r_ecc_i    ,
-// `ifdef DEBUG
   output cntrl_scheduler_t        debug_cntrl_scheduler_o,
-// `endif
   // periph slave port
   input  logic                      periph_req_i    ,
   output logic                      periph_gnt_o    ,
@@ -186,7 +184,7 @@ logic [N_CORES-1:0][1:0] evt;
   assign periph_r_id_o    = periph.r_id;
 `endif
 
-redmule_top #(
+redmule_top_mod #(
   .ID_WIDTH              ( ID_WIDTH              ),
   .N_CORES               ( N_CORES               ),
   .DW                    ( DW                    ),
@@ -198,10 +196,8 @@ redmule_top #(
   .evt_o              ( evt_o              ),
   .busy_o             ( busy_o             ),
   .tcdm               ( tcdm               ),
-// `ifdef DEBUG  
   .debug_cntrl_scheduler_o(debug_cntrl_scheduler_o),
-// `endif
   .periph             ( periph             )
 );
 
-endmodule: redmule_wrap
+endmodule: redmule_wrap_mod

@@ -5,9 +5,9 @@
 // Yvan Tortorella <yvan.tortorella@unibo.it>
 // George Pagonis: remove the comp, add the sdotp and the fma in a signle stage
 
-module redmule_ce
+module redmule_ce_mod
   import fpnew_pkg::*;
-  import redmule_pkg::*;
+  import redmule_pkg_mod::*;
 #(
   parameter fpnew_pkg::fp_format_e   FpFormat    = fpnew_pkg::FP32              ,
   parameter int unsigned             NumPipeRegs = 2                            ,
@@ -156,7 +156,7 @@ module redmule_ce
 /*******************************************************************************/
 
 
-  redmule_sdotp_wrapper #(
+  redmule_sdotp_wrapper_mod #(
     .LaneWidth        ( fpnew_pkg::fp_width(FpFormat) ), // Should be 32
     .FpFmtConfig      ( FpFmtConfig                   ),
     .NumPipeRegs      ( NumPipeRegs                   ),
@@ -193,7 +193,7 @@ module redmule_ce
 
 
 
-  redmule_fma   #(
+  redmule_fma_mod   #(
     .FpFormat    ( FpFormat    ),
     .NumPipeRegs ( NumPipeRegs ),
     .PipeConfig  ( PipeConfig  ),
@@ -255,4 +255,4 @@ module redmule_ce
     end
   end : output_selector
 
-endmodule: redmule_ce
+endmodule: redmule_ce_mod

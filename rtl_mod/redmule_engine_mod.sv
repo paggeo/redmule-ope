@@ -5,9 +5,9 @@
 // Yvan Tortorella <yvan.tortorella@unibo.it>
 //
 
-module redmule_engine
+module redmule_engine_mod
   import fpnew_pkg::*;
-  import redmule_pkg::*;
+  import redmule_pkg_mod::*;
 #(
  parameter  fp_format_e   FpFormat    = FP16                         ,
  parameter  int unsigned  Height      = 4                            , // Number of PEs per row
@@ -36,6 +36,9 @@ module redmule_engine
   input  fpnew_pkg::roundmode_e                            stage2_rnd_i       ,
   input  fpnew_pkg::operation_e                            op1_i              ,
   input  fpnew_pkg::operation_e                            op2_i              ,
+  input  fpu_fmt_e                                         memory_fmt_i       ,
+  input  fpu_fmt_e                                         computing_fmt_i    ,
+  input  logic                                             same_fmt_i         , 
   input  logic                                             op_mod_i           ,
   input  TagType                                           tag_i              ,
   input  AuxType                                           aux_i              ,
@@ -78,7 +81,7 @@ generate
       .clk_o     ( row_clk[index]                       )
     );
 
-    redmule_row       #(
+    redmule_row_mod       #(
       .FpFormat        ( FpFormat    ),
       .Height          ( H           ),
       .NumPipeRegs     ( NumPipeRegs ),
@@ -96,6 +99,9 @@ generate
       .stage2_rnd_i       ( stage2_rnd_i            ),
       .op1_i              ( op1_i                   ),
       .op2_i              ( op2_i                   ),
+      .memory_fmt_i       ( memory_fmt_i            ),
+      .computing_fmt_i    ( computing_fmt_i         ),
+      .same_fmt_i         ( same_fmt_i              ),
       .op_mod_i           ( op_mod_i                ),
       .tag_i              ( tag_i                   ),
       .aux_i              ( aux_i                   ),
@@ -127,4 +133,4 @@ endgenerate
 
 assign z_output_o = result;
 
-endmodule : redmule_engine
+endmodule : redmule_engine_mod

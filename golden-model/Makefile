@@ -18,6 +18,7 @@ SW      ?=
 M ?= 3
 N ?= 3
 K ?= 3
+transpose ?= 1
 
 # FP format
 fp_fmt ?= FP16
@@ -66,15 +67,15 @@ addmin: check_penv
 	deactivate
 
 gemm: check_penv
-	mkdir -p $@/txt;                          \
-	cd $(PENV);                               \
-	source ./bin/activate;                    \
-	cd $(CUR_DIR)/$(fp_fmt);                  \
-	python3 ./scripts/$@.py                   \
-	--m_size $(M) --n_size $(N) --k_size $(K) \
-	--inc_dir $(SW)                           \
-	--txt_dir $(CUR_DIR)/$@/txt;              \
-	cd $(PENV);                               \
+	mkdir -p $@/txt;                          							\
+	cd $(PENV);                               							\
+	source ./bin/activate;                    							\
+	cd $(CUR_DIR)/$(fp_fmt);                  							\
+	python3 ./scripts/$@.py                   							\
+	--m_size $(M) --n_size $(N) --k_size $(K) 							\
+	--inc_dir $(SW)                           							\
+	--txt_dir $(CUR_DIR)/$@/txt --transpose $(transpose);  \
+	cd $(PENV);                               							\
 	deactivate
 
 matmul: check_penv
