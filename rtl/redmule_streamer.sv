@@ -301,7 +301,6 @@ assign zstream2cast.r_ecc    = z_fifo_d.r_ecc;
 
 // HCI store fifo.
 hci_core_fifo #(
-  // .FIFO_DEPTH                      ( 4                          ),
   .FIFO_DEPTH                      ( 2                          ),
   .`HCI_SIZE_PARAM(tcdm_initiator) ( `HCI_SIZE_PARAM(ldst_tcdm) )
 ) i_store_fifo (
@@ -379,7 +378,6 @@ for (genvar i = 0; i < NumStreamSources; i++) begin: gen_tcdm2stream
   end
 
   hci_core_fifo #(
-    // .FIFO_DEPTH  ( 8  ), // to avoid protocol violations, as the consumer has a throughput
     .FIFO_DEPTH  ( 4  ), // to avoid protocol violations, as the consumer has a throughput
                          // of 1 packet over 4 cycles, we need a depth of 4 elements.
     .`HCI_SIZE_PARAM(tcdm_initiator) ( `HCI_SIZE_PARAM(ldst_tcdm) )

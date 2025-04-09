@@ -1,5 +1,5 @@
 # vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
-# Start time: 10:21:03 on Apr 09,2025
+# Start time: 14:09:59 on Apr 09,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -138,240 +138,50 @@
 # Loading work.hci_core_intf(fast__10)
 # Loading work.hwpe_stream_intf_stream(fast__11)
 # run -a
-# comp_fmt: 1, gemm_op: 1, mem_fmt: 4
+# ** Error: Assertion error.
+#    Time: 0 ps  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.i_streamer.i_stream_sink.genblk4.dw File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/core/hci_core_sink.sv Line: 345
+# comp_fmt: 4, gemm_op: 1, mem_fmt: 4
 # Triggering accelerator and going to sleep...
 # ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 1994 ns Started: 1994 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
+#    Time: 1930 ns Started: 1930 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
 # ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 1995 ns Started: 1995 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
+#    Time: 1931 ns Started: 1931 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
 # ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 1995 ns Started: 1995 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
+#    Time: 1931 ns Started: 1931 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
 # ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 2270 ns Started: 2270 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
+#    Time: 2142 ns Started: 2142 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
 # ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 2271 ns Started: 2271 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
+#    Time: 2143 ns Started: 2143 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
 # ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 2271 ns Started: 2271 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
+#    Time: 2143 ns Started: 2143 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
 # ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 2546 ns Started: 2546 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
+#    Time: 2354 ns Started: 2354 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
 # ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 2547 ns Started: 2547 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
+#    Time: 2355 ns Started: 2355 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
 # ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 2547 ns Started: 2547 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
+#    Time: 2355 ns Started: 2355 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
 # ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 2822 ns Started: 2822 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
+#    Time: 2566 ns Started: 2566 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
 # ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 2823 ns Started: 2823 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
+#    Time: 2567 ns Started: 2567 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
 # ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 2823 ns Started: 2823 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 3098 ns Started: 3098 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 3099 ns Started: 3099 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 3099 ns Started: 3099 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 3374 ns Started: 3374 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 3375 ns Started: 3375 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 3375 ns Started: 3375 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 3650 ns Started: 3650 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 3651 ns Started: 3651 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 3651 ns Started: 3651 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 3926 ns Started: 3926 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 3927 ns Started: 3927 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 3927 ns Started: 3927 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 4202 ns Started: 4202 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 4203 ns Started: 4203 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 4203 ns Started: 4203 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 4478 ns Started: 4478 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 4479 ns Started: 4479 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 4479 ns Started: 4479 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 4754 ns Started: 4754 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 4755 ns Started: 4755 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 4755 ns Started: 4755 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 5030 ns Started: 5030 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 5031 ns Started: 5031 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 5031 ns Started: 5031 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 5306 ns Started: 5306 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 5307 ns Started: 5307 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 5307 ns Started: 5307 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 5582 ns Started: 5582 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 5583 ns Started: 5583 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 5583 ns Started: 5583 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 5858 ns Started: 5858 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 5859 ns Started: 5859 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 5859 ns Started: 5859 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 6134 ns Started: 6134 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 6135 ns Started: 6135 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 6135 ns Started: 6135 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 6410 ns Started: 6410 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 6411 ns Started: 6411 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 6411 ns Started: 6411 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 6686 ns Started: 6686 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 6687 ns Started: 6687 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 6687 ns Started: 6687 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 6962 ns Started: 6962 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 6963 ns Started: 6963 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 6963 ns Started: 6963 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 7238 ns Started: 7238 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 7239 ns Started: 7239 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 7239 ns Started: 7239 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 7514 ns Started: 7514 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 7515 ns Started: 7515 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 7515 ns Started: 7515 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 7790 ns Started: 7790 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 7791 ns Started: 7791 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 7791 ns Started: 7791 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 8066 ns Started: 8066 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 8067 ns Started: 8067 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 8067 ns Started: 8067 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 8342 ns Started: 8342 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 8343 ns Started: 8343 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 8343 ns Started: 8343 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 8618 ns Started: 8618 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 8619 ns Started: 8619 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 8619 ns Started: 8619 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 8894 ns Started: 8894 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 8895 ns Started: 8895 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 8895 ns Started: 8895 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 9170 ns Started: 9170 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 9171 ns Started: 9171 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 9171 ns Started: 9171 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 9446 ns Started: 9446 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 9447 ns Started: 9447 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 9447 ns Started: 9447 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 9722 ns Started: 9722 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 9723 ns Started: 9723 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 9723 ns Started: 9723 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 9998 ns Started: 9998 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 9999 ns Started: 9999 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 9999 ns Started: 9999 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 10274 ns Started: 10274 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 10275 ns Started: 10275 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 10275 ns Started: 10275 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 10550 ns Started: 10550 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 10551 ns Started: 10551 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 10551 ns Started: 10551 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 10826 ns Started: 10826 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 10827 ns Started: 10827 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 10827 ns Started: 10827 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 11102 ns Started: 11102 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 11103 ns Started: 11103 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 11103 ns Started: 11103 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 11378 ns Started: 11378 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 11379 ns Started: 11379 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 11379 ns Started: 11379 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 11654 ns Started: 11654 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
-# ** Warning: ASSERTION FAILURE HWPE_STREAM_VALID_DEASSERT          1
-#    Time: 11655 ns Started: 11655 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALID_DEASSERT File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 120
-# ** Warning: ASSERTION FAILURE: HWPE_STREAM_VALUE_CHANGE          1
-#    Time: 11655 ns Started: 11655 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
+#    Time: 2567 ns Started: 2567 ns  Scope: redmule_tb_wrap.i_redmule_tb.i_redmule_wrap.i_redmule_top.z_buffer_q.HWPE_STREAM_VALUE_CHANGE File: /scratch/ope_pagonis/redmule-ope/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv Line: 117
 # Resumed!
 # Terminated test with 0 errors. See you!
-# [TB] - cnt_rd= 83186   
-# [TB] - cnt_wr= 9320    
+# [TB] - cnt_rd= 5760    
+# [TB] - cnt_wr= 1152    
 # [TB] - Success!
 # [TB] - errors=00000000
 # FPFORMAT = 0 (FP16=2, FP32=0)
 # DATA_W = 288
 # BITW=32, NumByte=4, ADDR_W=32
 # NumByte*BITW/ADDR_w: 4 
-# Measured count: 1, Start counter: 11522, End counter: 11523
-# Periphery Measured count: 10408, Start counter: 1147, End counter: 11555
-# TCDM Measured count: 9930, Start counter: 1622, End counter: 11552
-# TCDM Request Read count: 8064 | Write count: 1152 | Element read: 64512 | Element write: 9216
-# TCDM Request count: 9216
+# Measured count: 1, Start counter: 2434, End counter: 2435
+# Periphery Measured count: 1320, Start counter: 1147, End counter: 2467
+# TCDM Measured count: 842, Start counter: 1622, End counter: 2464
+# TCDM Request Read count: 640 | Write count: 128 | Element read: 5760 | Element write: 1152
+# TCDM Request count: 768
 # ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(491)
-#    Time: 141500 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
-# End time: 10:21:28 on Apr 09,2025, Elapsed time: 0:00:25
-# Errors: 0, Warnings: 108
+#    Time: 17454 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# End time: 14:10:02 on Apr 09,2025, Elapsed time: 0:00:03
+# Errors: 1, Warnings: 12

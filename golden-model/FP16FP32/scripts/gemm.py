@@ -191,7 +191,7 @@ new_y_dim = str(m_size*k_size)
 new_z_dim = str(m_size*k_size)
 new_out_int = str(int(m_size*k_size))
 
-X_stored_transposed = 1
+X_stored_transposed = 0
 if (X_stored_transposed == 1):
   X_packed = X_packed.T
 

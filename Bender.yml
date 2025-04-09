@@ -24,7 +24,7 @@ dependencies:
 
 sources:
   files:
-  # # RedMulE
+  # # # RedMulE
   #   - rtl/redmule_pkg.sv
   #   - rtl/redmule_tiler.sv
   #   - rtl/redmule_ctrl.sv

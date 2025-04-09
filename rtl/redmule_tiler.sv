@@ -50,7 +50,7 @@ assign config_d.m_size          = reg_file_i.hwpe_params[MCFIG0][15: 0];
 assign config_d.k_size          = reg_file_i.hwpe_params[MCFIG0][31:16];
 assign config_d.n_size          = reg_file_i.hwpe_params[MCFIG1][15: 0];
 // assign config_d.gemm_ops        = gemm_op_e' (reg_file_i.hwpe_params[MACFG][12:10]);
-// assign config_d.gemm_ops        = gemm_op_e' (reg_file_i.hwpe_params[MACFG][12:10]);
+assign config_d.gemm_ops        = gemm_op_e' (reg_file_i.hwpe_params[MACFG][12:10]);
 assign config_d.gemm_memory_fmt     = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 9: 7]);    // Memory Format
 assign config_d.gemm_computing_fmt  = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 19: 17]);  // Computing Format
 
