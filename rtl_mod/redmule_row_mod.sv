@@ -5,8 +5,9 @@
 // Yvan Tortorella <yvan.tortorella@unibo.it>
 //
 
-module redmule_row
+module redmule_row_mod
   import fpnew_pkg::*;
+  import redmule_pkg_mod::*;
 #(
   parameter fpnew_pkg::fp_format_e    FpFormat    = fpnew_pkg::FP16,
   parameter int unsigned              Height      = 4,                             // Number of PEs per row
@@ -32,6 +33,9 @@ module redmule_row
   input  fpnew_pkg::roundmode_e                     stage2_rnd_i      ,
   input  fpnew_pkg::operation_e                     op1_i             ,
   input  fpnew_pkg::operation_e                     op2_i             ,
+  input  fpu_fmt_e                                  memory_fmt_i      ,
+  input  fpu_fmt_e                                  computing_fmt_i   ,
+  input  logic                                      same_fmt_i        , 
   input  logic                                      op_mod_i          ,
   input  TagType                                    tag_i             ,
   input  AuxType                                    aux_i             ,
@@ -74,7 +78,7 @@ generate
     else
       assign input_operands [index][2] = y_bias_i;
 
-    redmule_ce         #(
+    redmule_ce_mod         #(
     .FpFormat           ( FpFormat    ),
     .NumPipeRegs        ( NumPipeRegs ),
     .PipeConfig         ( PipeConfig  ),
@@ -92,6 +96,9 @@ generate
       .op1_i              ( op1_i                     ),
       .op2_i              ( op2_i                     ),
       .op_mod_i           ( op_mod_i                  ),
+      .memory_fmt_i       ( memory_fmt_i              ),
+      .computing_fmt_i    ( computing_fmt_i           ),
+      .same_fmt_i         ( same_fmt_i                ),
       .tag_i              ( tag_i                     ),
       .aux_i              ( aux_i                     ),
       .in_valid_i         ( in_valid_i                ),
@@ -129,4 +136,4 @@ end
 
 assign z_output_o = output_q [H-1];
 
-endmodule : redmule_row
+endmodule : redmule_row_mod

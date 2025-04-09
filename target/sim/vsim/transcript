@@ -1,5 +1,9 @@
 # vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
+<<<<<<< HEAD
 # Start time: 11:29:30 on Apr 09,2025
+=======
+# Start time: 18:31:51 on Apr 09,2025
+>>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -20,17 +24,23 @@
 # Loading work.hci_package(fast)
 # Loading work.redmule_pkg(fast)
 # Loading work.redmule_tb_wrap(fast)
+# Loading work.ope_pkg(fast)
+# Loading work.redmule_pkg_mod(fast)
 # Loading work.redmule_tb_sv_unit(fast)
 # Loading work.redmule_tb(fast)
 # Loading work.hwpe_ctrl_package(fast)
-# Loading work.redmule_wrap(fast)
+# Loading work.redmule_wrap_mod(fast)
 # Loading work.hci_core_intf(fast__1)
 # Loading work.hwpe_ctrl_intf_periph(fast__1)
-# Loading work.redmule_top(fast)
+# Loading work.redmule_top_mod(fast)
 # Loading work.hwpe_stream_intf_stream(fast__1)
 # Loading work.hwpe_stream_intf_stream(fast__2)
 # Loading work.hwpe_stream_intf_stream(fast__3)
+<<<<<<< HEAD
 # Loading work.redmule_streamer(fast)
+=======
+# Loading work.redmule_streamer_mod(fast)
+>>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
 # Loading work.hci_core_intf(fast__2)
 # Loading work.hci_core_intf(fast__3)
 # Loading work.hci_core_assign(fast)
@@ -75,6 +85,7 @@
 # Loading work.hwpe_stream_assign(fast)
 # Loading work.hwpe_stream_fifo(fast__7)
 # Loading work.hwpe_stream_fifo(fast__8)
+<<<<<<< HEAD
 # Loading work.redmule_x_buffer(fast)
 # Loading work.redmule_x_pad_scm(fast)
 # Loading work.tc_clk_gating(fast)
@@ -88,26 +99,51 @@
 # Loading work.redmule_ce(fast)
 # Loading work.redmule_sdotp_wrapper(fast)
 # Loading work.redmule_sdotp(fast)
+=======
+# Loading work.redmule_x_buffer_mod(fast)
+# Loading work.redmule_x_pad_scm_mod(fast)
+# Loading work.tc_clk_gating(fast)
+# Loading work.redmule_x_buffer_scm_mod(fast)
+# Loading work.redmule_w_buffer_mod(fast)
+# Loading work.redmule_w_buffer_scm_mod(fast)
+# Loading work.redmule_z_buffer_mod(fast)
+# Loading work.redmule_z_buffer_scm_mod(fast)
+# Loading work.redmule_engine_mod(fast)
+# Loading work.redmule_row_mod(fast)
+# Loading work.redmule_ce_mod(fast)
+# Loading work.redmule_sdotp_wrapper_mod(fast)
+# Loading work.redmule_sdotp_mod(fast)
+>>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
 # Loading work.fpnew_classifier(fast)
 # Loading work.fpnew_classifier(fast__1)
 # Loading work.fpnew_classifier(fast__2)
 # Loading work.cf_math_pkg(fast)
 # Loading work.lzc(fast)
 # Loading work.fpnew_rounding(fast)
-# Loading work.redmule_fma(fast)
+# Loading work.redmule_fma_mod(fast)
 # Loading work.fpnew_classifier(fast__3)
 # Loading work.lzc(fast__1)
+<<<<<<< HEAD
 # Loading work.redmule_memory_scheduler(fast)
 # Loading work.redmule_ctrl_sv_unit(fast)
 # Loading work.redmule_ctrl(fast)
+=======
+# Loading work.redmule_memory_scheduler_mod(fast)
+# Loading work.redmule_ctrl_mod_sv_unit(fast)
+# Loading work.redmule_ctrl_mod(fast)
+>>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
 # Loading work.hwpe_ctrl_slave(fast)
 # Loading work.hwpe_ctrl_regfile(fast)
 # Loading work.hwpe_ctrl_regfile_latch_test_wrap(fast)
 # Loading work.hwpe_ctrl_regfile_ff(fast)
-# Loading work.redmule_tiler(fast)
+# Loading work.redmule_tiler_mod(fast)
 # Loading work.hwpe_ctrl_seq_mult(fast)
 # Loading work.hwpe_ctrl_seq_mult(fast__1)
+<<<<<<< HEAD
 # Loading work.redmule_scheduler(fast)
+=======
+# Loading work.redmule_scheduler_mod(fast)
+>>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
 # Loading work.tb_dummy_memory(fast)
 # Loading work.tb_dummy_memory(fast__1)
 # Loading work.tb_dummy_memory(fast__2)
@@ -147,6 +183,7 @@
 # comp_fmt: 4, gemm_op: 1, mem_fmt: 4
 # Triggering accelerator and going to sleep...
 # Resumed!
+<<<<<<< HEAD
 # Terminated test with 1024 errors. See you!
 # [TB] - cnt_rd= 1728    
 # [TB] - cnt_wr= 288     
@@ -163,3 +200,22 @@
 #    Time: 17588 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
 # End time: 11:29:33 on Apr 09,2025, Elapsed time: 0:00:03
 # Errors: 1, Warnings: 0
+=======
+# Terminated test with 0 errors. See you!
+# [TB] - cnt_rd= 1728    
+# [TB] - cnt_wr= 288     
+# [TB] - Success!
+# [TB] - errors=00000000
+# Measured count: 1, Start counter: 2197, End counter: 2198
+# Periphery Measured count: 1058, Start counter: 1147, End counter: 2205
+# TCDM Measured count: 581, Start counter: 1622, End counter: 2203
+# TCDM Request Read count: 192 | Write count: 32 | Element read: 6336 | Element write: 1056
+# TCDM Request count: 224
+# 
+# [Data]: Cycles: 1058 | TCDM Request count: 224 | TCDM Start - Finish: 581
+# 
+# ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(579)
+#    Time: 17192 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# End time: 18:31:55 on Apr 09,2025, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 0
+>>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77

@@ -8,9 +8,9 @@
 
 `include "hci_helpers.svh"
 
-module redmule_streamer
+module redmule_streamer_mod
   import fpnew_pkg::*;
-  import redmule_pkg::*;
+  import redmule_pkg_mod::*;
   import hci_package::*;
   import hwpe_stream_package::*;
 #(
@@ -249,24 +249,34 @@ hci_core_intf #( .DW ( DW ),
                  .UW ( UW ) ) z_fifo_q ( .clk ( clk_i ) );
 
 logic cast;
-assign cast = (ctrl_i.input_cast_src_fmt == fpnew_pkg::FP32) ? 1'b0: 1'b1;
+
+assign cast = 1'b0;
+// assign cast = (ctrl_i.input_cast_src_fmt != ctrl_i.input_cast_dst_fmt) ? 1'b1: 1'b0;
+
+// assign cast = (ctrl_i.input_cast_src_fmt == fpnew_pkg::FP32 || ctrl_i.input_cast_src_fmt == fpnew_pkg::FP16) ? 1'b0: 1'b1;
+// assign cast = 1'b0;
+// assign cast = (ctrl_i.input_cast_src_fmt == fpnew_pkg::FP32) ? 1'b0: 1'b1;
+// assign cast = (ctrl_i.input_cast_src_fmt == fpnew_pkg::FP16) ? 1'b0: 1'b1;
 
 // Store cast unit
 // This unit uses only the data bus of the TCDM interface. The other buses
 // are assigned manually.
-redmule_castout #(
-  .FpFmtConfig   ( FpFmtConfig  ),
-  .IntFmtConfig  ( IntFmtConfig ),
-  .SrcFormat     ( FPFORMAT     )
-) i_store_cast   (
-  .clk_i                                     ,
-  .rst_ni                                    ,
-  .clear_i                                   ,
-  .cast_i       ( cast                      ),
-  .src_i        (zstream2cast.data          ),
-  .dst_fmt_i    (ctrl_i.output_cast_dst_fmt ),
-  .dst_o        (z_fifo_d.data              )
-);
+// redmule_castout_mod #(
+//   .FpFmtConfig   ( FpFmtConfig  ),
+//   .IntFmtConfig  ( IntFmtConfig ),
+//   .SrcFormat     ( FPFORMAT     )
+// ) i_store_cast   (
+//   .clk_i                                     ,
+//   .rst_ni                                    ,
+//   .clear_i                                   ,
+//   .cast_i       ( cast                      ),
+//   .src_i        (zstream2cast.data          ),
+//   .dst_fmt_i    (ctrl_i.output_cast_dst_fmt ),
+//   .src_fmt_i    (ctrl_i.output_cast_src_fmt ),
+//   .dst_o        (z_fifo_d.data              )
+// );
+
+assign z_fifo_d.data      = zstream2cast.data;
 
 // Left TCDM buses assignment.
 assign z_fifo_d.req          = zstream2cast.req;
@@ -383,19 +393,22 @@ for (genvar i = 0; i < NumStreamSources; i++) begin: gen_tcdm2stream
   // Load cast unit
   // This unit uses only the data bus of the TCDM interface. The other buses
   // are assigned manually.
-  redmule_castin #(
-    .FpFmtConfig  ( FpFmtConfig  ),
-    .IntFmtConfig ( IntFmtConfig ),
-    .DstFormat    ( FPFORMAT     )
-  ) i_load_cast   (
-    .clk_i                                     ,
-    .rst_ni                                    ,
-    .clear_i                                   ,
-    .cast_i       ( cast                      ),
-    .src_i        ( load_fifo_q[i].r_data     ),
-    .src_fmt_i    ( ctrl_i.input_cast_src_fmt ),
-    .dst_o        ( tcdm_cast[i].r_data       )
-  );
+  // redmule_castin_mod #(
+  //   .FpFmtConfig  ( FpFmtConfig  ),
+  //   .IntFmtConfig ( IntFmtConfig ),
+  //   .DstFormat    ( FPFORMAT     )
+  // ) i_load_cast   (
+  //   .clk_i                                     ,
+  //   .rst_ni                                    ,
+  //   .clear_i                                   ,
+  //   .cast_i       ( cast                      ),
+  //   .src_i        ( load_fifo_q[i].r_data     ),
+  //   .src_fmt_i    ( ctrl_i.input_cast_src_fmt ),
+  //   .dst_fmt_i    ( ctrl_i.input_cast_dst_fmt ),
+  //   .dst_o        ( tcdm_cast[i].r_data       )
+  // );
+
+  assign tcdm_cast[i].r_data = load_fifo_q[i].r_data;
 
   // Left TCDM buses assignment.
   assign load_fifo_q[i].req      = tcdm_cast[i].req;
@@ -450,4 +463,4 @@ hwpe_stream_assign i_wstream_assign ( .push_i( out_stream[WsourceStreamId] ) ,
 hwpe_stream_assign i_ystream_assign ( .push_i( out_stream[YsourceStreamId] ) ,
                                       .pop_o ( y_stream_o                  ) );
 
-endmodule : redmule_streamer
+endmodule : redmule_streamer_mod

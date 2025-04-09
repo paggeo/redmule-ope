@@ -5,7 +5,7 @@
 // George Pagonis  <gpagonis@student.ethz.ch>
 
 module priority_enforcer
-  import redmule_pkg::*;
+  import ope_pkg::*;
 #(
   parameter int unsigned CHANGE_DEGREE  = X_REGBUFFER_DEPTH,
   parameter int unsigned NSS            = NumStreamSources

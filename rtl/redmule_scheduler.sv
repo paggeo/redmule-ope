@@ -471,8 +471,6 @@ module redmule_scheduler
   assign cntrl_engine_o.stage2_rnd       = fpnew_pkg::roundmode_e'(reg_file_i.hwpe_params[OP_SELECTION][28:26]);
   assign cntrl_engine_o.op1              = fpnew_pkg::operation_e'(reg_file_i.hwpe_params[OP_SELECTION][25:21]);
   assign cntrl_engine_o.op2              = fpnew_pkg::operation_e'(reg_file_i.hwpe_params[OP_SELECTION][20:16]);
-  assign cntrl_engine_o.memory_format    = redmule_pkg::fpu_fmt_e'(reg_file_i.hwpe_params[OP_SELECTION][15:13]);
-  assign cntrl_engine_o.computing_format = redmule_pkg::fpu_fmt_e'(reg_file_i.hwpe_params[OP_SELECTION][12:10]);
   assign cntrl_engine_o.op_mod           = 1'b0;
   assign cntrl_engine_o.in_valid         = 1'b1;
   assign cntrl_engine_o.flush            = engine_flush_i;

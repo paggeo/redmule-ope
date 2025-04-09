@@ -7,8 +7,8 @@
 //
 
 
-module redmule_ctrl
-  import redmule_pkg::*;
+module ope_ctrl
+  import ope_pkg::*;
   import hwpe_ctrl_package::*;
 #(
   parameter  int unsigned N_CORES       = 8                      ,
@@ -88,7 +88,7 @@ module redmule_ctrl
     .reg_file       ( reg_file_d   )
   );
 
-  redmule_tiler  i_cfg_tiler (
+  ope_tiler  i_cfg_tiler (
     .clk_i       ( clk_i         ),
     .rst_ni      ( rst_ni        ),
     .clear_i     ( clear         ),
@@ -140,9 +140,9 @@ module redmule_ctrl
   assign cntrl_engine_o.stage2_rnd = fpnew_pkg::roundmode_e'(reg_file_q.hwpe_params[OP_SELECTION][28:26]);
   assign cntrl_engine_o.op1 = fpnew_pkg::operation_e'(reg_file_q.hwpe_params[OP_SELECTION][25:21]);
   assign cntrl_engine_o.op2 = fpnew_pkg::operation_e'(reg_file_q.hwpe_params[OP_SELECTION][20:16]);
-  assign cntrl_engine_o.memory_format = redmule_pkg::fpu_fmt_e'(reg_file_q.hwpe_params[OP_SELECTION][15:13]);
+  assign cntrl_engine_o.memory_format = ope_pkg::fpu_fmt_e'(reg_file_q.hwpe_params[OP_SELECTION][15:13]);
 
-  assign cntrl_engine_o.computing_format = redmule_pkg::fpu_fmt_e'(reg_file_q.hwpe_params[OP_SELECTION][12:10]);
+  assign cntrl_engine_o.computing_format = ope_pkg::fpu_fmt_e'(reg_file_q.hwpe_params[OP_SELECTION][12:10]);
   /*---------------------------------------------------------------------------------------------*/
   /*                                        Controller FSM                                       */
   /*---------------------------------------------------------------------------------------------*/
@@ -326,4 +326,4 @@ module redmule_ctrl
   assign evt_o   = flgs_slave.evt[7:0];
   assign clear_o = clear || latch_clear;
 
-endmodule : redmule_ctrl
+endmodule : ope_ctrl

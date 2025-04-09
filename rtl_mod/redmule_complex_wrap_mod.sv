@@ -5,8 +5,8 @@
 // Yvan Tortorella <yvan.tortorella@unibo.it>
 //
 
-module redmule_complex_wrap
- import redmule_pkg::*;
+module redmule_complex_wrap_mod
+ import redmule_pkg_mod::*;
 #(
  localparam int unsigned AddrWidth = 32,
  localparam int unsigned NumIrqs   = 0
@@ -27,7 +27,7 @@ module redmule_complex_wrap
   input  redmule_default_data_rsp_t    redmule_data_rsp_i,
   output redmule_default_data_req_t    redmule_data_req_o
 );
-localparam int unsigned DW = redmule_pkg::DATA_W;
+localparam int unsigned DW = redmule_pkg_mod::DATA_W;
 localparam int unsigned NC = 1;
 
 logic                         test_mode   ;
@@ -96,7 +96,7 @@ always_ff @(posedge clk_i, negedge rst_ni) begin
   end
 end
 
-redmule_complex #(
+redmule_complex_mod #(
   .CoreType           ( redmule_pkg::CV32X          ), // CV32E40P, CV32E40X, IBEX, SNITCH, CVA6
   .ID_WIDTH           ( redmule_pkg::ID             ),
   .N_CORES            ( NC                          ),
@@ -125,4 +125,4 @@ redmule_complex #(
   .tcdm               ( tcdm             )
 );
 
-endmodule : redmule_complex_wrap
+endmodule : redmule_complex_wrap_mod

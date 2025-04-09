@@ -5,7 +5,7 @@
 // George Pagonis  <gpagonis@student.ethz.ch>
 
 module ope_memory_scheduler
-  import redmule_pkg::*;
+  import ope_pkg::*;
   import hwpe_ctrl_package::*;
 #(
   parameter int unsigned   W    = ARRAY_WIDTH,

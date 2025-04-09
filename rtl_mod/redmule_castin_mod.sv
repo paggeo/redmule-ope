@@ -7,9 +7,9 @@
 
 import fpnew_pkg::*;
 import hci_package::*;
-import redmule_pkg::*;
+import redmule_pkg_mod::*;
 
-module redmule_castin #(
+module redmule_castin_mod #(
   parameter fpnew_pkg::fmt_logic_t   FpFmtConfig  = FpFmtConfig,
   parameter fpnew_pkg::ifmt_logic_t  IntFmtConfig = IntFmtConfig,
   parameter fpnew_pkg::fp_format_e   DstFormat    = FPFORMAT,
@@ -27,6 +27,7 @@ module redmule_castin #(
   input  logic                   cast_i   ,
   input  logic [DATA_W-1:0]      src_i    ,
   input  fpnew_pkg::fp_format_e  src_fmt_i,
+  input  fpnew_pkg::fp_format_e  dst_fmt_i,
   output logic [DATA_W-1:0]      dst_o
 );
 
@@ -62,7 +63,7 @@ generate
       .op_i           ( Operation      ),
       .op_mod_i       ( '0             ),
       .src_fmt_i      ( src_fmt_i      ),
-      .dst_fmt_i      ( DstFormat      ),
+      .dst_fmt_i      ( dst_fmt_i      ),
       .int_fmt_i      ( INT_SRC        ),
       .tag_i          ( '0             ),
       .mask_i         ( '0             ),
@@ -89,4 +90,4 @@ endgenerate
 
 assign dst_o = cast_i ? dst_int : src_i;
 
-endmodule : redmule_castin
+endmodule : redmule_castin_mod

@@ -674,6 +674,11 @@ if {[catch { vlog -incr -sv \
     "$ROOT/rtl/redmule_tiler.sv" \
     "$ROOT/rtl/redmule_ctrl.sv" \
     "$ROOT/rtl/redmule_scheduler.sv" \
+<<<<<<< HEAD
+=======
+    "$ROOT/rtl/redmule_castin.sv" \
+    "$ROOT/rtl/redmule_castout.sv" \
+>>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
     "$ROOT/rtl/redmule_streamer.sv" \
     "$ROOT/rtl/x_buffer/redmule_x_buffer.sv" \
     "$ROOT/rtl/x_buffer/redmule_x_pad_scm.sv" \
@@ -689,8 +694,46 @@ if {[catch { vlog -incr -sv \
     "$ROOT/rtl/redmule_engine.sv" \
     "$ROOT/rtl/redmule_top.sv" \
     "$ROOT/rtl/redmule_memory_scheduler.sv" \
+<<<<<<< HEAD
     "$ROOT/rtl/redmule_sdotp.sv" \
     "$ROOT/rtl/redmule_sdotp_wrapper.sv" \
+=======
+    "$ROOT/rtl_mod/redmule_pkg_mod.sv" \
+    "$ROOT/rtl_mod/redmule_tiler_mod.sv" \
+    "$ROOT/rtl_mod/redmule_ctrl_mod.sv" \
+    "$ROOT/rtl_mod/redmule_scheduler_mod.sv" \
+    "$ROOT/rtl_mod/redmule_streamer_mod.sv" \
+    "$ROOT/rtl_mod/x_buffer_mod/redmule_x_buffer_mod.sv" \
+    "$ROOT/rtl_mod/x_buffer_mod/redmule_x_pad_scm_mod.sv" \
+    "$ROOT/rtl_mod/x_buffer_mod/redmule_x_buffer_scm_mod.sv" \
+    "$ROOT/rtl_mod/w_buffer_mod/redmule_w_buffer_mod.sv" \
+    "$ROOT/rtl_mod/w_buffer_mod/redmule_w_buffer_scm_mod.sv" \
+    "$ROOT/rtl_mod/z_buffer_mod/redmule_z_buffer_mod.sv" \
+    "$ROOT/rtl_mod/z_buffer_mod/redmule_z_buffer_scm_mod.sv" \
+    "$ROOT/rtl_mod/redmule_fma_mod.sv" \
+    "$ROOT/rtl_mod/redmule_noncomp_mod.sv" \
+    "$ROOT/rtl_mod/redmule_ce_mod.sv" \
+    "$ROOT/rtl_mod/redmule_row_mod.sv" \
+    "$ROOT/rtl_mod/redmule_engine_mod.sv" \
+    "$ROOT/rtl_mod/redmule_top_mod.sv" \
+    "$ROOT/rtl_mod/redmule_memory_scheduler_mod.sv" \
+    "$ROOT/rtl_mod/redmule_sdotp_mod.sv" \
+    "$ROOT/rtl_mod/redmule_sdotp_wrapper_mod.sv" \
+    "$ROOT/rtl_ope/ope_pkg.sv" \
+    "$ROOT/rtl_ope/accumulation_reg.sv" \
+    "$ROOT/rtl_ope/priority_enforcer.sv" \
+    "$ROOT/rtl_ope/reg_array_io_wrapper.sv" \
+    "$ROOT/rtl_ope/ope_engine.sv" \
+    "$ROOT/rtl_ope/ope_ce.sv" \
+    "$ROOT/rtl_ope/ope_ctrl.sv" \
+    "$ROOT/rtl_ope/ope_fma.sv" \
+    "$ROOT/rtl_ope/ope_memory_scheduler.sv" \
+    "$ROOT/rtl_ope/ope_sdotp_wrapper.sv" \
+    "$ROOT/rtl_ope/ope_sdotp.sv" \
+    "$ROOT/rtl_ope/ope_streamer.sv" \
+    "$ROOT/rtl_ope/ope_tiler.sv" \
+    "$ROOT/rtl_ope/ope_top.sv" \
+>>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
 }]} {return 1}
 
 if {[catch { vlog -incr -sv \
@@ -706,7 +749,9 @@ if {[catch { vlog -incr -sv \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40x-b02547e8c1b6e597/sva" \
     "+incdir+$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common" \
-    "$ROOT/rtl_ope/redmule_wrap.sv" \
+    "$ROOT/rtl_ope/ope_wrap.sv" \
+    "$ROOT/rtl_mod/redmule_wrap_mod.sv" \
+    "$ROOT/rtl/redmule_wrap.sv" \
 }]} {return 1}
 
 if {[catch { vlog -incr -sv \

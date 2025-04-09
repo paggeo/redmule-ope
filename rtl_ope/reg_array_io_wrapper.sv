@@ -5,10 +5,10 @@
 // George Pagonis  <gpagonis@student.ethz.ch>
 
 module reg_array_io_wrapper  
-  import redmule_pkg::*;
+  import ope_pkg::*;
 #(
-  parameter int unsigned READING_POLICY = redmule_pkg::INTERLEAVED,
-  parameter int unsigned DATA_WIDTH     = redmule_pkg::DATAW,
+  parameter int unsigned READING_POLICY = ope_pkg::INTERLEAVED,
+  parameter int unsigned DATA_WIDTH     = ope_pkg::DATAW,
   parameter int unsigned DEPTH          = 2
 ) (
   input  logic                     clk_i, 
@@ -41,9 +41,9 @@ module reg_array_io_wrapper
     if (reading_reg_i && reg_valid_q[reading_counter_q]) begin
       data_o                            = reg_q[reading_counter_q];
       valid_o                           = 1'b1;
-      if (READING_POLICY == redmule_pkg::INTERLEAVED) begin // Read from different registers all the time, rotating back
+      if (READING_POLICY == ope_pkg::INTERLEAVED) begin // Read from different registers all the time, rotating back
         reading_counter_d               = reading_counter_q + 1;
-      end else if (READING_POLICY == redmule_pkg::SERIALLY) begin // Read from the same register DEPTH times
+      end else if (READING_POLICY == ope_pkg::SERIALLY) begin // Read from the same register DEPTH times
         serial_counter_d                = (serial_counter_q == DEPTH-1)? 'b0: serial_counter_q + 1;
         reading_counter_d               = (serial_counter_q == DEPTH-1) ? reading_counter_q + 1: reading_counter_q;
       end

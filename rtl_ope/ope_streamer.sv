@@ -8,9 +8,9 @@
 
 `include "hci_helpers.svh"
 
-module redmule_streamer
+module ope_streamer
   import fpnew_pkg::*;
-  import redmule_pkg::*;
+  import ope_pkg::*;
   import hci_package::*;
   import hwpe_stream_package::*;
 #(
@@ -229,8 +229,8 @@ hci_core_r_valid_filter #(
 hci_core_intf #( .DW ( DW ),
                  .UW ( UW ) ) zstream2cast ( .clk ( clk_i ) );
 hci_core_sink         #(
-  .MISALIGNED_ACCESSES ( 1'b0                      ),
-  // .MISALIGNED_ACCESSES ( REALIGN                      ),
+  // .MISALIGNED_ACCESSES ( 1'b0                      ),
+    .MISALIGNED_ACCESSES   ( REALIGN                    ),
   .`HCI_SIZE_PARAM(tcdm) ( `HCI_SIZE_PARAM(ldst_tcdm) )
 ) i_stream_sink        (
   .clk_i               ( clk_i                       ),
@@ -431,4 +431,4 @@ hwpe_stream_assign i_wstream_assign ( .push_i( out_stream[WsourceStreamId] ) ,
 hwpe_stream_assign i_ystream_assign ( .push_i( out_stream[YsourceStreamId] ) ,
                                       .pop_o ( y_stream_o                  ) );
 
-endmodule : redmule_streamer
+endmodule : ope_streamer

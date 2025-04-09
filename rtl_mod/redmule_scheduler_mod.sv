@@ -6,10 +6,10 @@
 // Andrea Belano <andrea.belano2@unibo.it>
 //
 
-module redmule_scheduler
+module redmule_scheduler_mod
   import fpnew_pkg::*;
   import hci_package::*;
-  import redmule_pkg::*;
+  import redmule_pkg_mod::*;
   import hwpe_ctrl_package::*;
   import hwpe_stream_package::*;
 #(
@@ -471,8 +471,8 @@ module redmule_scheduler
   assign cntrl_engine_o.stage2_rnd       = fpnew_pkg::roundmode_e'(reg_file_i.hwpe_params[OP_SELECTION][28:26]);
   assign cntrl_engine_o.op1              = fpnew_pkg::operation_e'(reg_file_i.hwpe_params[OP_SELECTION][25:21]);
   assign cntrl_engine_o.op2              = fpnew_pkg::operation_e'(reg_file_i.hwpe_params[OP_SELECTION][20:16]);
-  assign cntrl_engine_o.memory_format    = redmule_pkg::fpu_fmt_e'(reg_file_i.hwpe_params[OP_SELECTION][15:13]);
-  assign cntrl_engine_o.computing_format = redmule_pkg::fpu_fmt_e'(reg_file_i.hwpe_params[OP_SELECTION][12:10]);
+  assign cntrl_engine_o.memory_format    = redmule_pkg_mod::fpu_fmt_e'(reg_file_i.hwpe_params[OP_SELECTION][15:13]);
+  assign cntrl_engine_o.computing_format = redmule_pkg_mod::fpu_fmt_e'(reg_file_i.hwpe_params[OP_SELECTION][12:10]);
   assign cntrl_engine_o.op_mod           = 1'b0;
   assign cntrl_engine_o.in_valid         = 1'b1;
   assign cntrl_engine_o.flush            = engine_flush_i;
@@ -631,4 +631,4 @@ module redmule_scheduler
     endcase
   end
 
-endmodule : redmule_scheduler
+endmodule : redmule_scheduler_mod
