@@ -22,6 +22,7 @@ module ope_memory_scheduler
   output cntrl_streamer_t       cntrl_streamer_o
 );
 
+  // FIXME: make the counters smaller
   logic [31:0] i_counter_d, i_counter_q;
   logic [31:0] j_counter_d, j_counter_q;
   logic        done_q, done_d;

@@ -191,35 +191,69 @@ new_y_dim = str(m_size*k_size)
 new_z_dim = str(m_size*k_size)
 new_out_int = str(int(m_size*k_size))
 
-f_x = open(os.path.join(inc_path, 'x_input.h'), "w")
-f_x.write(header)
-f_x.write('uint32_t x_inp [' + new_x_dim + '] = {\n')
-total_values = X_packed.numel() 
-value_index = 0
-for i in range(X_packed.shape[0]):
-  for j in range(X_packed.shape[1]):
-    x_val = int(X_packed[i, j].item())
-    value_index += 1
-    if value_index == total_values: f_x.write('0x' + hex(x_val)[2:] + ' ')
-    else: f_x.write('0x' + hex(x_val)[2:] + ', ')
-  f_x.write("\n")
-f_x.write("};")
-f_x.close()
+X_stored_transposed = 1
+if (X_stored_transposed == 1):
+  X_packed = X_packed.T
+
+  f_x = open(os.path.join(inc_path, 'x_input.h'), "w")
+  f_x.write(header)
+  f_x.write('uint32_t x_inp [' + new_x_dim + '] = {\n')
+  total_values = X_packed.numel() 
+  value_index = 0
+  for i in range(X_packed.shape[0]):
+    for j in range(X_packed.shape[1]):
+      x_val = int(X_packed[i, j].item())
+      value_index += 1
+      if value_index == total_values: f_x.write('0x' + hex(x_val)[2:] + ' ')
+      else: f_x.write('0x' + hex(x_val)[2:] + ', ')
+    f_x.write("\n")
+  f_x.write("};")
+  f_x.close()
 
 
-f_x2 = open(os.path.join(inc_path, 'x_2D.h'), "w")
-f_x2.write(header)
-f_x2.write('uint32_t x_inp_2D [' + new_in_rows + '][' + new_in_cols + '] = {\n')
-value_index = 0
-for i in range(X_packed.shape[0]):
-  for j in range(X_packed.shape[1]):
-    x_val = int(X_packed[i, j].item())
-    value_index += 1
-    if value_index == total_values: f_x2.write('0x' + hex(x_val)[2:] + ' ')
-    else: f_x2.write('0x' + hex(x_val)[2:] + ', ')
-  f_x2.write("\n")
-f_x2.write("};")
-f_x2.close()
+  f_x2 = open(os.path.join(inc_path, 'x_2D.h'), "w")
+  f_x2.write(header)
+  f_x2.write('uint32_t x_inp_2D [' + new_in_cols + '][' + new_in_rows + '] = {\n')
+  value_index = 0
+  for i in range(X_packed.shape[0]):
+    for j in range(X_packed.shape[1]):
+      x_val = int(X_packed[i, j].item())
+      value_index += 1
+      if value_index == total_values: f_x2.write('0x' + hex(x_val)[2:] + ' ')
+      else: f_x2.write('0x' + hex(x_val)[2:] + ', ')
+    f_x2.write("\n")
+  f_x2.write("};")
+  f_x2.close()
+else: 
+  f_x = open(os.path.join(inc_path, 'x_input.h'), "w")
+  f_x.write(header)
+  f_x.write('uint32_t x_inp [' + new_x_dim + '] = {\n')
+  total_values = X_packed.numel() 
+  value_index = 0
+  for i in range(X_packed.shape[0]):
+    for j in range(X_packed.shape[1]):
+      x_val = int(X_packed[i, j].item())
+      value_index += 1
+      if value_index == total_values: f_x.write('0x' + hex(x_val)[2:] + ' ')
+      else: f_x.write('0x' + hex(x_val)[2:] + ', ')
+    f_x.write("\n")
+  f_x.write("};")
+  f_x.close()
+
+
+  f_x2 = open(os.path.join(inc_path, 'x_2D.h'), "w")
+  f_x2.write(header)
+  f_x2.write('uint32_t x_inp_2D [' + new_in_rows + '][' + new_in_cols + '] = {\n')
+  value_index = 0
+  for i in range(X_packed.shape[0]):
+    for j in range(X_packed.shape[1]):
+      x_val = int(X_packed[i, j].item())
+      value_index += 1
+      if value_index == total_values: f_x2.write('0x' + hex(x_val)[2:] + ' ')
+      else: f_x2.write('0x' + hex(x_val)[2:] + ', ')
+    f_x2.write("\n")
+  f_x2.write("};")
+  f_x2.close()
 
 f_w = open(os.path.join(inc_path, 'w_input.h'), "w")
 f_w.write(header)
