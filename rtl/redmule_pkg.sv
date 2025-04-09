@@ -11,11 +11,7 @@ import hwpe_stream_package::*;
 
 package redmule_pkg;
 
-<<<<<<< HEAD
-  parameter int unsigned            DATA_W       = 512 + 32;                           
-=======
   parameter int unsigned            DATA_W       = 1024 + 32;     // TCDM port dimension (in bits)
->>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
   parameter int unsigned            MemDw        = 32;
   parameter int unsigned            NumByte      = MemDw/8;
   parameter int unsigned            ADDR_W       = hci_package::DEFAULT_AW;
@@ -26,12 +22,7 @@ package redmule_pkg;
   parameter int unsigned            BITW         = fpnew_pkg::fp_width(FPFORMAT);
   parameter int unsigned            ARRAY_HEIGHT = 8;
   parameter int unsigned            PIPE_REGS    = 3;
-<<<<<<< HEAD
-  parameter int unsigned            ARRAY_WIDTH  = 8; // Superior limit, smaller values are allowed.
-  // parameter int unsigned            ARRAY_WIDTH  = ARRAY_HEIGHT*PIPE_REGS; // Superior limit, smaller values are allowed.
-=======
   parameter int unsigned            ARRAY_WIDTH  = 8;
->>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
   parameter int unsigned            TOT_DEPTH    = DATAW/BITW;
   parameter int unsigned            DEPTH        = TOT_DEPTH/ARRAY_HEIGHT;
   parameter int unsigned            STRB         = DATA_W/8;

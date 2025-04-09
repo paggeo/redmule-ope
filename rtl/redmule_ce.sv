@@ -231,106 +231,6 @@ stage1_noncomp_clk_en = 1'b0;
 end : stage_one_clock_gating_selector
 
 
-<<<<<<< HEAD
-  redmule_sdotp_wrapper #(
-    .LaneWidth        ( fpnew_pkg::fp_width(FpFormat) ), // Should be 32
-    .FpFmtConfig      ( FpFmtConfig                   ),
-    .NumPipeRegs      ( NumPipeRegs                   ),
-    .PipeConfig       ( PipeConfig                    ),
-    .Stallable        ( Stallable                     ) 
-  ) i_sdotp (
-    .clk_i            ( sdotp_clk           ), 
-    .rst_ni           ( rst_ni              ),
-    .sdotp_hart_id_i  ( '0                  ),
-    .operands_i       ( sdotp_operands      ),
-    .is_boxed_i       ( sdotq_is_boxed_int  ), 
-    .rnd_mode_i       ( sdotp_rnd_int       ),
-    .op_i             ( op1_i               ),    
-    .op_mod_i         ( sdotp_op_mod        ),
-    .src_fmt_i        ( computing_fmt_fpnew ),
-    .dst_fmt_i        ( memory_fmt_fpnew    ),
-    .tag_i            ( sdotp_input_tag     ),
-    .mask_i           ( '0                  ),
-    .aux_i            ( sdotp_input_aux     ),
-    .in_valid_i       ( sdotp_in_valid      ),
-    .in_ready_o       ( sdotp_in_ready      ),
-    .reg_enable_i     ( sdotp_reg_enable    ), 
-    .flush_i          ( sdotp_flush         ),
-    .result_o         ( sdotp_res           ),
-    .status_o         ( sdotp_status        ),
-    .extension_bit_o  ( sdotp_extension_bit ),
-    .tag_o            ( sdotp_output_tag    ),
-    .mask_o           (                     ),
-    .aux_o            ( sdotp_output_aux    ),
-    .out_valid_o      ( sdotp_out_valid     ),
-    .out_ready_i      ( sdotp_out_ready     ),
-    .busy_o           ( sdotp_busy          )
-  );
-
-
-
-  redmule_fma   #(
-    .FpFormat    ( FpFormat    ),
-    .NumPipeRegs ( NumPipeRegs ),
-    .PipeConfig  ( PipeConfig  ),
-    .Stallable   ( Stallable   )
-  ) i_fma    (
-    .clk_i           ( fma_clk           ),
-    .rst_ni          ( rst_ni            ),
-    .operands_i      ( fma_operands      ),
-    .is_boxed_i      ( fma_is_boxed_int  ),
-    .rnd_mode_i      ( fma_rnd_int       ),
-    .op_i            ( op1_i             ),
-    .op_mod_i        ( fma_op_mod        ),
-    .tag_i           ( fma_input_tag     ),
-    .aux_i           ( fma_input_aux     ),
-    .in_valid_i      ( fma_in_valid      ),
-    .in_ready_o      ( fma_in_ready      ),
-    .reg_enable_i    ( fma_reg_enable    ),
-    .flush_i         ( fma_flush         ),
-    .result_o        ( fma_res           ),
-    .status_o        ( fma_status        ),
-    .extension_bit_o ( fma_extension_bit ),
-    .tag_o           ( fma_output_tag    ),
-    .aux_o           ( fma_output_aux     ),
-    .out_valid_o     ( fm_out_valid      ),
-    .out_ready_i     ( fma_out_ready     ),
-    .busy_o          ( fma_busy          )
-  );
-
-  always_comb begin : output_selector
-    in_ready_o      = '0;
-    z_output_o      = '0;
-    status_o        = '0;
-    extension_bit_o = '0;
-    class_mask_o    = fpnew_pkg::QNAN;
-    is_class_o      = '0;
-    tag_o           = '0;
-    aux_o           = '0;
-    out_valid_o     = '0;
-    busy_o          = '0;
-
-    if (same_fmt_i) begin: fma_selected
-      in_ready_o      = fma_in_ready;
-      z_output_o      = fma_res;
-      status_o        = fma_status;
-      extension_bit_o = fma_extension_bit;
-      tag_o           = fma_output_tag;
-      aux_o           = fma_output_aux;
-      out_valid_o     = fma_out_valid;
-      busy_o          = fma_busy;
-    end else begin : sdotp_selected
-      in_ready_o      = sdotp_in_ready;
-      z_output_o      = sdotp_res;
-      status_o        = sdotp_status;
-      extension_bit_o = sdotp_extension_bit;
-      tag_o           = sdotp_output_tag;
-      aux_o           = sdotp_output_aux;
-      out_valid_o     = sdotp_out_valid;
-      busy_o          = sdotp_busy;
-    end
-  end : output_selector
-=======
 /*******************************************************************************/
 /* Instantiation of stage1 FMA and stage1 NONCOMP                              */
 /*******************************************************************************/
@@ -589,6 +489,5 @@ assign tag_o           = stage2_output_tag   ;
 assign aux_o           = stage2_output_aux   ;
 assign out_valid_o     = stage2_out_valid    ;
 assign busy_o          = stage2_busy         ;
->>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
 
 endmodule: redmule_ce

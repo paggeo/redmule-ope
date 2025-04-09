@@ -674,11 +674,8 @@ if {0 == [analyze -format sv \
         "$ROOT/rtl/redmule_tiler.sv" \
         "$ROOT/rtl/redmule_ctrl.sv" \
         "$ROOT/rtl/redmule_scheduler.sv" \
-<<<<<<< HEAD
-=======
         "$ROOT/rtl/redmule_castin.sv" \
         "$ROOT/rtl/redmule_castout.sv" \
->>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
         "$ROOT/rtl/redmule_streamer.sv" \
         "$ROOT/rtl/x_buffer/redmule_x_buffer.sv" \
         "$ROOT/rtl/x_buffer/redmule_x_pad_scm.sv" \
@@ -694,10 +691,6 @@ if {0 == [analyze -format sv \
         "$ROOT/rtl/redmule_engine.sv" \
         "$ROOT/rtl/redmule_top.sv" \
         "$ROOT/rtl/redmule_memory_scheduler.sv" \
-<<<<<<< HEAD
-        "$ROOT/rtl/redmule_sdotp.sv" \
-        "$ROOT/rtl/redmule_sdotp_wrapper.sv" \
-=======
         "$ROOT/rtl_mod/redmule_pkg_mod.sv" \
         "$ROOT/rtl_mod/redmule_tiler_mod.sv" \
         "$ROOT/rtl_mod/redmule_ctrl_mod.sv" \
@@ -733,7 +726,6 @@ if {0 == [analyze -format sv \
         "$ROOT/rtl_ope/ope_streamer.sv" \
         "$ROOT/rtl_ope/ope_tiler.sv" \
         "$ROOT/rtl_ope/ope_top.sv" \
->>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
     ]
 ]} {return 1}
 

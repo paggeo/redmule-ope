@@ -24,22 +24,13 @@ dependencies:
 
 sources:
   files:
-<<<<<<< HEAD
-  # RedMulE
-=======
   # Original RedMule
->>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
     - rtl/redmule_pkg.sv
     - rtl/redmule_tiler.sv
     - rtl/redmule_ctrl.sv
     - rtl/redmule_scheduler.sv
-<<<<<<< HEAD
-    # - rtl/redmule_castin.sv
-    # - rtl/redmule_castout.sv
-=======
     - rtl/redmule_castin.sv
     - rtl/redmule_castout.sv
->>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
     - rtl/redmule_streamer.sv
     - rtl/x_buffer/redmule_x_buffer.sv
     - rtl/x_buffer/redmule_x_pad_scm.sv
@@ -55,26 +46,6 @@ sources:
     - rtl/redmule_engine.sv
     - rtl/redmule_top.sv
     - rtl/redmule_memory_scheduler.sv
-<<<<<<< HEAD
-    - rtl/redmule_sdotp.sv
-    - rtl/redmule_sdotp_wrapper.sv
-  # OPE
-    # - rtl_ope/redmule_pkg.sv
-    # - rtl_ope/accumulation_reg.sv
-    # - rtl_ope/priority_enforcer.sv
-    # - rtl_ope/reg_array_io_wrapper.sv
-    # - rtl_ope/ope_engine.sv
-    # - rtl_ope/redmule_ce.sv
-    # - rtl_ope/redmule_ctrl.sv
-    # - rtl_ope/redmule_fma.sv
-    # - rtl_ope/ope_memory_scheduler.sv
-    # - rtl_ope/redmule_scheduler.sv
-    # - rtl_ope/redmule_sdotp_wrapper.sv
-    # - rtl_ope/redmule_sdotp.sv
-    # - rtl_ope/redmule_streamer.sv
-    # - rtl_ope/redmule_tiler.sv
-    # - rtl_ope/redmule_top.sv
-=======
   # Modified RedMule
     - rtl_mod/redmule_pkg_mod.sv
     - rtl_mod/redmule_tiler_mod.sv
@@ -112,7 +83,6 @@ sources:
     - rtl_ope/ope_streamer.sv
     - rtl_ope/ope_tiler.sv
     - rtl_ope/ope_top.sv
->>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
 
     - target: redmule_hwpe
       files:

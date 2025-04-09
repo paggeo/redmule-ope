@@ -35,18 +35,11 @@ module redmule_tb
   localparam int unsigned PROB_STALL = 0;
   localparam int unsigned NC = 1;
   localparam int unsigned ID = 10;
-<<<<<<< HEAD
-  localparam int unsigned DW = redmule_pkg::DATA_W;
-  localparam int unsigned MP = DW/32;
-  localparam int unsigned MEMORY_SIZE = 3*192*1024;
-  localparam int unsigned STACK_MEMORY_SIZE = 3*192*1024;
-=======
 
   localparam int unsigned MP     = DW/32;
   
   localparam int unsigned MEMORY_SIZE = 192*1024;
   localparam int unsigned STACK_MEMORY_SIZE = 192*1024;
->>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
   localparam int unsigned PULP_XPULP = 1;
   localparam int unsigned FPU = 0;
   localparam int unsigned PULP_ZFINX = 0;
@@ -558,8 +551,6 @@ module redmule_tb
     end
     $display("Measured count: %0d, Start counter: %0d, End counter: %0d", measured_count, start_counter, end_counter);
     $display("Periphery Measured count: %0d, Start counter: %0d, End counter: %0d", periphery_end_counter - periphery_start_counter, periphery_start_counter, periphery_end_counter);
-<<<<<<< HEAD
-=======
     $display("TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter - start_tcdm_counter, start_tcdm_counter, end_tcdm_counter);
     $display("TCDM Request Read count: %0d | Write count: %0d | Element read: %0d | Element write: %0d", tcdm_read_counter, tcdm_write_counter, tcdm_read_counter*MP, tcdm_write_counter*MP);
     $display("TCDM Request count: %0d", tcdm_read_counter + tcdm_write_counter);
@@ -567,7 +558,6 @@ module redmule_tb
     $display("");
     $display("[Data]: Cycles: %0d | TCDM Request count: %0d | TCDM Start - Finish: %0d", periphery_end_counter - periphery_start_counter, tcdm_read_counter + tcdm_write_counter, end_tcdm_counter - start_tcdm_counter);
     $display("");
->>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
     $finish;
   end
 
