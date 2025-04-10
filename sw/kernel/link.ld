@@ -10,7 +10,7 @@ __DYNAMIC  =  0;
 MEMORY
 {
     instrram    : ORIGIN = 0x1c000000, LENGTH = 0x8000
-    dataram     : ORIGIN = 0x1c010000, LENGTH = 0xb0000 /* 4x */
+    dataram     : ORIGIN = 0x1c010000, LENGTH = 0xb0000 
     stack       : ORIGIN = 0x1c0c0000, LENGTH = 0xb0000
 }
 
@@ -77,6 +77,8 @@ SECTIONS
       PROVIDE_HIDDEN (__fini_array_end = .);
     } > dataram
 
+  
+
     .rodata : {
         . = ALIGN(4);
         *(.rodata);
@@ -88,6 +90,34 @@ SECTIONS
         . = ALIGN(4);
         *(.shbss)
     } > dataram
+
+	  .golden_output 0x1c011000 :
+	  {
+	      __golden_output_start = .;
+	      KEEP(*(.golden_output))
+	      __golden_output_end = .;
+	  } > dataram
+
+	  .x_buffer 0x1c01a000 :
+	  {
+	      __x_buffer_start = .;
+	      KEEP(*(.x_buffer))
+	      __x_buffer_end = .;
+	  } > dataram
+
+	  .w_buffer 0x1c023000 :
+	  {
+	      __w_buffer_start = .;
+	      KEEP(*(.w_buffer))
+	      __w_buffer_end = .;
+	  } > dataram
+
+	  .y_buffer 0x1c02C000 :
+	  {
+	      __y_buffer_start = .;
+	      KEEP(*(.y_buffer))
+	      __y_buffer_end = .;
+	  } > dataram
 
     .data : {
         . = ALIGN(4);

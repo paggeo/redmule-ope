@@ -136,7 +136,7 @@ if (transpose == 1):
   X = X.T
   f_x = open(''+inc_path+'/x_input.h', "w")
   f_x.write(''+header+'')
-  f_x.write('uint32_t x_inp ['+x_dim+'] = {\n')
+  f_x.write('uint32_t x_inp ['+x_dim+'] __attribute__((section(".x_buffer"))) = {\n')
   for i in range(n_size):
       for j in range (m_size):
           x_bin = bin(np.float32(X[i][j]).view('I'))[2:].zfill(32)
@@ -168,7 +168,7 @@ else:
 
   f_x = open(''+inc_path+'/x_input.h', "w")
   f_x.write(''+header+'')
-  f_x.write('uint32_t x_inp ['+x_dim+'] = {\n')
+  f_x.write('uint32_t x_inp ['+x_dim+'] __attribute__((section(".x_buffer"))) = {\n')
   for i in range(m_size):
       for j in range (n_size):
           x_bin = bin(np.float32(X[i][j]).view('I'))[2:].zfill(32)
@@ -198,7 +198,7 @@ else:
 
 f_w = open(''+inc_path+'/w_input.h', "w")
 f_w.write(''+header+'')
-f_w.write('uint32_t w_inp ['+w_dim+'] = {\n')
+f_w.write('uint32_t w_inp ['+w_dim+'] __attribute__((section(".w_buffer"))) = {\n')
 for i in range(n_size):
     for j in range (k_size):
         w_bin = bin(np.float32(W[i][j]).view('I'))[2:].zfill(32)
@@ -228,7 +228,7 @@ f_w.close()
 
 f_y = open(''+inc_path+'/y_input.h', "w")
 f_y.write(''+header+'')
-f_y.write('uint32_t y_inp ['+y_dim+'] = {\n')
+f_y.write('uint32_t y_inp ['+y_dim+'] __attribute__((section(".y_buffer"))) = { \n')
 for i in range(m_size):
     for j in range (k_size):
         y_bin = bin(np.float32(Y[i][j]).view('I'))[2:].zfill(32)
@@ -309,7 +309,7 @@ f_d.close()
 
 f_c = open(inc_path + '/golden.h', "w")
 f_c.write(header)
-f_c.write('uint32_t golden [' + out_int + '] = {\n')
+f_c.write('uint32_t golden [' + out_int + '] __attribute__((section(".golden_output"))) = {\n')
 
 ZFlattened = torch.flatten(Z)
 for i in range(ZFlattened.size(dim=-1)):

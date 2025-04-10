@@ -13,7 +13,7 @@
 #include "x_input.h"
 #include "w_input.h"
 #include "y_input.h"
-#include "z_output.h"
+// #include "z_output.h"
 #include "golden.h"
 
 int main() {
@@ -25,7 +25,7 @@ int main() {
   uint8_t *x = x_inp;
   uint8_t *w = w_inp;
   uint8_t *y = y_inp;
-  uint8_t *z = z_oup; // golden_out //1c010000
+  // uint8_t *z = z_oup; // golden_out //1c010000
 
   uint8_t comp_fmt =  (COMP_FMT == FP8)     ? (uint8_t)Float8
                     : (COMP_FMT == FP16)    ? (uint8_t)Float16
