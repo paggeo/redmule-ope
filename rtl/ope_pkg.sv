@@ -9,9 +9,10 @@ import fpnew_pkg::*;
 import hci_package::*;
 import hwpe_stream_package::*;
 
-package redmule_pkg;
+package ope_pkg;
 
-  parameter int unsigned            DATA_W       = 1024 + 32;     // TCDM port dimension (in bits)
+  parameter int unsigned            DATA_W       = 32*8 + 32;
+  // parameter int unsigned            DATA_W       = 32*4 + 32;                                  
   parameter int unsigned            MemDw        = 32;
   parameter int unsigned            NumByte      = MemDw/8;
   parameter int unsigned            ADDR_W       = hci_package::DEFAULT_AW;
@@ -22,18 +23,21 @@ package redmule_pkg;
   parameter int unsigned            BITW         = fpnew_pkg::fp_width(FPFORMAT);
   parameter int unsigned            ARRAY_HEIGHT = 8;
   parameter int unsigned            PIPE_REGS    = 3;
-  parameter int unsigned            ARRAY_WIDTH  = 8;
+  parameter int unsigned            ARRAY_WIDTH  = 8; // Superior limit, smaller values are allowed.
   parameter int unsigned            TOT_DEPTH    = DATAW/BITW;
   parameter int unsigned            DEPTH        = TOT_DEPTH/ARRAY_HEIGHT;
   parameter int unsigned            STRB         = DATA_W/8;
-  // parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b111111;
-  parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b101000; // Fixme: This should be set to only fp16 to fp32
+  parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b101000;
   parameter fpnew_pkg::ifmt_logic_t IntFmtConfig = 4'b1000;
   parameter fpnew_pkg::operation_e  CAST_OP      = fpnew_pkg::F2F;
   parameter int unsigned MIN_FMT  = fpnew_pkg::min_fp_width(FpFmtConfig);
   parameter int unsigned DW_CUT   = DATA_W - ARRAY_HEIGHT*(PIPE_REGS + 1)*MIN_FMT;
   parameter int unsigned ECC_CHUNK_SIZE = 32;
   parameter int unsigned ECC_N_CHUNK    = DATA_W / ECC_CHUNK_SIZE;
+
+  parameter int unsigned X_REGBUFFER_DEPTH = 2;
+  parameter int unsigned W_REGBUFFER_DEPTH = 2;
+  parameter int unsigned REG_PER_CE     = X_REGBUFFER_DEPTH * W_REGBUFFER_DEPTH;
 
   // Register File mapping
   /**********************
@@ -85,6 +89,9 @@ package redmule_pkg;
   // [12:10] -> computing format
   // [0:0]   -> GEMM selection
   parameter int unsigned OP_SELECTION = 17; // 0x44
+  parameter int unsigned M_SIZE = 18; 
+  parameter int unsigned N_SIZE = 19; 
+  parameter int unsigned K_SIZE = 20; 
 
   parameter bit[6:0] MCNFIG = 7'b0001011; // 0x0B
   parameter bit[6:0] MARITH = 7'b0101011; // 0x2B
@@ -112,6 +119,20 @@ package redmule_pkg;
   typedef enum logic { LD_IN_FMP, LD_WEIGHT } source_sel_e;
   typedef enum logic { LOAD, STORE }          ld_st_sel_e;
 
+  typedef enum logic[1:0] {
+    IDLE,
+    Y_LOAD, 
+    COMPUTE, 
+    Z_READ
+  } cntrl_engine_mode_e;
+
+
+
+  typedef enum logic[0:0] {
+    INTERLEAVED,
+    SERIALLY
+  } reg_reading_policy_e;
+
   typedef struct packed {
     hci_package::hci_streamer_ctrl_t x_stream_source_ctrl;
     hci_package::hci_streamer_ctrl_t w_stream_source_ctrl;
@@ -122,6 +143,13 @@ package redmule_pkg;
     fpnew_pkg::fp_format_e           output_cast_src_fmt;
     fpnew_pkg::fp_format_e           output_cast_dst_fmt;
   } cntrl_streamer_t;
+
+  typedef struct packed {
+    logic load;
+    logic read_buffer;
+    logic store_buffer;
+    logic [$clog2(X_REGBUFFER_DEPTH) -1 : 0 ] x_buffer_addr;
+  } x_regbuffer_ctrl_t; 
 
   typedef struct packed {
     hci_package::hci_streamer_flags_t x_stream_source_flags;
@@ -177,20 +205,6 @@ package redmule_pkg;
     logic z_valid;
   } z_buffer_flgs_t;
 
-  typedef struct packed {
-    logic                   [2:0] fma_is_boxed;
-    logic                   [1:0] noncomp_is_boxed;
-    fpnew_pkg::roundmode_e        stage1_rnd;
-    fpnew_pkg::roundmode_e        stage2_rnd;
-    fpnew_pkg::operation_e        op1;
-    fpnew_pkg::operation_e        op2;
-    logic                         op_mod;
-    logic                         in_valid;
-    logic                         flush;
-    logic                         out_ready;
-    logic                         accumulate;
-    logic       [ARRAY_WIDTH-1:0] row_clk_gate_en;
-  } cntrl_engine_t;
 
   typedef struct packed {
     logic                  [ARRAY_WIDTH-1:0][ARRAY_HEIGHT-1:0] in_ready;
@@ -204,19 +218,27 @@ package redmule_pkg;
 
   typedef struct packed {
     logic first_load;
+    logic start_load_x;
+    logic start_load_w;
+    logic start_load_y;
+    logic start_store_z;
     logic rst;
     logic finished;
+    logic loading_y;
+    logic loading_x;
+    logic loading_w;
+    logic storing_z;
   } cntrl_scheduler_t;
 
   typedef struct packed {
     logic            w_loaded;
   } flgs_scheduler_t;
 
-  typedef enum logic [2:0] { MATMUL=3'h0, GEMM=3'h1, ADDMAX=3'h2, ADDMIN=3'h3, MULMAX=3'h4, MULMIN=3'h5, MAXMIN=3'h6, MINMAX=3'h7 } gemm_op_e;
+  typedef enum logic [2:0] { MATMUL=3'h0, GEMM=3'h1, ADDMAX=3'h2, ADDMIN=3'h3, MULMAX=3'h4, MULMIN=3'h5, MAXMIN=3'h6, MINMAX=3'h7} gemm_op_e;
   typedef enum logic [2:0] { Float8=3'h0, Float16=3'h1, Float8Alt=3'h2, Float16Alt=3'h3, Float32=3'h4 } gemm_fmt_e;
   typedef enum logic       { RNE=1'h0, RTZ=1'h1 } rnd_mode_e;
   typedef enum logic [2:0] { FPU_FMADD=3'h0, FPU_ADD=3'h2, FPU_MUL=3'h3, FPU_MINMAX=3'h7 }    fpu_op_e;
-  typedef enum logic [2:0] { FPU_FLOAT32=3'h0, FPU_FP16=3'h2, FPU_FP8=3'h3, FPU_FP16ALT=3'h4, FPU_FP8ALT=3'h5 } fpu_fmt_e;
+  typedef enum logic [2:0] { FPU_FP32=3'h0, FPU_FP16=3'h2, FPU_FP8=3'h3, FPU_FP16ALT=3'h4, FPU_FP8ALT=3'h5  } fpu_fmt_e;
 
   typedef struct packed {
     logic [31:0] x_addr;
@@ -226,8 +248,8 @@ package redmule_pkg;
     logic [15:0] n_size;
     logic [15:0] k_size;
     gemm_op_e gemm_ops;
-    gemm_fmt_e gemm_input_fmt;
-    gemm_fmt_e gemm_output_fmt;
+    gemm_fmt_e gemm_memory_fmt;
+    gemm_fmt_e gemm_computing_fmt;
 
     logic [15:0] x_cols_iter;
     logic [15:0] x_rows_iter;
@@ -252,10 +274,30 @@ package redmule_pkg;
     rnd_mode_e stage_2_rnd_mode;
     fpu_op_e stage_1_op;
     fpu_op_e stage_2_op;
-    fpu_fmt_e input_format;
+    fpu_fmt_e memory_format;
     fpu_fmt_e computing_format;
     logic        gemm_selection;
   } redmule_config_t;
+
+  typedef struct packed {
+    logic                   [2:0] fma_is_boxed;
+    logic                   [1:0] noncomp_is_boxed;
+    fpnew_pkg::roundmode_e        stage1_rnd;
+    fpnew_pkg::roundmode_e        stage2_rnd;
+    fpnew_pkg::operation_e        op1;
+    fpnew_pkg::operation_e        op2;
+    fpu_fmt_e                     memory_format;
+    fpu_fmt_e                     computing_format;
+    logic                         op_mod;
+    logic                         in_valid;
+    logic                         flush;
+    logic                         out_ready;
+    logic                         accumulate;
+    logic       [ARRAY_WIDTH-1:0] row_clk_gate_en;
+    cntrl_engine_mode_e           mode;
+    logic       [$clog2(ARRAY_HEIGHT) - 1: 0] row_index;
+    logic      iteration_change;
+  } cntrl_engine_t;
 
   typedef enum {
     CV32P ,

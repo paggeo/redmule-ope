@@ -10,8 +10,6 @@ timeunit 1ps; timeprecision 1ps;
 import hci_package::*;
 
 module redmule_tb
-  import redmule_pkg::*;
-  import redmule_pkg_mod::*;
   import ope_pkg::*;
 #(
   parameter TCP = 1.0ns, // clock period, 1 GHz clock
@@ -23,13 +21,8 @@ module redmule_tb
   input logic fetch_enable_i
 );
 
-  // localparam int unsigned HWPE = 2; // HWPE: 0 = REDMULE, 1 = REDMULE_MOD, 2 = OPE 
-  // localparam int unsigned DW = ope_pkg::DATA_W;
-  // ope_pkg::cntrl_scheduler_t debug_cntrl_scheduler;
-
-  localparam int unsigned HWPE = 1; // HWPE: 0 = REDMULE, 1 = REDMULE_MOD, 2 = OPE 
-  localparam int unsigned DW = redmule_pkg_mod::DATA_W;
-  redmule_pkg_mod::cntrl_scheduler_t debug_cntrl_scheduler;
+  localparam int unsigned DW = ope_pkg::DATA_W;
+  ope_pkg::cntrl_scheduler_t debug_cntrl_scheduler;
 
   // parameters
   localparam int unsigned PROB_STALL = 0;
@@ -209,122 +202,44 @@ module redmule_tb
   end
 
 
-  generate 
-    if (HWPE == 0) begin 
-      redmule_wrap #(
-        .ID_WIDTH           ( ID                 ),
-        .N_CORES            ( NC                 ),
-        .DW                 ( DW                 ),
-        .MP                 ( DW/32              ),
-        .EW                 ( EW                 )
-      ) i_redmule_wrap      (
-        .clk_i              ( clk_i              ),
-        .rst_ni             ( rst_ni             ),
-        .test_mode_i        ( test_mode          ),
-        .evt_o              ( evt                ),
-        .busy_o             ( redmule_busy       ),
-        .tcdm_req_o         ( tcdm_req           ),
-        .tcdm_add_o         ( tcdm_add           ),
-        .tcdm_wen_o         ( tcdm_wen           ),
-        .tcdm_be_o          ( tcdm_be            ),
-        .tcdm_data_o        ( tcdm_data          ),
-        .tcdm_ecc_o         ( tcdm_ecc           ),
-        .tcdm_gnt_i         ( tcdm_gnt           ),
-        .tcdm_r_data_i      ( tcdm_r_data        ),
-        .tcdm_r_valid_i     ( tcdm_r_valid       ),
-        .tcdm_r_opc_i       ( tcdm_r_opc         ),
-        .tcdm_r_user_i      ( tcdm_r_user        ),
-        .tcdm_r_ecc_i       ( tcdm_r_ecc         ),
-        .debug_cntrl_scheduler_o(debug_cntrl_scheduler),
-        .periph_req_i       ( periph_req         ),
-        .periph_gnt_o       ( periph_gnt         ),
-        .periph_add_i       ( periph_add         ),
-        .periph_wen_i       ( periph_wen         ),
-        .periph_be_i        ( periph_be          ),
-        .periph_data_i      ( periph_data        ),
-        .periph_id_i        ( periph_id          ),
-        .periph_r_data_o    ( periph_r_data      ),
-        .periph_r_valid_o   ( periph_r_valid     ),
-        .periph_r_id_o      ( periph_r_id        )
-      );
-    end else if (HWPE == 1) begin
-      redmule_wrap_mod #(
-        .ID_WIDTH           ( ID                 ),
-        .N_CORES            ( NC                 ),
-        .DW                 ( DW                 ),
-        .MP                 ( DW/32              ),
-        .EW                 ( EW                 )
-      ) i_redmule_wrap      (
-        .clk_i              ( clk_i              ),
-        .rst_ni             ( rst_ni             ),
-        .test_mode_i        ( test_mode          ),
-        .evt_o              ( evt                ),
-        .busy_o             ( redmule_busy       ),
-        .tcdm_req_o         ( tcdm_req           ),
-        .tcdm_add_o         ( tcdm_add           ),
-        .tcdm_wen_o         ( tcdm_wen           ),
-        .tcdm_be_o          ( tcdm_be            ),
-        .tcdm_data_o        ( tcdm_data          ),
-        .tcdm_ecc_o         ( tcdm_ecc           ),
-        .tcdm_gnt_i         ( tcdm_gnt           ),
-        .tcdm_r_data_i      ( tcdm_r_data        ),
-        .tcdm_r_valid_i     ( tcdm_r_valid       ),
-        .tcdm_r_opc_i       ( tcdm_r_opc         ),
-        .tcdm_r_user_i      ( tcdm_r_user        ),
-        .tcdm_r_ecc_i       ( tcdm_r_ecc         ),
-        .debug_cntrl_scheduler_o(debug_cntrl_scheduler),
-        .periph_req_i       ( periph_req         ),
-        .periph_gnt_o       ( periph_gnt         ),
-        .periph_add_i       ( periph_add         ),
-        .periph_wen_i       ( periph_wen         ),
-        .periph_be_i        ( periph_be          ),
-        .periph_data_i      ( periph_data        ),
-        .periph_id_i        ( periph_id          ),
-        .periph_r_data_o    ( periph_r_data      ),
-        .periph_r_valid_o   ( periph_r_valid     ),
-        .periph_r_id_o      ( periph_r_id        )
-      );
-    
-    end else begin 
-      ope_wrap #(
-        .ID_WIDTH           ( ID                 ),
-        .N_CORES            ( NC                 ),
-        .DW                 ( DW                 ),
-        .MP                 ( DW/32              ),
-        .EW                 ( EW                 )
-      ) i_redmule_wrap      (
-        .clk_i              ( clk_i              ),
-        .rst_ni             ( rst_ni             ),
-        .test_mode_i        ( test_mode          ),
-        .evt_o              ( evt                ),
-        .busy_o             ( redmule_busy       ),
-        .tcdm_req_o         ( tcdm_req           ),
-        .tcdm_add_o         ( tcdm_add           ),
-        .tcdm_wen_o         ( tcdm_wen           ),
-        .tcdm_be_o          ( tcdm_be            ),
-        .tcdm_data_o        ( tcdm_data          ),
-        .tcdm_ecc_o         ( tcdm_ecc           ),
-        .tcdm_gnt_i         ( tcdm_gnt           ),
-        .tcdm_r_data_i      ( tcdm_r_data        ),
-        .tcdm_r_valid_i     ( tcdm_r_valid       ),
-        .tcdm_r_opc_i       ( tcdm_r_opc         ),
-        .tcdm_r_user_i      ( tcdm_r_user        ),
-        .tcdm_r_ecc_i       ( tcdm_r_ecc         ),
-        .debug_cntrl_scheduler_o(debug_cntrl_scheduler),
-        .periph_req_i       ( periph_req         ),
-        .periph_gnt_o       ( periph_gnt         ),
-        .periph_add_i       ( periph_add         ),
-        .periph_wen_i       ( periph_wen         ),
-        .periph_be_i        ( periph_be          ),
-        .periph_data_i      ( periph_data        ),
-        .periph_id_i        ( periph_id          ),
-        .periph_r_data_o    ( periph_r_data      ),
-        .periph_r_valid_o   ( periph_r_valid     ),
-        .periph_r_id_o      ( periph_r_id        )
-      );
-    end
-  endgenerate
-  
+
+  ope_wrap #(
+    .ID_WIDTH           ( ID                 ),
+    .N_CORES            ( NC                 ),
+    .DW                 ( DW                 ),
+    .MP                 ( DW/32              ),
+    .EW                 ( EW                 )
+  ) i_redmule_wrap      (
+    .clk_i              ( clk_i              ),
+    .rst_ni             ( rst_ni             ),
+    .test_mode_i        ( test_mode          ),
+    .evt_o              ( evt                ),
+    .busy_o             ( redmule_busy       ),
+    .tcdm_req_o         ( tcdm_req           ),
+    .tcdm_add_o         ( tcdm_add           ),
+    .tcdm_wen_o         ( tcdm_wen           ),
+    .tcdm_be_o          ( tcdm_be            ),
+    .tcdm_data_o        ( tcdm_data          ),
+    .tcdm_ecc_o         ( tcdm_ecc           ),
+    .tcdm_gnt_i         ( tcdm_gnt           ),
+    .tcdm_r_data_i      ( tcdm_r_data        ),
+    .tcdm_r_valid_i     ( tcdm_r_valid       ),
+    .tcdm_r_opc_i       ( tcdm_r_opc         ),
+    .tcdm_r_user_i      ( tcdm_r_user        ),
+    .tcdm_r_ecc_i       ( tcdm_r_ecc         ),
+    .debug_cntrl_scheduler_o(debug_cntrl_scheduler),
+    .periph_req_i       ( periph_req         ),
+    .periph_gnt_o       ( periph_gnt         ),
+    .periph_add_i       ( periph_add         ),
+    .periph_wen_i       ( periph_wen         ),
+    .periph_be_i        ( periph_be          ),
+    .periph_data_i      ( periph_data        ),
+    .periph_id_i        ( periph_id          ),
+    .periph_r_data_o    ( periph_r_data      ),
+    .periph_r_valid_o   ( periph_r_valid     ),
+    .periph_r_id_o      ( periph_r_id        )
+  );
+
 
   tb_dummy_memory  #(
     .MP             ( MP + 1        ),
