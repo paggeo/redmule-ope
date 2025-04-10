@@ -423,6 +423,21 @@ module redmule_tb
   prev_finished_redmule <= finished_redmule;
   end
 
+
+    // Metrics
+   // TCDM access counters
+   int start_tcdm_counter = 0;
+   int end_tcdm_counter = 0;
+   int tcdm_read_counter = 0;
+   int tcdm_write_counter = 0;
+ 
+   always_ff @(posedge clk_i) begin
+     if (tcdm_req && start_tcdm_counter == 0) start_tcdm_counter <= global_counter;
+     if (tcdm_req) end_tcdm_counter <= global_counter;
+     if (tcdm_req && tcdm_wen) tcdm_read_counter++; 
+     if (tcdm_req && !tcdm_wen) tcdm_write_counter++;
+   end 
+
   initial begin
 
     if (!$value$plusargs("STIM_INSTR=%s", stim_instr)) stim_instr = "../../../sw/build/stim_instr.txt";
