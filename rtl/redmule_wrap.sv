@@ -46,6 +46,7 @@ module redmule_wrap
   input  logic                      tcdm_r_opc_i    ,
   input  logic                      tcdm_r_user_i   ,
   input  logic [      EW-1:0]       tcdm_r_ecc_i    ,
+  output cntrl_scheduler_t        debug_cntrl_scheduler_o,
   // periph slave port
   input  logic                      periph_req_i    ,
   output logic                      periph_gnt_o    ,
@@ -195,6 +196,7 @@ redmule_top #(
   .evt_o              ( evt_o              ),
   .busy_o             ( busy_o             ),
   .tcdm               ( tcdm               ),
+  .debug_cntrl_scheduler_o(debug_cntrl_scheduler_o),
   .periph             ( periph             )
 );
 

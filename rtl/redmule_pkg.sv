@@ -11,7 +11,7 @@ import hwpe_stream_package::*;
 
 package redmule_pkg;
 
-  parameter int unsigned            DATA_W       = 1024 + 32;     // TCDM port dimension (in bits)
+  parameter int unsigned            DATA_W       = 256 + 32;     // TCDM port dimension (in bits)
   parameter int unsigned            MemDw        = 32;
   parameter int unsigned            NumByte      = MemDw/8;
   parameter int unsigned            ADDR_W       = hci_package::DEFAULT_AW;
@@ -20,14 +20,13 @@ package redmule_pkg;
   parameter int unsigned            N_CONTEXT    = 2;
   parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP32;
   parameter int unsigned            BITW         = fpnew_pkg::fp_width(FPFORMAT);
-  parameter int unsigned            ARRAY_HEIGHT = 8;
+  parameter int unsigned            ARRAY_HEIGHT = 4;
   parameter int unsigned            PIPE_REGS    = 3;
-  parameter int unsigned            ARRAY_WIDTH  = 8;
+  parameter int unsigned            ARRAY_WIDTH  = 12;
   parameter int unsigned            TOT_DEPTH    = DATAW/BITW;
   parameter int unsigned            DEPTH        = TOT_DEPTH/ARRAY_HEIGHT;
   parameter int unsigned            STRB         = DATA_W/8;
-  // parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b111111;
-  parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b101000; // Fixme: This should be set to only fp16 to fp32
+  parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b101000;
   parameter fpnew_pkg::ifmt_logic_t IntFmtConfig = 4'b1000;
   parameter fpnew_pkg::operation_e  CAST_OP      = fpnew_pkg::F2F;
   parameter int unsigned MIN_FMT  = fpnew_pkg::min_fp_width(FpFmtConfig);

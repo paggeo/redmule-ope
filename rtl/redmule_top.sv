@@ -164,10 +164,6 @@ redmule_streamer #(
 
 hwpe_stream_fifo #(
   .DATA_WIDTH     ( DATAW_ALIGN   ),
-<<<<<<< HEAD
-  // .FIFO_DEPTH     ( 8             )
-=======
->>>>>>> a69985e33ed22660bf1cadffb3d6b570587a1f77
   .FIFO_DEPTH     ( 4             )
 ) i_x_buffer_fifo (
   .clk_i          ( clk_i         ),
@@ -180,7 +176,6 @@ hwpe_stream_fifo #(
 
 hwpe_stream_fifo #(
   .DATA_WIDTH     ( DATAW_ALIGN   ),
-  // .FIFO_DEPTH     ( 8             )
   .FIFO_DEPTH     ( 4             )
 ) i_w_buffer_fifo (
   .clk_i          ( clk_i         ),
@@ -193,7 +188,6 @@ hwpe_stream_fifo #(
 
 hwpe_stream_fifo #(
   .DATA_WIDTH     ( DATAW_ALIGN   ),
-  // .FIFO_DEPTH     ( 8             )
   .FIFO_DEPTH     ( 4             )
 ) i_y_buffer_fifo (
   .clk_i          ( clk_i         ),
