@@ -1,5 +1,5 @@
 # This script was generated automatically by bender.
-set ROOT "/scratch/ope_pagonis/redmule-ope"
+set ROOT "/scratch2/pagonis/redmule-ope"
 set search_path_initial $search_path
 
 set search_path $search_path_initial

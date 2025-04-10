@@ -202,4 +202,4 @@ ope_top #(
   .periph             ( periph             )
 );
 
-endmodule: redmule_wrap
+endmodule: ope_wrap

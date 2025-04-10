@@ -9,3 +9,4 @@ sw/build
 *.wlf
 target/sim/vsim/work/
 target/sim/vsim/wlftGFPskt
+redmule-gf12

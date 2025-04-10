@@ -1,16 +1,16 @@
 # This script was generated automatically by bender.
-set ROOT "/scratch/ope_pagonis/redmule-ope"
+set ROOT "/scratch2/pagonis/redmule-ope"
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "$ROOT/.bender/git/checkouts/common_verification-149a8baf816d0f55/src/clk_rst_gen.sv" \
     "$ROOT/.bender/git/checkouts/common_verification-149a8baf816d0f55/src/sim_timeout.sv" \
     "$ROOT/.bender/git/checkouts/common_verification-149a8baf816d0f55/src/stream_watchdog.sv" \
@@ -19,14 +19,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "$ROOT/.bender/git/checkouts/common_verification-149a8baf816d0f55/src/rand_id_queue.sv" \
     "$ROOT/.bender/git/checkouts/common_verification-149a8baf816d0f55/src/rand_stream_mst.sv" \
     "$ROOT/.bender/git/checkouts/common_verification-149a8baf816d0f55/src/rand_synch_holdable_driver.sv" \
@@ -37,41 +37,41 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/rtl/tc_sram.sv" \
     "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/rtl/tc_sram_impl.sv" \
 }]} {return 1}
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/rtl/tc_clk.sv" \
 }]} {return 1}
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/deprecated/cluster_pwr_cells.sv" \
     "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/deprecated/generic_memory.sv" \
     "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/deprecated/generic_rom.sv" \
@@ -82,27 +82,27 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/tc_pwr.sv" \
 }]} {return 1}
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/deprecated/pulp_clock_gating_async.sv" \
     "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/deprecated/cluster_clk_cells.sv" \
     "$ROOT/.bender/git/checkouts/tech_cells_generic-9d9ba23d5bf3a109/src/deprecated/pulp_clk_cells.sv" \
@@ -110,28 +110,28 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/binary_to_gray.sv" \
 }]} {return 1}
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/cb_filter_pkg.sv" \
     "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/cc_onehot.sv" \
@@ -185,14 +185,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/cb_filter.sv" \
     "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/cdc_fifo_2phase.sv" \
@@ -228,28 +228,28 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/deprecated/sram.sv" \
 }]} {return 1}
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/deprecated/clock_divider_counter.sv" \
     "$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/src/deprecated/clk_div.sv" \
@@ -270,14 +270,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "$ROOT/.bender/git/checkouts/fpu_div_sqrt_mvp-6f47e499794a44e3/hdl/defs_div_sqrt_mvp.sv" \
     "$ROOT/.bender/git/checkouts/fpu_div_sqrt_mvp-6f47e499794a44e3/hdl/iteration_div_sqrt_mvp.sv" \
@@ -291,14 +291,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/cluster_interconnect-3cafd41fb1ea3828/rtl/low_latency_interco" \
     "+incdir+$ROOT/.bender/git/checkouts/cluster_interconnect-3cafd41fb1ea3828/rtl/peripheral_interco" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
@@ -347,14 +347,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "$ROOT/.bender/git/checkouts/fpnew-596368a327261645/src/fpnew_pkg.sv" \
     "$ROOT/.bender/git/checkouts/fpnew-596368a327261645/src/fpnew_cast_multi.sv" \
@@ -388,14 +388,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl" \
     "$ROOT/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_package.sv" \
     "$ROOT/.bender/git/checkouts/hwpe-stream-ab150de1021c0132/rtl/hwpe_stream_interfaces.sv" \
@@ -438,14 +438,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "$ROOT/.bender/git/checkouts/l2_tcdm_hybrid_interco-c454a1d770326823/RTL/l2_tcdm_demux.sv" \
     "$ROOT/.bender/git/checkouts/l2_tcdm_hybrid_interco-c454a1d770326823/RTL/lint_2_apb.sv" \
     "$ROOT/.bender/git/checkouts/l2_tcdm_hybrid_interco-c454a1d770326823/RTL/lint_2_axi.sv" \
@@ -481,14 +481,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40p-0c712058920bd787/bhv" \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40p-0c712058920bd787/rtl/include" \
@@ -522,14 +522,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40p-0c712058920bd787/bhv" \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40p-0c712058920bd787/rtl/include" \
@@ -538,14 +538,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40p-0c712058920bd787/bhv" \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40p-0c712058920bd787/rtl/include" \
@@ -554,14 +554,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/cluster_interconnect-3cafd41fb1ea3828/rtl/low_latency_interco" \
     "+incdir+$ROOT/.bender/git/checkouts/cluster_interconnect-3cafd41fb1ea3828/rtl/peripheral_interco" \
     "+incdir+$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common" \
@@ -588,14 +588,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/hwpe-ctrl-baf519a1b44955c2/rtl" \
     "$ROOT/.bender/git/checkouts/hwpe-ctrl-baf519a1b44955c2/rtl/hwpe_ctrl_interfaces.sv" \
     "$ROOT/.bender/git/checkouts/hwpe-ctrl-baf519a1b44955c2/rtl/hwpe_ctrl_package.sv" \
@@ -610,14 +610,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "$ROOT/.bender/git/checkouts/ibex-b31972101ad06c84/rtl/ibex_register_file_latch.sv" \
     "$ROOT/.bender/git/checkouts/ibex-b31972101ad06c84/rtl/ibex_register_file_ff.sv" \
     "$ROOT/.bender/git/checkouts/ibex-b31972101ad06c84/rtl/ibex_register_file_fpga.sv" \
@@ -625,14 +625,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/ibex-b31972101ad06c84/rtl" \
     "+incdir+$ROOT/.bender/git/checkouts/ibex-b31972101ad06c84/vendor/lowrisc_ip/ip/prim/rtl" \
     "$ROOT/.bender/git/checkouts/ibex-b31972101ad06c84/rtl/ibex_pkg.sv" \
@@ -659,14 +659,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40x-b02547e8c1b6e597/sva" \
     "+incdir+$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common" \
@@ -688,14 +688,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40x-b02547e8c1b6e597/sva" \
     "+incdir+$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common" \
@@ -704,14 +704,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40x-b02547e8c1b6e597/sva" \
     "+incdir+$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common" \
@@ -720,14 +720,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40x-b02547e8c1b6e597/sva" \
     "+incdir+$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common" \
@@ -736,14 +736,14 @@ if {[catch { vlog -incr -sv \
 
 if {[catch { vlog -incr -sv \
     +acc -permissive -suppress 2583 -suppress 13314 \
-    +define+TARGET_CV32E40P_EXCLUDE_TRACER \
-    +define+TARGET_DEBUG \
-    +define+TARGET_REDMULE_HWPE \
-    +define+TARGET_REDMULE_TEST_HWPE \
-    +define+TARGET_RTL \
-    +define+TARGET_SIMULATION \
-    +define+TARGET_VSIM \
-    +define+COREV_ASSERT_OFF \
+    "+define+TARGET_CV32E40P_EXCLUDE_TRACER" \
+    "+define+TARGET_DEBUG" \
+    "+define+TARGET_REDMULE_HWPE" \
+    "+define+TARGET_REDMULE_TEST_HWPE" \
+    "+define+TARGET_RTL" \
+    "+define+TARGET_SIMULATION" \
+    "+define+TARGET_VSIM" \
+    "+define+COREV_ASSERT_OFF" \
     "+incdir+$ROOT/.bender/git/checkouts/common_cells-c395fc6010bcbc9d/include" \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40x-b02547e8c1b6e597/sva" \
     "+incdir+$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common" \
