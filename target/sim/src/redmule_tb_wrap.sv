@@ -8,7 +8,7 @@
 timeunit 1ps; timeprecision 1ps;
 
 module redmule_tb_wrap;
-import redmule_pkg::*;
+import redmule_pkg_mod::*;
 
   localparam TCP = 1.0ns; // clock period, 1 GHz clock
   localparam TA  = 0.2ns; // application time

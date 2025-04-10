@@ -1,5 +1,5 @@
 # vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
-# Start time: 18:31:51 on Apr 09,2025
+# Start time: 11:10:27 on Apr 10,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -18,10 +18,8 @@
 # Loading work.fpnew_pkg(fast)
 # Loading work.hwpe_stream_package(fast)
 # Loading work.hci_package(fast)
-# Loading work.redmule_pkg(fast)
-# Loading work.redmule_tb_wrap(fast)
-# Loading work.ope_pkg(fast)
 # Loading work.redmule_pkg_mod(fast)
+# Loading work.redmule_tb_wrap(fast)
 # Loading work.redmule_tb_sv_unit(fast)
 # Loading work.redmule_tb(fast)
 # Loading work.hwpe_ctrl_package(fast)
@@ -162,7 +160,7 @@
 # 
 # [Data]: Cycles: 1058 | TCDM Request count: 224 | TCDM Start - Finish: 581
 # 
-# ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(579)
+# ** Note: $finish    : /scratch/ope_pagonis/redmule-ope/target/sim/src/redmule_tb.sv(489)
 #    Time: 17192 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
-# End time: 18:31:55 on Apr 09,2025, Elapsed time: 0:00:04
+# End time: 11:10:30 on Apr 10,2025, Elapsed time: 0:00:03
 # Errors: 0, Warnings: 0

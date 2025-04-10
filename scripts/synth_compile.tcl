@@ -670,62 +670,27 @@ if {0 == [analyze -format sv \
         DEBUG \
     } \
     [list \
-        "$ROOT/rtl/redmule_pkg.sv" \
-        "$ROOT/rtl/redmule_tiler.sv" \
-        "$ROOT/rtl/redmule_ctrl.sv" \
-        "$ROOT/rtl/redmule_scheduler.sv" \
-        "$ROOT/rtl/redmule_castin.sv" \
-        "$ROOT/rtl/redmule_castout.sv" \
-        "$ROOT/rtl/redmule_streamer.sv" \
-        "$ROOT/rtl/x_buffer/redmule_x_buffer.sv" \
-        "$ROOT/rtl/x_buffer/redmule_x_pad_scm.sv" \
-        "$ROOT/rtl/x_buffer/redmule_x_buffer_scm.sv" \
-        "$ROOT/rtl/w_buffer/redmule_w_buffer.sv" \
-        "$ROOT/rtl/w_buffer/redmule_w_buffer_scm.sv" \
-        "$ROOT/rtl/z_buffer/redmule_z_buffer.sv" \
-        "$ROOT/rtl/z_buffer/redmule_z_buffer_scm.sv" \
-        "$ROOT/rtl/redmule_fma.sv" \
-        "$ROOT/rtl/redmule_noncomp.sv" \
-        "$ROOT/rtl/redmule_ce.sv" \
-        "$ROOT/rtl/redmule_row.sv" \
-        "$ROOT/rtl/redmule_engine.sv" \
-        "$ROOT/rtl/redmule_top.sv" \
-        "$ROOT/rtl/redmule_memory_scheduler.sv" \
-        "$ROOT/rtl_mod/redmule_pkg_mod.sv" \
-        "$ROOT/rtl_mod/redmule_tiler_mod.sv" \
-        "$ROOT/rtl_mod/redmule_ctrl_mod.sv" \
-        "$ROOT/rtl_mod/redmule_scheduler_mod.sv" \
-        "$ROOT/rtl_mod/redmule_streamer_mod.sv" \
-        "$ROOT/rtl_mod/x_buffer_mod/redmule_x_buffer_mod.sv" \
-        "$ROOT/rtl_mod/x_buffer_mod/redmule_x_pad_scm_mod.sv" \
-        "$ROOT/rtl_mod/x_buffer_mod/redmule_x_buffer_scm_mod.sv" \
-        "$ROOT/rtl_mod/w_buffer_mod/redmule_w_buffer_mod.sv" \
-        "$ROOT/rtl_mod/w_buffer_mod/redmule_w_buffer_scm_mod.sv" \
-        "$ROOT/rtl_mod/z_buffer_mod/redmule_z_buffer_mod.sv" \
-        "$ROOT/rtl_mod/z_buffer_mod/redmule_z_buffer_scm_mod.sv" \
-        "$ROOT/rtl_mod/redmule_fma_mod.sv" \
-        "$ROOT/rtl_mod/redmule_noncomp_mod.sv" \
-        "$ROOT/rtl_mod/redmule_ce_mod.sv" \
-        "$ROOT/rtl_mod/redmule_row_mod.sv" \
-        "$ROOT/rtl_mod/redmule_engine_mod.sv" \
-        "$ROOT/rtl_mod/redmule_top_mod.sv" \
-        "$ROOT/rtl_mod/redmule_memory_scheduler_mod.sv" \
-        "$ROOT/rtl_mod/redmule_sdotp_mod.sv" \
-        "$ROOT/rtl_mod/redmule_sdotp_wrapper_mod.sv" \
-        "$ROOT/rtl_ope/ope_pkg.sv" \
-        "$ROOT/rtl_ope/accumulation_reg.sv" \
-        "$ROOT/rtl_ope/priority_enforcer.sv" \
-        "$ROOT/rtl_ope/reg_array_io_wrapper.sv" \
-        "$ROOT/rtl_ope/ope_engine.sv" \
-        "$ROOT/rtl_ope/ope_ce.sv" \
-        "$ROOT/rtl_ope/ope_ctrl.sv" \
-        "$ROOT/rtl_ope/ope_fma.sv" \
-        "$ROOT/rtl_ope/ope_memory_scheduler.sv" \
-        "$ROOT/rtl_ope/ope_sdotp_wrapper.sv" \
-        "$ROOT/rtl_ope/ope_sdotp.sv" \
-        "$ROOT/rtl_ope/ope_streamer.sv" \
-        "$ROOT/rtl_ope/ope_tiler.sv" \
-        "$ROOT/rtl_ope/ope_top.sv" \
+        "$ROOT/rtl/redmule_pkg_mod.sv" \
+        "$ROOT/rtl/redmule_tiler_mod.sv" \
+        "$ROOT/rtl/redmule_ctrl_mod.sv" \
+        "$ROOT/rtl/redmule_scheduler_mod.sv" \
+        "$ROOT/rtl/redmule_streamer_mod.sv" \
+        "$ROOT/rtl/x_buffer_mod/redmule_x_buffer_mod.sv" \
+        "$ROOT/rtl/x_buffer_mod/redmule_x_pad_scm_mod.sv" \
+        "$ROOT/rtl/x_buffer_mod/redmule_x_buffer_scm_mod.sv" \
+        "$ROOT/rtl/w_buffer_mod/redmule_w_buffer_mod.sv" \
+        "$ROOT/rtl/w_buffer_mod/redmule_w_buffer_scm_mod.sv" \
+        "$ROOT/rtl/z_buffer_mod/redmule_z_buffer_mod.sv" \
+        "$ROOT/rtl/z_buffer_mod/redmule_z_buffer_scm_mod.sv" \
+        "$ROOT/rtl/redmule_fma_mod.sv" \
+        "$ROOT/rtl/redmule_noncomp_mod.sv" \
+        "$ROOT/rtl/redmule_ce_mod.sv" \
+        "$ROOT/rtl/redmule_row_mod.sv" \
+        "$ROOT/rtl/redmule_engine_mod.sv" \
+        "$ROOT/rtl/redmule_top_mod.sv" \
+        "$ROOT/rtl/redmule_memory_scheduler_mod.sv" \
+        "$ROOT/rtl/redmule_sdotp_mod.sv" \
+        "$ROOT/rtl/redmule_sdotp_wrapper_mod.sv" \
     ]
 ]} {return 1}
 
@@ -746,9 +711,7 @@ if {0 == [analyze -format sv \
         DEBUG \
     } \
     [list \
-        "$ROOT/rtl_ope/ope_wrap.sv" \
-        "$ROOT/rtl_mod/redmule_wrap_mod.sv" \
-        "$ROOT/rtl/redmule_wrap.sv" \
+        "$ROOT/rtl/redmule_wrap_mod.sv" \
     ]
 ]} {return 1}
 
