@@ -91,28 +91,28 @@ SECTIONS
         *(.shbss)
     } > dataram
 
-	  .golden_output 0x1c011000 :
+	  .golden_output 0x1c020000 :
 	  {
 	      __golden_output_start = .;
 	      KEEP(*(.golden_output))
 	      __golden_output_end = .;
 	  } > dataram
 
-	  .x_buffer 0x1c01a000 :
+	  .x_buffer 0x1c040000 :
 	  {
 	      __x_buffer_start = .;
 	      KEEP(*(.x_buffer))
 	      __x_buffer_end = .;
 	  } > dataram
 
-	  .w_buffer 0x1c023000 :
+	  .w_buffer 0x1c060000 :
 	  {
 	      __w_buffer_start = .;
 	      KEEP(*(.w_buffer))
 	      __w_buffer_end = .;
 	  } > dataram
 
-	  .y_buffer 0x1c02C000 :
+	  .y_buffer 0x1c080000 :
 	  {
 	      __y_buffer_start = .;
 	      KEEP(*(.y_buffer))

@@ -42,7 +42,7 @@ module redmule_tb
   localparam int unsigned EW = (USE_ECC) ? 72 : DEFAULT_EW;
 
   // global signals
-  string stim_instr, stim_data;
+  string stim_instr, stim_data_x_w, stim_data_y_z;
   logic test_mode;
   logic [31:0] core_boot_addr;
   logic redmule_busy;
@@ -169,7 +169,9 @@ module redmule_tb
     assign tcdm_r_valid_y_z [ii] = tcdm_y_z[ii].r_valid;
   end
 
-  assign tcdm_x_w[MP].req  = data_req & (data_addr[31:24] != '0) & (data_addr[31:24] != 8'h80) & ~data_addr[HWPE_ADDR_BASE_BIT] & (data_addr >= 32'h1c010000 & data_addr < (32'h1c010000 + MEMORY_SIZE));
+  // Fixme: check if this writes the data
+  assign tcdm_x_w[MP].req  = data_req & (data_addr[31:24] != '0) & (data_addr[31:24] != 8'h80) & ~data_addr[HWPE_ADDR_BASE_BIT];
+  // assign tcdm_x_w[MP].req  = data_req & (data_addr[31:24] != '0) & (data_addr[31:24] != 8'h80) & ~data_addr[HWPE_ADDR_BASE_BIT] & (data_addr >= 32'h1c010000 & data_addr < (32'h1c010000 + MEMORY_SIZE));
   assign tcdm_x_w[MP].add  = data_addr;
   assign tcdm_x_w[MP].wen  = ~data_we;
   assign tcdm_x_w[MP].be   = data_be;
@@ -549,14 +551,16 @@ module redmule_tb
   initial begin
 
     if (!$value$plusargs("STIM_INSTR=%s", stim_instr)) stim_instr = "../../../sw/build/stim_instr.txt";
-    if (!$value$plusargs("STIM_DATA=%s", stim_data)) stim_data = "../../../sw/build/stim_data.txt";
+    if (!$value$plusargs("STIM_DATA_X_W=%s", stim_data_x_w)) stim_data_x_w = "../../../sw/build/stim_data_x_w.txt";
+    if (!$value$plusargs("STIM_DATA_Y_Z=%s", stim_data_y_z)) stim_data_y_z = "../../../sw/build/stim_data_y_z.txt";
 
     test_mode = 1'b0;
     core_boot_addr = 32'h1C000084;
 
     // Load instruction and data memory
     $readmemh(stim_instr, redmule_tb.i_dummy_imemory.memory);
-    $readmemh(stim_data,  redmule_tb.i_dummy_dmemory_x_w.memory);
+    $readmemh(stim_data_x_w,  redmule_tb.i_dummy_dmemory_x_w.memory);
+    $readmemh(stim_data_y_z,  redmule_tb.i_dummy_dmemory_y_z.memory);
 
     // End: WFI + returned != -1 signals end-of-computation
     while(~core_sleep || errors==-1) @(posedge clk_i);
