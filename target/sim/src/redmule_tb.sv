@@ -49,22 +49,36 @@ module redmule_tb
 
   hwpe_stream_intf_tcdm instr[0:0]  (.clk(clk_i));
   hwpe_stream_intf_tcdm stack[0:0]  (.clk(clk_i));
-  hwpe_stream_intf_tcdm tcdm [MP:0] (.clk(clk_i));
+  hwpe_stream_intf_tcdm tcdm_x_w [MP:0] (.clk(clk_i));
+  hwpe_stream_intf_tcdm tcdm_y_z [MP:0] (.clk(clk_i));
 
   logic [NC-1:0][1:0] evt;
 
-  logic [MP-1:0]       tcdm_req;
-  logic [MP-1:0]       tcdm_gnt;
-  logic [MP-1:0][31:0] tcdm_add;
-  logic [MP-1:0]       tcdm_wen;
-  logic [MP-1:0][3:0]  tcdm_be;
-  logic [MP-1:0][31:0] tcdm_data;
-  logic [EW-1:0]       tcdm_ecc;
-  logic [MP-1:0][31:0] tcdm_r_data;
-  logic [MP-1:0]       tcdm_r_valid;
-  logic                tcdm_r_opc;
-  logic                tcdm_r_user;
-  logic [EW-1:0]       tcdm_r_ecc;
+  logic [MP-1:0]       tcdm_req_x_w;
+  logic [MP-1:0]       tcdm_gnt_x_w;
+  logic [MP-1:0][31:0] tcdm_add_x_w;
+  logic [MP-1:0]       tcdm_wen_x_w;
+  logic [MP-1:0][3:0]  tcdm_be_x_w;
+  logic [MP-1:0][31:0] tcdm_data_x_w;
+  logic [EW-1:0]       tcdm_ecc_x_w;
+  logic [MP-1:0][31:0] tcdm_r_data_x_w;
+  logic [MP-1:0]       tcdm_r_valid_x_w;
+  logic                tcdm_r_opc_x_w;
+  logic                tcdm_r_user_x_w;
+  logic [EW-1:0]       tcdm_r_ecc_x_w;
+
+  logic [MP-1:0]       tcdm_req_y_z;
+  logic [MP-1:0]       tcdm_gnt_y_z;
+  logic [MP-1:0][31:0] tcdm_add_y_z;
+  logic [MP-1:0]       tcdm_wen_y_z;
+  logic [MP-1:0][3:0]  tcdm_be_y_z;
+  logic [MP-1:0][31:0] tcdm_data_y_z;
+  logic [EW-1:0]       tcdm_ecc_y_z;
+  logic [MP-1:0][31:0] tcdm_r_data_y_z;
+  logic [MP-1:0]       tcdm_r_valid_y_z;
+  logic                tcdm_r_opc_y_z;
+  logic                tcdm_r_user_y_z;
+  logic [EW-1:0]       tcdm_r_ecc_y_z;
 
   logic          periph_req;
   logic          periph_gnt;
@@ -132,36 +146,87 @@ module redmule_tb
   end
 
   for(genvar ii=0; ii<MP; ii++) begin : tcdm_binding
-    assign tcdm[ii].req  = tcdm_req  [ii];
-    assign tcdm[ii].add  = tcdm_add  [ii];
-    assign tcdm[ii].wen  = tcdm_wen  [ii];
-    assign tcdm[ii].be   = tcdm_be   [ii];
-    if (~USE_ECC)
-      assign tcdm[ii].data = tcdm_data [ii];
-    assign tcdm_gnt     [ii] = tcdm[ii].gnt;
-    assign tcdm_r_data  [ii] = tcdm[ii].r_data;
-    assign tcdm_r_valid [ii] = tcdm[ii].r_valid;
+    assign tcdm_x_w[ii].req  = tcdm_req_x_w  [ii];
+    assign tcdm_x_w[ii].add  = tcdm_add_x_w  [ii];
+    assign tcdm_x_w[ii].wen  = tcdm_wen_x_w  [ii];
+    assign tcdm_x_w[ii].be   = tcdm_be_x_w   [ii];
+
+    assign tcdm_y_z[ii].req  = tcdm_req_y_z  [ii];
+    assign tcdm_y_z[ii].add  = tcdm_add_y_z  [ii];
+    assign tcdm_y_z[ii].wen  = tcdm_wen_y_z  [ii];
+    assign tcdm_y_z[ii].be   = tcdm_be_y_z   [ii];
+
+    if (~USE_ECC) begin
+      assign tcdm_x_w[ii].data = tcdm_data_x_w [ii];
+      assign tcdm_y_z[ii].data = tcdm_data_y_z [ii];
+    end
+    assign tcdm_gnt_x_w     [ii] = tcdm_x_w[ii].gnt;
+    assign tcdm_r_data_x_w  [ii] = tcdm_x_w[ii].r_data;
+    assign tcdm_r_valid_x_w [ii] = tcdm_x_w[ii].r_valid;
+
+    assign tcdm_gnt_y_z     [ii] = tcdm_y_z[ii].gnt;
+    assign tcdm_r_data_y_z  [ii] = tcdm_y_z[ii].r_data;
+    assign tcdm_r_valid_y_z [ii] = tcdm_y_z[ii].r_valid;
   end
-  assign tcdm[MP].req  = data_req & (data_addr[31:24] != '0) & (data_addr[31:24] != 8'h80) & ~data_addr[HWPE_ADDR_BASE_BIT];
-  assign tcdm[MP].add  = data_addr;
-  assign tcdm[MP].wen  = ~data_we;
-  assign tcdm[MP].be   = data_be;
-  assign tcdm[MP].data = data_wdata;
+
+  assign tcdm_x_w[MP].req  = data_req & (data_addr[31:24] != '0) & (data_addr[31:24] != 8'h80) & ~data_addr[HWPE_ADDR_BASE_BIT]
+                       & (data_addr >= 32'h1c010000 & data_addr < (32'h1c010000 + MEMORY_SIZE));
+  assign tcdm_x_w[MP].add  = data_addr;
+  assign tcdm_x_w[MP].wen  = ~data_we;
+  assign tcdm_x_w[MP].be   = data_be;
+  assign tcdm_x_w[MP].data = data_wdata;
   assign tcdm_r_opc   = 0;
   assign tcdm_r_user  = 0;
-  assign data_gnt    = periph_req ?
+
+  logic        data_gnt_x_w, data_gnt_y_z;
+  logic [31:0] data_rdata_x_w, data_rdata_y_z;
+  logic        data_rvalid_x_w, data_rvalid_y_z;
+
+  assign data_gnt_x_w    = periph_req ?
                        periph_gnt : stack[0].req ?
-                                    stack[0].gnt : tcdm[MP].req ?
-                                                   tcdm[MP].gnt : '1;
-  assign data_rdata  = periph_r_valid ? periph_r_data  :
+                                    stack[0].gnt : tcdm_x_w[MP].req ?
+                                                   tcdm_x_w[MP].gnt : '1;
+  assign data_rdata_x_w  = periph_r_valid ? periph_r_data  :
                                         stack[0].r_valid ? stack[0].r_data  :
-                                                           tcdm[MP].r_valid ? tcdm[MP].r_data : '0;
-  assign data_rvalid = periph_r_valid   |
+                                                           tcdm_x_w[MP].r_valid ? tcdm_x_w[MP].r_data : '0;
+  assign data_rvalid_x_w = periph_r_valid   |
                        stack[0].r_valid |
-                       tcdm[MP].r_valid |
+                       tcdm_x_w[MP].r_valid |
                        other_r_valid    ;
 
-  if (USE_ECC) begin : gen_r_ecc
+  assign tcdm_y_z[MP].req  = data_req & (data_addr[31:24] != '0) & (data_addr[31:24] != 8'h80) & ~data_addr[HWPE_ADDR_BASE_BIT]
+                          & (data_addr >= 32'h1c020000 & data_addr < (32'h1c020000 + MEMORY_SIZE);
+  assign tcdm_y_z[MP].add  = data_addr;
+  assign tcdm_y_z[MP].wen  = ~data_we;
+  assign tcdm_y_z[MP].be   = data_be;
+  assign tcdm_y_z[MP].data = data_wdata;
+  // assign tcdm_r_opc   = 0;
+  // assign tcdm_r_user  = 0;
+
+  assign data_gnt_y_z    = periph_req ?
+                       periph_gnt : stack[0].req ?
+                                    stack[0].gnt : tcdm_y_z[MP].req ?
+                                                   tcdm_y_z[MP].gnt : '1;
+  assign data_rdata_y_z  = periph_r_valid ? periph_r_data  :
+                                        stack[0].r_valid ? stack[0].r_data  :
+                                                           tcdm_y_z[MP].r_valid ? tcdm_y_z[MP].r_data : '0;
+  assign data_rvalid_y_z = periph_r_valid   |
+                       stack[0].r_valid |
+                       tcdm_y_z[MP].r_valid |
+                       other_r_valid    ;
+
+
+  assign data_gnt = data_gnt_x_w | data_gnt_y_z;
+  assign data_rdata = data_rdata_x_w | data_rdata_y_z; // FIXME: this should work, they should happen at the same time 
+  assign data_rvalid = data_rvalid_x_w | data_rvalid_y_z;
+
+  // assign data_rdata = data_gnt_x_w ? data_rdata_x_w : data_rdata_y_z;
+  // assign data_rvalid = data_gnt_x_w ? data_rvalid_x_w : data_rvalid_y_z;
+  assign tcdm_r_ecc_x_w = '0;
+  assign tcdm_r_ecc_y_z = '0;
+  assign tcdm_r_data_enc_x_w = '0;
+  assign tcdm_r_data_enc_y_z = '0;
+  /* if (USE_ECC) begin : gen_r_ecc
     // RESPONSE PHASE ENCODING
     logic [MP-1:0][38:0] tcdm_r_data_enc;
     for(genvar ii=0; ii<MP; ii++) begin : r_data_encoding
@@ -199,7 +264,7 @@ module redmule_tb
       .syndrome_o (  ),
       .err_o      (  )
     );
-  end
+  end */
 
 
 
@@ -215,18 +280,33 @@ module redmule_tb
     .test_mode_i        ( test_mode          ),
     .evt_o              ( evt                ),
     .busy_o             ( redmule_busy       ),
-    .tcdm_req_o         ( tcdm_req           ),
-    .tcdm_add_o         ( tcdm_add           ),
-    .tcdm_wen_o         ( tcdm_wen           ),
-    .tcdm_be_o          ( tcdm_be            ),
-    .tcdm_data_o        ( tcdm_data          ),
-    .tcdm_ecc_o         ( tcdm_ecc           ),
-    .tcdm_gnt_i         ( tcdm_gnt           ),
-    .tcdm_r_data_i      ( tcdm_r_data        ),
-    .tcdm_r_valid_i     ( tcdm_r_valid       ),
-    .tcdm_r_opc_i       ( tcdm_r_opc         ),
-    .tcdm_r_user_i      ( tcdm_r_user        ),
-    .tcdm_r_ecc_i       ( tcdm_r_ecc         ),
+
+    .tcdm_req_x_w_o         ( tcdm_req_x_w           ),
+    .tcdm_add_x_w_o         ( tcdm_add_x_w           ),
+    .tcdm_wen_x_w_o         ( tcdm_wen_x_w           ),
+    .tcdm_be_x_w_o          ( tcdm_be_x_w            ),
+    .tcdm_data_x_w_o        ( tcdm_data_x_w          ),
+    .tcdm_ecc_x_w_o         ( tcdm_ecc_x_w           ),
+    .tcdm_gnt_x_w_i         ( tcdm_gnt_x_w           ),
+    .tcdm_r_data_x_w_i      ( tcdm_r_data_x_w        ),
+    .tcdm_r_valid_x_w_i     ( tcdm_r_valid_x_w       ),
+    .tcdm_r_opc_x_w_i       ( tcdm_r_opc_x_w         ),
+    .tcdm_r_user_x_w_i      ( tcdm_r_user_x_w        ),
+    .tcdm_r_ecc_x_w_i       ( tcdm_r_ecc_x_w         ),
+
+    .tcdm_req_y_z_o         ( tcdm_req_y_z           ),
+    .tcdm_add_y_z_o         ( tcdm_add_y_z           ),
+    .tcdm_wen_y_z_o         ( tcdm_wen_y_z           ),
+    .tcdm_be_y_z_o          ( tcdm_be_y_z            ),
+    .tcdm_data_y_z_o        ( tcdm_data_y_z          ),
+    .tcdm_ecc_y_z_o         ( tcdm_ecc_y_z           ),
+    .tcdm_gnt_y_z_i         ( tcdm_gnt_y_z           ),
+    .tcdm_r_data_y_z_i      ( tcdm_r_data_y_z        ),
+    .tcdm_r_valid_y_z_i     ( tcdm_r_valid_y_z       ),
+    .tcdm_r_opc_y_z_i       ( tcdm_r_opc_y_z         ),
+    .tcdm_r_user_y_z_i      ( tcdm_r_user_y_z        ),
+    .tcdm_r_ecc_y_z_i       ( tcdm_r_ecc_y_z         ),
+
     .debug_cntrl_scheduler_o(debug_cntrl_scheduler),
     .periph_req_i       ( periph_req         ),
     .periph_gnt_o       ( periph_gnt         ),
@@ -249,14 +329,32 @@ module redmule_tb
     .TCP            ( TCP           ),
     .TA             ( TA            ),
     .TT             ( TT            )
-  ) i_dummy_dmemory (
+  ) i_dummy_dmemory_x_w (
     .clk_i          ( clk_i         ),
     .rst_ni         ( rst_ni        ),
     .clk_delayed_i  ( '0            ),
     .randomize_i    ( 1'b0          ),
     .enable_i       ( 1'b1          ),
     .stallable_i    ( 1'b1          ),
-    .tcdm           ( tcdm          )
+    .tcdm           ( tcdm_x_w          )
+  );
+
+  tb_dummy_memory  #(
+    .MP             ( MP + 1        ),
+    .MEMORY_SIZE    ( MEMORY_SIZE   ),
+    .BASE_ADDR      ( 32'h1c020000  ), // FIXME: finalize the required address
+    .PROB_STALL     ( PROB_STALL    ),
+    .TCP            ( TCP           ),
+    .TA             ( TA            ),
+    .TT             ( TT            )
+  ) i_dummy_dmemory_y_z (
+    .clk_i          ( clk_i         ),
+    .rst_ni         ( rst_ni        ),
+    .clk_delayed_i  ( '0            ),
+    .randomize_i    ( 1'b0          ),
+    .enable_i       ( 1'b1          ),
+    .stallable_i    ( 1'b1          ),
+    .tcdm           ( tcdm_y_z          )
   );
 
   tb_dummy_memory  #(
@@ -426,16 +524,28 @@ module redmule_tb
 
     // Metrics
    // TCDM access counters
-   int start_tcdm_counter = 0;
-   int end_tcdm_counter = 0;
-   int tcdm_read_counter = 0;
-   int tcdm_write_counter = 0;
+   int start_tcdm_counter_x_w = 0;
+   int end_tcdm_counter_x_w = 0;
+   int tcdm_read_counter_x_w = 0;
+   int tcdm_write_counter_x_w = 0;
  
    always_ff @(posedge clk_i) begin
-     if (tcdm_req && start_tcdm_counter == 0) start_tcdm_counter <= global_counter;
-     if (tcdm_req) end_tcdm_counter <= global_counter;
-     if (tcdm_req && tcdm_wen) tcdm_read_counter++; 
-     if (tcdm_req && !tcdm_wen) tcdm_write_counter++;
+     if (tcdm_req_x_w && start_tcdm_counter_x_w == 0) start_tcdm_counter_x_w <= global_counter;
+     if (tcdm_req_x_w) end_tcdm_counter_x_w <= global_counter;
+     if (tcdm_req_x_w && tcdm_wen_x_w) tcdm_read_counter_x_w++; 
+     if (tcdm_req_x_w && !tcdm_wen_x_w) tcdm_write_counter_x_w++;
+   end 
+
+   int start_tcdm_counter_y_z = 0;
+   int end_tcdm_counter_y_z = 0;
+   int tcdm_read_counter_y_z = 0;
+   int tcdm_write_countera_y_z = 0;
+ 
+   always_ff @(posedge clk_i) begin
+     if (tcdm_req && start_tcdm_counter_y_z == 0) start_tcdm_counter_y_z <= global_counter;
+     if (tcdm_req) end_tcdm_counter_y_z <= global_counter;
+     if (tcdm_req && tcdm_wen) tcdm_read_counter_y_z++; 
+     if (tcdm_req && !tcdm_wen) tcdm_write_counter_y_z++;
    end 
 
   initial begin
@@ -481,12 +591,28 @@ module redmule_tb
     end
     $display("Measured count: %0d, Start counter: %0d, End counter: %0d", measured_count, start_counter, end_counter);
     $display("Periphery Measured count: %0d, Start counter: %0d, End counter: %0d", periphery_end_counter - periphery_start_counter, periphery_start_counter, periphery_end_counter);
-    $display("TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter - start_tcdm_counter, start_tcdm_counter, end_tcdm_counter);
-    $display("TCDM Request Read count: %0d | Write count: %0d | Element read: %0d | Element write: %0d", tcdm_read_counter, tcdm_write_counter, tcdm_read_counter*MP, tcdm_write_counter*MP);
-    $display("TCDM Request count: %0d", tcdm_read_counter + tcdm_write_counter);
 
     $display("");
-    $display("[Data]: Cycles: %0d | TCDM Request count: %0d | TCDM Start - Finish: %0d", periphery_end_counter - periphery_start_counter, tcdm_read_counter + tcdm_write_counter, end_tcdm_counter - start_tcdm_counter);
+    $display("X_W tcdm")
+    $display("");
+    $display("TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter_x_w - start_tcdm_counter_x_w, start_tcdm_counter_x_w, end_tcdm_counter_x_w);
+    $display("TCDM Request Read count: %0d | Write count: %0d | Element read: %0d | Element write: %0d", tcdm_read_counter_x_w, tcdm_write_counter_x_w, tcdm_read_counter_x_w*MP, tcdm_write_counter_x_w*MP);
+    $display("TCDM Request count: %0d", tcdm_read_counter_x_w + tcdm_write_counter_x_w);
+
+    $display("");
+    $display("[Data]: Cycles: %0d | TCDM Request count: %0d | TCDM Start - Finish: %0d", periphery_end_counter_x_w - periphery_start_counter_x_w, tcdm_read_counter_x_w + tcdm_write_counter_x_w, end_tcdm_counter_x_w - start_tcdm_counter_x_w);
+    $display("");
+
+    $display("");
+    $display("Y_Z tcdm")
+    $display("");
+
+    $display("TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter_y_z - start_tcdm_counter_y_z, start_tcdm_counter_y_z, end_tcdm_counter_y_z);
+    $display("TCDM Request Read count: %0d | Write count: %0d | Element read: %0d | Element write: %0d", tcdm_read_counter_y_z, tcdm_write_counter_y_z, tcdm_read_counter_y_z*MP, tcdm_write_counter_y_z*MP);
+    $display("TCDM Request count: %0d", tcdm_read_counter_y_z + tcdm_write_counter_y_z);
+
+    $display("");
+    $display("[Data]: Cycles: %0d | TCDM Request count: %0d | TCDM Start - Finish: %0d", periphery_end_counter_y_z - periphery_start_counter_y_z, tcdm_read_counter_y_z + tcdm_write_counter_y_z, end_tcdm_counter_y_z - start_tcdm_counter_y_z);
     $display("");
     $finish;
   end

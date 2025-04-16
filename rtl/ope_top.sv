@@ -46,7 +46,8 @@ module ope_top
 `endif
   output cntrl_scheduler_t        debug_cntrl_scheduler_o,
   // TCDM master ports for the memory side
-  hci_core_intf.initiator tcdm
+  hci_core_intf.initiator tcdm_x_w, 
+  hci_core_intf.initiator tcdm_y_z 
 );
 
 localparam int unsigned DATAW_ALIGN = DATAW;
@@ -148,7 +149,7 @@ hwpe_stream_intf_stream #( .DATA_WIDTH ( DATAW_ALIGN ) ) z_buffer_fifo      ( .c
 
 
 logic w_granted, x_granted;
-logic [NumStreamSources-1:0][$clog2(NumStreamSources)-1:0] custom_priority;
+logic [1:0][$clog2(2)-1:0] custom_priority;
 logic custom_priority_force;
 
 // The streamer will present a single master TCDM port used to stream data to and from the memeory.
@@ -169,7 +170,7 @@ ope_streamer #(
   // Sink interface for the outgoing stream
   .z_stream_i               ( z_buffer_q),
   // Master TCDM interface ports for the memory side
-  .tcdm                     ( tcdm                  ),
+  .tcdm                     ( tcdm_x_w                  ),
   .custom_priority_force_i  ( custom_priority_force ),
   .custom_priority_i        ( custom_priority       ),
   .x_granted_o              ( x_granted             ),
@@ -179,6 +180,53 @@ ope_streamer #(
   .flags_o                  ( flgs_streamer         )
 );
 
+assign tcdm_y_z = '0;
+/*
+ope_streamer_y_z #(
+  .DW             ( DW                           ),
+  .`HCI_SIZE_PARAM(tcdm) ( `HCI_SIZE_PARAM(tcdm) )
+) i_streamer      (
+  .clk_i                    ( clk_i                 ),
+  .rst_ni                   ( rst_ni                ),
+  .test_mode_i              ( test_mode_i           ),
+  // Controller generated signals
+  .enable_i                 ( 1'b1                  ),
+  .clear_i                  ( clear                 ),
+  // Source interfaces for the incoming streams
+  .y_stream_o               ( y_buffer_d            ),
+  // Sink interface for the outgoing stream
+  .z_stream_i               ( z_buffer_q),
+  // Master TCDM interface ports for the memory side
+  .tcdm                     ( tcdm_y_z              ),
+  .ctrl_i                   ( cntrl_streamer        ),
+  .flags_o                  ( flgs_streamer         )
+);
+
+ope_streamer_x_w #(
+  .DW             ( DW                           ),
+  .`HCI_SIZE_PARAM(tcdm) ( `HCI_SIZE_PARAM(tcdm) )
+) i_streamer      (
+  .clk_i                    ( clk_i                 ),
+  .rst_ni                   ( rst_ni                ),
+  .test_mode_i              ( test_mode_i           ),
+  // Controller generated signals
+  .enable_i                 ( 1'b1                  ),
+  .clear_i                  ( clear                 ),
+  // Source interfaces for the incoming streams
+  .x_stream_o               ( x_buffer_d            ),
+  .w_stream_o               ( w_buffer_d            ),
+  // Master TCDM interface ports for the memory side
+  .tcdm                     ( tcdm_x_w              ),
+  .custom_priority_force_i  ( custom_priority_force ),
+  .custom_priority_i        ( custom_priority       ),
+  .x_granted_o              ( x_granted             ),
+  .w_granted_o              ( w_granted             ),
+
+  .ctrl_i                   ( cntrl_streamer        ),
+  .flags_o                  ( flgs_streamer         )
+);
+
+*/
 
 
 /*---------------------------------------------------------------*/
@@ -426,7 +474,7 @@ assign priority_enforcer_enable = (cntrl_engine.mode == cntrl_engine_mode_e'(COM
 
 priority_enforcer #(
   .CHANGE_DEGREE ( X_REGBUFFER_DEPTH    ),
-  .NSS           ( NumStreamSources     )
+  .NSS           ( 2     )
 ) i_priority_enforcer (
   .clk_i                   ( clk_i                    ),
   .rst_ni                  ( rst_ni                   ),

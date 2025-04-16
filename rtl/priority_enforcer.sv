@@ -52,11 +52,9 @@ module priority_enforcer
       if (x_counter_q == 0 && x_counter_d == 1) begin // x_granted == 1 -> give priority to W
         custom_priority_d[XsourceStreamId] = 1;
         custom_priority_d[WsourceStreamId] = 0;
-        custom_priority_d[YsourceStreamId] = 2;
       end else if (w_counter_q == CHANGE_DEGREE - 1 && w_counter_d == 0) begin // w_granted == 1 -> give priority to X
         custom_priority_d[XsourceStreamId] = 0;
         custom_priority_d[WsourceStreamId] = 1;
-        custom_priority_d[YsourceStreamId] = 2;
       end else begin
         custom_priority_d  = custom_priority_q;
       end
@@ -64,7 +62,6 @@ module priority_enforcer
       custom_priority_force_d = 1'b0;
       custom_priority_d[XsourceStreamId] = 0;
       custom_priority_d[WsourceStreamId] = 1;
-      custom_priority_d[YsourceStreamId] = 2;
     end
   end
 
