@@ -198,7 +198,7 @@ if (transpose == 1):
 
   f_x = open(os.path.join(inc_path, 'x_input.h'), "w")
   f_x.write(header)
-  f_x.write('uint32_t x_inp [' + new_x_dim + '] = {\n')
+  f_x.write('uint32_t x_inp [' + new_x_dim + '] __attribute__((section(".x_buffer"))) = {\n')
   total_values = X_packed.numel() 
   value_index = 0
   for i in range(X_packed.shape[0]):
@@ -228,7 +228,7 @@ if (transpose == 1):
 else: 
   f_x = open(os.path.join(inc_path, 'x_input.h'), "w")
   f_x.write(header)
-  f_x.write('uint32_t x_inp [' + new_x_dim + '] = {\n')
+  f_x.write('uint32_t x_inp [' + new_x_dim + '] __attribute__((section(".x_buffer"))) = {\n')
   total_values = X_packed.numel() 
   value_index = 0
   for i in range(X_packed.shape[0]):
@@ -258,7 +258,7 @@ else:
 
 f_w = open(os.path.join(inc_path, 'w_input.h'), "w")
 f_w.write(header)
-f_w.write('uint32_t w_inp [' + new_w_dim + '] = {\n')
+f_w.write('uint32_t w_inp [' + new_w_dim + '] __attribute__((section(".w_buffer"))) = {\n')
 total_values = W_packed.numel() 
 value_index = 0
 for i in range(W_packed.shape[0]):
@@ -288,7 +288,7 @@ f_w2.close()
 # --- Write Y as a flat array ---
 f_y = open(inc_path + '/y_input.h', "w")
 f_y.write(header)
-f_y.write('uint32_t y_inp [' + new_y_dim + '] = {\n')
+f_y.write('uint32_t y_inp [' + new_y_dim + '] __attribute__((section(".y_buffer"))) = {\n')
 total_values = m_size * k_size
 value_index = 0
 for i in range(m_size):
@@ -369,7 +369,7 @@ f_d.close()
 
 f_c = open(inc_path + '/golden.h', "w")
 f_c.write(header)
-f_c.write('uint32_t golden [' + new_out_int + '] = {\n')
+f_c.write('uint32_t golden [' + new_out_int + '] __attribute__((section(".golden_output"))) = {\n')
 
 ZFlattened = torch.flatten(Z)
 for i in range(ZFlattened.size(dim=-1)):
@@ -377,28 +377,3 @@ for i in range(ZFlattened.size(dim=-1)):
   f_c.write('0x' + hex(val_uint32)[2:] + ',\n')
 f_c.write("};")
 f_c.close()
-
-# import re
-# pkg_file = "../../rtl/redmule_pkg.sv"
-# with open(pkg_file, 'r') as file: lines = file.readlines()
-# pattern = re.compile(r'^\s*(parameter\s+fpnew_pkg::fp_format_e\s+FPFORMAT\s*=\s*fpnew_pkg::)\s*(\w+)(\s*;)', re.MULTILINE)
-# new_format = 'FP32'
-# updated_lines = [pattern.sub(rf'  \1{new_format}\3', line) if pattern.search(line) else line for line in lines]
-# with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-# print(f"Updated {pkg_file} with new FPFORMAT = {new_format}")
-
-# pkg_file = "../../rtl/redmule_pkg.sv"
-# with open(pkg_file, 'r') as file: lines = file.readlines()
-# pattern = re.compile(r'(^\s*parameter\s+fpnew_pkg::fmt_logic_t\s+FpFmtConfig\s*=\s*6\'b)([01]+)(\s*;)', re.MULTILINE)
-# new_binary_value = "101000"
-# updated_lines = [pattern.sub(f'  parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6\'b{new_binary_value};', line) if pattern.search(line) else line for line in lines]
-# with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-# print(f"Updated {pkg_file} with new binary value = {new_binary_value}")
-
-# pkg_file = "../../rtl/redmule_pkg.sv"
-# with open(pkg_file, 'r') as file: lines = file.readlines()
-# pattern = re.compile(r'(^\s*parameter\s+int\s+unsigned\s+DATA_W\s*=\s*)([^;]+)(\s*;)', re.MULTILINE)
-# new_value = "1024" # ArrayHeight*(PIPEREG +1)*FMT
-# updated_lines = [pattern.sub(f'  parameter int unsigned            DATA_W       = {new_value} + 32; ', line) if pattern.search(line) else line for line in lines]
-# with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-# print(f"Updated {pkg_file} with new value = {new_value}")

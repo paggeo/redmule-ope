@@ -11,7 +11,7 @@ import hwpe_stream_package::*;
 
 package ope_pkg;
 
-  parameter int unsigned            DATA_W       = 32*8 + 32;
+  parameter int unsigned            DATA_W       = 16*2 + 32;
   // parameter int unsigned            DATA_W       = 32*4 + 32;                                  
   parameter int unsigned            MemDw        = 32;
   parameter int unsigned            NumByte      = MemDw/8;
@@ -19,15 +19,15 @@ package ope_pkg;
   parameter int unsigned            DATAW        = DATA_W - MemDw;
   parameter int unsigned            REDMULE_REGS = 22;
   parameter int unsigned            N_CONTEXT    = 2;
-  parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP32;
+  parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP16;
   parameter int unsigned            BITW         = fpnew_pkg::fp_width(FPFORMAT);
-  parameter int unsigned            ARRAY_HEIGHT = 8;
+  parameter int unsigned            ARRAY_HEIGHT = 2;
   parameter int unsigned            PIPE_REGS    = 3;
-  parameter int unsigned            ARRAY_WIDTH  = 8; // Superior limit, smaller values are allowed.
+  parameter int unsigned            ARRAY_WIDTH  = 2; // Superior limit, smaller values are allowed.
   parameter int unsigned            TOT_DEPTH    = DATAW/BITW;
   parameter int unsigned            DEPTH        = TOT_DEPTH/ARRAY_HEIGHT;
   parameter int unsigned            STRB         = DATA_W/8;
-  parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b101000;
+  parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6'b001100;
   parameter fpnew_pkg::ifmt_logic_t IntFmtConfig = 4'b1000;
   parameter fpnew_pkg::operation_e  CAST_OP      = fpnew_pkg::F2F;
   parameter int unsigned MIN_FMT  = fpnew_pkg::min_fp_width(FpFmtConfig);
