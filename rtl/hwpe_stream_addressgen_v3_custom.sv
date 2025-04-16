@@ -149,7 +149,7 @@ module hwpe_stream_addressgen_v3_custom
 #(
   parameter int unsigned TRANS_CNT  = 32,
   parameter int unsigned CNT        = 32,    // number of bits used within the internal counter
-  parameter bit [2:0] DIM_ENABLE_1H = 3'b011 // Number of dimensions enabled on HW side
+  parameter bit [3:0] DIM_ENABLE_1H = 4'b0111 // Number of dimensions enabled on HW side
 )
 (
   // global signals
@@ -170,6 +170,7 @@ module hwpe_stream_addressgen_v3_custom
   logic signed [31:0] d1_stride;
   logic signed [31:0] d2_stride;
   logic signed [31:0] d3_stride;
+  logic signed [31:0] d4_stride;
 
   logic [31:0] gen_addr_int;
   logic        done;
@@ -179,19 +180,23 @@ module hwpe_stream_addressgen_v3_custom
   logic [CNT-1:0]       d1_counter_d;
   logic [CNT-1:0]       d2_counter_d;
   logic [CNT-1:0]       d3_counter_d;
+  logic [CNT-1:0]       d4_counter_d;
   logic [31:0]          d0_addr_d;
   logic [31:0]          d1_addr_d;
   logic [31:0]          d2_addr_d;
   logic [31:0]          d3_addr_d;
+  logic [31:0]          d4_addr_d;
   logic [TRANS_CNT-1:0] overall_counter_q;
   logic [CNT-1:0]       d0_counter_q;
   logic [CNT-1:0]       d1_counter_q;
   logic [CNT-1:0]       d2_counter_q;
   logic [CNT-1:0]       d3_counter_q;
+  logic [CNT-1:0]       d4_counter_q;
   logic [31:0]          d0_addr_q;
   logic [31:0]          d1_addr_q;
   logic [31:0]          d2_addr_q;
   logic [31:0]          d3_addr_q;
+  logic [31:0]          d4_addr_q;
 
   logic        addr_valid_d, addr_valid_q;
 
@@ -199,6 +204,7 @@ module hwpe_stream_addressgen_v3_custom
   assign d1_stride   = $signed(ctrl_i.d1_stride);
   assign d2_stride   = $signed(ctrl_i.d2_stride);
   assign d3_stride   = $signed(ctrl_i.d3_stride);
+  assign d4_stride   = $signed(ctrl_i.d4_stride);
 
   // address generation
   always_comb
@@ -207,10 +213,12 @@ module hwpe_stream_addressgen_v3_custom
     d1_addr_d         = d1_addr_q;
     d2_addr_d         = d2_addr_q;
     d3_addr_d         = d3_addr_q;
+    d4_addr_d         = d4_addr_q;
     d0_counter_d      = d0_counter_q;
     d1_counter_d      = d1_counter_q;
     d2_counter_d      = d2_counter_q;
     d3_counter_d      = d3_counter_q;
+    d4_counter_d      = d4_counter_q;
     overall_counter_d = overall_counter_q;
     addr_valid_d      = addr_valid_q;
     done = '0;
@@ -235,7 +243,7 @@ module hwpe_stream_addressgen_v3_custom
           d1_counter_d = 1;
           d2_counter_d = d2_counter_q + 1;
         end
-        else begin
+        else if ((d3_counter_q < ctrl_i.d3_len) || (ctrl_i.dim_enable_1h[3] == 1'b0) || (DIM_ENABLE_1H[3] == 1'b0)) begin
           d0_addr_d    = '0;
           d1_addr_d    = '0;
           d2_addr_d    = '0;
@@ -244,6 +252,18 @@ module hwpe_stream_addressgen_v3_custom
           d1_counter_d = 1;
           d2_counter_d = 1;
           d3_counter_d = d3_counter_q + 1;
+        end
+        else begin
+          d0_addr_d    = '0;
+          d1_addr_d    = '0;
+          d2_addr_d    = '0;
+          d3_addr_d    = '0;
+          d4_addr_d    = d4_addr_q + d4_stride;
+          d0_counter_d = 1;
+          d1_counter_d = 1;
+          d2_counter_d = 1;
+          d3_counter_d = 1;
+          d4_counter_d = d4_counter_q + 1;
         end
         overall_counter_d = overall_counter_q + 1;
       end
@@ -277,10 +297,12 @@ module hwpe_stream_addressgen_v3_custom
       d1_addr_q         <= '0;
       d2_addr_q         <= '0;
       d3_addr_q         <= '0;
+      d4_addr_q         <= '0;
       d0_counter_q      <= '0;
       d1_counter_q      <= 1;
       d2_counter_q      <= 1;
       d3_counter_q      <= 1;
+      d4_counter_q      <= 1;
       overall_counter_q <= '0;
       addr_valid_q      <= '0;
     end
@@ -288,10 +310,12 @@ module hwpe_stream_addressgen_v3_custom
       d1_addr_q         <= '0;
       d2_addr_q         <= '0;
       d3_addr_q         <= '0;
+      d4_addr_q         <= '0;
       d0_counter_q      <= '0;
       d1_counter_q      <= 1;
       d2_counter_q      <= 1;
       d3_counter_q      <= 1;
+      d4_counter_q      <= 1;
       overall_counter_q <= '0;
       addr_valid_q      <= '0;
     end
@@ -299,16 +323,18 @@ module hwpe_stream_addressgen_v3_custom
       d1_addr_q         <= d1_addr_d;
       d2_addr_q         <= d2_addr_d;
       d3_addr_q         <= d3_addr_d;
+      d4_addr_q         <= d4_addr_d;
       d0_counter_q      <= d0_counter_d;
       d1_counter_q      <= d1_counter_d;
       d2_counter_q      <= d2_counter_d;
       d3_counter_q      <= d3_counter_d;
+      d4_counter_q      <= d4_counter_d;
       overall_counter_q <= overall_counter_d;
       addr_valid_q      <= addr_valid_d;
     end
   end
 
-  assign gen_addr_int = ctrl_i.base_addr + d3_addr_q + d2_addr_q + d1_addr_q + d0_addr_q;
+  assign gen_addr_int = ctrl_i.base_addr + d4_addr_q + d3_addr_q + d2_addr_q + d1_addr_q + d0_addr_q;
 
   assign addr_o.data  = gen_addr_int;
   assign addr_o.strb  = '1;

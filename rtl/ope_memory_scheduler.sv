@@ -83,7 +83,7 @@ module ope_memory_scheduler
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d0_stride     = (BITW/8) * ARRAY_HEIGHT;
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d1_len        = reg_file_i.hwpe_params[N_SIZE];
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d1_stride     = reg_file_i.hwpe_params[M_SIZE] * (BITW/8);
-    cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.dim_enable_1h = 2'b11;
+    cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.dim_enable_1h = 3'b111;
 
     // Here we initialize the streamer source signals
     // for the W stream source
@@ -93,7 +93,7 @@ module ope_memory_scheduler
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d0_stride     = (BITW/8) * ARRAY_WIDTH;
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d1_len        = reg_file_i.hwpe_params[N_SIZE];
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d1_stride     = reg_file_i.hwpe_params[K_SIZE] * (BITW/8);
-    cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.dim_enable_1h = 2'b11;
+    cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.dim_enable_1h = 3'b111;
 
     // Here we initialize the streamer source signals
     // for the Y stream source
@@ -105,7 +105,7 @@ module ope_memory_scheduler
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d1_stride     = reg_file_i.hwpe_params[K_SIZE] * (BITW/8) * ARRAY_HEIGHT;
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d2_len        = ARRAY_HEIGHT;
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d2_stride     = reg_file_i.hwpe_params[K_SIZE] * (BITW/8);
-    cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.dim_enable_1h = 2'b11;
+    cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.dim_enable_1h = 3'b111;
 
     // Here we initialize the streamer sink signals for
     // the Z stream sink
@@ -117,7 +117,7 @@ module ope_memory_scheduler
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d1_stride       = reg_file_i.hwpe_params[K_SIZE] * (BITW/8) * ARRAY_HEIGHT;
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d2_len          = ARRAY_HEIGHT;
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d2_stride       = reg_file_i.hwpe_params[K_SIZE] * (BITW/8);
-    cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.dim_enable_1h   = 2'b11;
+    cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.dim_enable_1h   = 3'b111;
   end
 
   always_comb begin : req_start_assignment

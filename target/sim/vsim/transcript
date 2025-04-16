@@ -1,5 +1,5 @@
 # vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
-# Start time: 11:01:18 on Apr 16,2025
+# Start time: 11:28:09 on Apr 16,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -250,5 +250,5 @@
 # 
 # ** Note: $finish    : /scratch2/pagonis/ope-highperf/target/sim/src/redmule_tb.sv(491)
 #    Time: 3565 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
-# End time: 11:01:19 on Apr 16,2025, Elapsed time: 0:00:01
+# End time: 11:28:10 on Apr 16,2025, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 48
