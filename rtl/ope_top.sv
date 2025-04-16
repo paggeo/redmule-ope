@@ -180,7 +180,7 @@ ope_streamer #(
   .flags_o                  ( flgs_streamer         )
 );
 
-assign tcdm_y_z = '0;
+// assign tcdm_y_z = '0;
 /*
 ope_streamer_y_z #(
   .DW             ( DW                           ),
