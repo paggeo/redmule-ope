@@ -671,6 +671,9 @@ if {[catch { vlog -incr -sv \
     "+incdir+$ROOT/.bender/git/checkouts/cv32e40x-b02547e8c1b6e597/sva" \
     "+incdir+$ROOT/.bender/git/checkouts/hci-5afd8126f874b49f/rtl/common" \
     "$ROOT/rtl/ope_pkg.sv" \
+    "$ROOT/rtl/hwpe_stream_addressgen_v3_custom.sv" \
+    "$ROOT/rtl/hci_core_source_custom.sv" \
+    "$ROOT/rtl/hci_core_sink_custom.sv" \
     "$ROOT/rtl/accumulation_reg.sv" \
     "$ROOT/rtl/priority_enforcer.sv" \
     "$ROOT/rtl/reg_array_io_wrapper.sv" \

@@ -671,6 +671,9 @@ if {0 == [analyze -format sv \
     } \
     [list \
         "$ROOT/rtl/ope_pkg.sv" \
+        "$ROOT/rtl/hwpe_stream_addressgen_v3_custom.sv" \
+        "$ROOT/rtl/hci_core_source_custom.sv" \
+        "$ROOT/rtl/hci_core_sink_custom.sv" \
         "$ROOT/rtl/accumulation_reg.sv" \
         "$ROOT/rtl/priority_enforcer.sv" \
         "$ROOT/rtl/reg_array_io_wrapper.sv" \

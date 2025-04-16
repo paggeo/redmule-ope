@@ -228,7 +228,7 @@ hci_core_r_valid_filter #(
 // FIXME: Explain that 
 hci_core_intf #( .DW ( DW ),
                  .UW ( UW ) ) zstream2cast ( .clk ( clk_i ) );
-hci_core_sink         #(
+hci_core_sink_custom         #(
   // .MISALIGNED_ACCESSES ( 1'b0                      ),
     .MISALIGNED_ACCESSES   ( REALIGN                    ),
   .`HCI_SIZE_PARAM(tcdm) ( `HCI_SIZE_PARAM(ldst_tcdm) )
@@ -342,7 +342,7 @@ hci_core_intf #(
 
 hwpe_stream_intf_stream #( .DATA_WIDTH ( DATAW ) ) out_stream [NumStreamSources-1:0] ( .clk( clk_i ) );
 
-hci_package::hci_streamer_ctrl_t  [NumStreamSources-1:0] source_ctrl;
+hci_streamer_ctrl_custom_t  [NumStreamSources-1:0] source_ctrl;
 hci_package::hci_streamer_flags_t [NumStreamSources-1:0] source_flags;
 
 // Assign input control buses to the relative ID in the vector.
@@ -396,7 +396,7 @@ for (genvar i = 0; i < NumStreamSources; i++) begin: gen_tcdm2stream
   assign load_fifo_q[i].ecc      = tcdm_cast[i].ecc;
   assign tcdm_cast[i].r_ecc      = load_fifo_q[i].r_ecc;
 
-  hci_core_source       #(
+  hci_core_source_custom       #(
     .MISALIGNED_ACCESSES   ( REALIGN                    ),
     .`HCI_SIZE_PARAM(tcdm) ( `HCI_SIZE_PARAM(ldst_tcdm) )
   ) i_stream_source      (

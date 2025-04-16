@@ -134,10 +134,31 @@ package ope_pkg;
   } reg_reading_policy_e;
 
   typedef struct packed {
-    hci_package::hci_streamer_ctrl_t x_stream_source_ctrl;
-    hci_package::hci_streamer_ctrl_t w_stream_source_ctrl;
-    hci_package::hci_streamer_ctrl_t y_stream_source_ctrl;
-    hci_package::hci_streamer_ctrl_t z_stream_sink_ctrl;
+    logic        [31:0] base_addr;
+    logic        [31:0] tot_len;    // former word_length
+    logic        [31:0] d0_len;     // former line_length
+    logic signed [31:0] d0_stride;  // former word_stride
+    logic        [31:0] d1_len;     // former block_length
+    logic signed [31:0] d1_stride;  // former line_stride
+    logic        [31:0] d2_len;     
+    logic signed [31:0] d2_stride;  // former block_stride
+    logic        [31:0] d3_len;     
+    logic signed [31:0] d3_stride;
+    logic        [31:0] d4_len;     
+    logic signed [31:0] d4_stride;
+    logic         [3:0] dim_enable_1h;
+  } ctrl_addressgen_custom_t;
+
+  typedef struct packed {
+    logic                                     req_start;
+    ctrl_addressgen_custom_t                  addressgen_ctrl;
+  } hci_streamer_ctrl_custom_t; 
+
+  typedef struct packed {
+    hci_streamer_ctrl_custom_t x_stream_source_ctrl;
+    hci_streamer_ctrl_custom_t w_stream_source_ctrl;
+    hci_streamer_ctrl_custom_t y_stream_source_ctrl;
+    hci_streamer_ctrl_custom_t z_stream_sink_ctrl;
     fpnew_pkg::fp_format_e           input_cast_src_fmt;
     fpnew_pkg::fp_format_e           input_cast_dst_fmt;
     fpnew_pkg::fp_format_e           output_cast_src_fmt;
@@ -351,5 +372,7 @@ package ope_pkg;
     logic r_opc;
     logic r_user;
   } redmule_default_data_rsp_t;
+
+
 
 endpackage
