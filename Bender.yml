@@ -39,7 +39,8 @@ sources:
     - rtl/ope_memory_scheduler.sv
     - rtl/ope_sdotp_wrapper.sv
     - rtl/ope_sdotp.sv
-    - rtl/ope_streamer.sv
+    - rtl/ope_streamer_x_w.sv
+    - rtl/ope_streamer_y_z.sv
     - rtl/ope_tiler.sv
     - rtl/ope_top.sv
 

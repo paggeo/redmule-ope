@@ -94,6 +94,8 @@ logic                       start_cfg, cfg_complete;
 // Streamer control signals and flags
 cntrl_streamer_t cntrl_streamer;
 flgs_streamer_t  flgs_streamer;
+flgs_streamer_t  flgs_streamer_x_w;
+flgs_streamer_t  flgs_streamer_y_z;
 
 cntrl_engine_t   cntrl_engine;
 
@@ -153,39 +155,37 @@ logic [1:0][$clog2(2)-1:0] custom_priority;
 logic custom_priority_force;
 
 // The streamer will present a single master TCDM port used to stream data to and from the memeory.
-ope_streamer #(
-  .DW             ( DW                           ),
-  .`HCI_SIZE_PARAM(tcdm) ( `HCI_SIZE_PARAM(tcdm) )
-) i_streamer      (
-  .clk_i                    ( clk_i                 ),
-  .rst_ni                   ( rst_ni                ),
-  .test_mode_i              ( test_mode_i           ),
-  // Controller generated signals
-  .enable_i                 ( 1'b1                  ),
-  .clear_i                  ( clear                 ),
-  // Source interfaces for the incoming streams
-  .x_stream_o               ( x_buffer_d            ),
-  .w_stream_o               ( w_buffer_d            ),
-  .y_stream_o               ( y_buffer_d            ),
-  // Sink interface for the outgoing stream
-  .z_stream_i               ( z_buffer_q),
-  // Master TCDM interface ports for the memory side
-  .tcdm                     ( tcdm_x_w                  ),
-  .custom_priority_force_i  ( custom_priority_force ),
-  .custom_priority_i        ( custom_priority       ),
-  .x_granted_o              ( x_granted             ),
-  .w_granted_o              ( w_granted             ),
+// ope_streamer #(
+//   .DW             ( DW                           ),
+//   .`HCI_SIZE_PARAM(tcdm) ( `HCI_SIZE_PARAM(tcdm) )
+// ) i_streamer      (
+//   .clk_i                    ( clk_i                 ),
+//   .rst_ni                   ( rst_ni                ),
+//   .test_mode_i              ( test_mode_i           ),
+//   // Controller generated signals
+//   .enable_i                 ( 1'b1                  ),
+//   .clear_i                  ( clear                 ),
+//   // Source interfaces for the incoming streams
+//   .x_stream_o               ( x_buffer_d            ),
+//   .w_stream_o               ( w_buffer_d            ),
+//   .y_stream_o               ( y_buffer_d            ),
+//   // Sink interface for the outgoing stream
+//   .z_stream_i               ( z_buffer_q),
+//   // Master TCDM interface ports for the memory side
+//   .tcdm                     ( tcdm_x_w                  ),
+//   .custom_priority_force_i  ( custom_priority_force ),
+//   .custom_priority_i        ( custom_priority       ),
+//   .x_granted_o              ( x_granted             ),
+//   .w_granted_o              ( w_granted             ),
 
-  .ctrl_i                   ( cntrl_streamer        ),
-  .flags_o                  ( flgs_streamer         )
-);
+//   .ctrl_i                   ( cntrl_streamer        ),
+//   .flags_o                  ( flgs_streamer         )
+// );
 
-// assign tcdm_y_z = '0;
-/*
 ope_streamer_y_z #(
   .DW             ( DW                           ),
   .`HCI_SIZE_PARAM(tcdm) ( `HCI_SIZE_PARAM(tcdm) )
-) i_streamer      (
+) i_streamer_y_z      (
   .clk_i                    ( clk_i                 ),
   .rst_ni                   ( rst_ni                ),
   .test_mode_i              ( test_mode_i           ),
@@ -199,13 +199,13 @@ ope_streamer_y_z #(
   // Master TCDM interface ports for the memory side
   .tcdm                     ( tcdm_y_z              ),
   .ctrl_i                   ( cntrl_streamer        ),
-  .flags_o                  ( flgs_streamer         )
+  .flags_o                  ( flgs_streamer_y_z         )
 );
 
 ope_streamer_x_w #(
   .DW             ( DW                           ),
   .`HCI_SIZE_PARAM(tcdm) ( `HCI_SIZE_PARAM(tcdm) )
-) i_streamer      (
+) i_streamer_x_w      (
   .clk_i                    ( clk_i                 ),
   .rst_ni                   ( rst_ni                ),
   .test_mode_i              ( test_mode_i           ),
@@ -223,12 +223,15 @@ ope_streamer_x_w #(
   .w_granted_o              ( w_granted             ),
 
   .ctrl_i                   ( cntrl_streamer        ),
-  .flags_o                  ( flgs_streamer         )
+  .flags_o                  ( flgs_streamer_x_w        )
 );
 
-*/
 
 
+assign flgs_streamer.x_stream_source_flags = flgs_streamer_x_w.x_stream_source_flags;
+assign flgs_streamer.w_stream_source_flags = flgs_streamer_x_w.w_stream_source_flags;
+assign flgs_streamer.y_stream_source_flags = flgs_streamer_y_z.y_stream_source_flags;
+assign flgs_streamer.z_stream_sink_flags = flgs_streamer_y_z.z_stream_sink_flags;
 /*---------------------------------------------------------------*/
 /* |                      INPUT_REGISTERS                      | */
 /*---------------------------------------------------------------*/

@@ -8,16 +8,16 @@
 
 `include "hci_helpers.svh"
 
-module ope_streamer
+module ope_streamer_x_w
   import fpnew_pkg::*;
   import ope_pkg::*;
   import hci_package::*;
   import hwpe_stream_package::*;
 #(
-  parameter  int unsigned DW      = 288   ,
-  parameter  int unsigned AW      = ADDR_W,
-  parameter int unsigned PRIORITY_CHANNELS = 2
-  localparam int unsigned REALIGN = 1     ,
+  parameter  int unsigned DW                = 288    ,
+  parameter  int unsigned AW                = ADDR_W ,
+  parameter int unsigned PRIORITY_CHANNELS  = 2      ,
+  localparam int unsigned REALIGN           = 1      ,
   parameter hci_size_parameter_t `HCI_SIZE_PARAM(tcdm) = '0
 )(
   input logic                    clk_i,
@@ -32,10 +32,10 @@ module ope_streamer
   // TCDM interface between the streamer and the memory
   hci_core_intf.initiator        tcdm      ,
 
-  input  logic                                                        custom_priority_force_i,  
+  input  logic                                                          custom_priority_force_i,  
   input  logic [PRIORITY_CHANNELS-1:0][$clog2(PRIORITY_CHANNELS)-1:0]   custom_priority_i,
-  output logic                                                        x_granted_o,
-  output logic                                                        w_granted_o,
+  output logic                                                          x_granted_o,
+  output logic                                                          w_granted_o,
   // Control signals
   input  cntrl_streamer_t        ctrl_i,
   output flgs_streamer_t         flags_o
@@ -314,4 +314,4 @@ hwpe_stream_assign i_xstream_assign ( .push_i( out_stream[XsourceStreamId] ) ,
 
 hwpe_stream_assign i_wstream_assign ( .push_i( out_stream[WsourceStreamId] ) ,
                                       .pop_o ( w_stream_o                  ) );
-endmodule : ope_streamer
+endmodule : ope_streamer_x_w

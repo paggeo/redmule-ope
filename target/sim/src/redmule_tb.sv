@@ -195,7 +195,7 @@ module redmule_tb
                        tcdm_x_w[MP].r_valid |
                        other_r_valid    ;
 
-  assign tcdm_y_z[MP].req  = data_req & (data_addr[31:24] != '0) & (data_addr[31:24] != 8'h80) & ~data_addr[HWPE_ADDR_BASE_BIT] & (data_addr >= 32'h1c020000 & data_addr < (32'h1c020000 + MEMORY_SIZE));
+  assign tcdm_y_z[MP].req  = data_req & (data_addr[31:24] != '0) & (data_addr[31:24] != 8'h80) & ~data_addr[HWPE_ADDR_BASE_BIT] & (data_addr >= 32'h1c080000 & data_addr < (32'h1c080000 + 128*1024));
   assign tcdm_y_z[MP].add  = data_addr;
   assign tcdm_y_z[MP].wen  = ~data_we;
   assign tcdm_y_z[MP].be   = data_be;
@@ -323,7 +323,7 @@ module redmule_tb
 
   tb_dummy_memory  #(
     .MP             ( MP + 1        ),
-    .MEMORY_SIZE    ( MEMORY_SIZE   ),
+    .MEMORY_SIZE    ( 458752        ),
     .BASE_ADDR      ( 32'h1c010000  ),
     .PROB_STALL     ( PROB_STALL    ),
     .TCP            ( TCP           ),
@@ -341,8 +341,8 @@ module redmule_tb
 
   tb_dummy_memory  #(
     .MP             ( MP + 1        ),
-    .MEMORY_SIZE    ( MEMORY_SIZE   ),
-    .BASE_ADDR      ( 32'h1c020000  ), // FIXME: finalize the required address
+    .MEMORY_SIZE    ( 128*1024      ),
+    .BASE_ADDR      ( 32'h1c080000  ), // FIXME: finalize the required address
     .PROB_STALL     ( PROB_STALL    ),
     .TCP            ( TCP           ),
     .TA             ( TA            ),
@@ -597,24 +597,24 @@ module redmule_tb
     $display("");
     $display("X_W tcdm");
     $display("");
-    $display("TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter_x_w - start_tcdm_counter_x_w, start_tcdm_counter_x_w, end_tcdm_counter_x_w);
+    $display("TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter_x_w - start_tcdm_counter_x_w+1, start_tcdm_counter_x_w, end_tcdm_counter_x_w);
     $display("TCDM Request Read count: %0d | Write count: %0d | Element read: %0d | Element write: %0d", tcdm_read_counter_x_w, tcdm_write_counter_x_w, tcdm_read_counter_x_w*MP, tcdm_write_counter_x_w*MP);
     $display("TCDM Request count: %0d", tcdm_read_counter_x_w + tcdm_write_counter_x_w);
 
     $display("");
-    $display("[Data]: Cycles: %0d | TCDM Request count: %0d | TCDM Start - Finish: %0d", periphery_end_counter - periphery_start_counter, tcdm_read_counter_x_w + tcdm_write_counter_x_w, end_tcdm_counter_x_w - start_tcdm_counter_x_w);
+    $display("[Data]: Cycles: %0d | TCDM Request count: %0d | TCDM Start - Finish: %0d", periphery_end_counter - periphery_start_counter, tcdm_read_counter_x_w + tcdm_write_counter_x_w, end_tcdm_counter_x_w - start_tcdm_counter_x_w+1);
     $display("");
 
     $display("");
     $display("Y_Z tcdm");
     $display("");
 
-    $display("TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter_y_z - start_tcdm_counter_y_z, start_tcdm_counter_y_z, end_tcdm_counter_y_z);
+    $display("TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter_y_z - start_tcdm_counter_y_z+1, start_tcdm_counter_y_z, end_tcdm_counter_y_z);
     $display("TCDM Request Read count: %0d | Write count: %0d | Element read: %0d | Element write: %0d", tcdm_read_counter_y_z, tcdm_write_counter_y_z, tcdm_read_counter_y_z*MP, tcdm_write_counter_y_z*MP);
     $display("TCDM Request count: %0d", tcdm_read_counter_y_z + tcdm_write_counter_y_z);
 
     $display("");
-    $display("[Data]: Cycles: %0d | TCDM Request count: %0d | TCDM Start - Finish: %0d", periphery_end_counter - periphery_start_counter, tcdm_read_counter_y_z + tcdm_write_counter_y_z, end_tcdm_counter_y_z - start_tcdm_counter_y_z);
+    $display("[Data]: Cycles: %0d | TCDM Request count: %0d | TCDM Start - Finish: %0d", periphery_end_counter - periphery_start_counter, tcdm_read_counter_y_z + tcdm_write_counter_y_z, end_tcdm_counter_y_z - start_tcdm_counter_y_z+1);
     $display("");
     $finish;
   end

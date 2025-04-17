@@ -8,7 +8,7 @@
 
 `include "hci_helpers.svh"
 
-module ope_streamer
+module ope_streamer_y_z
   import fpnew_pkg::*;
   import ope_pkg::*;
   import hci_package::*;
@@ -24,21 +24,12 @@ module ope_streamer
   input logic                    test_mode_i,
   input logic                    enable_i,
   input logic                    clear_i,
-  // Engine X input + HS signals (output for the streamer)
-  hwpe_stream_intf_stream.source x_stream_o,
-  // Engine W input + HS signals (output for the streamer)
-  hwpe_stream_intf_stream.source w_stream_o,
   // Engine Y input + HS signals (output for the streamer)
   hwpe_stream_intf_stream.source y_stream_o,
   // Engine Z output + HS signals (intput for the streamer)
   hwpe_stream_intf_stream.sink   z_stream_i,
   // TCDM interface between the streamer and the memory
   hci_core_intf.initiator        tcdm      ,
-
-  input  logic                                                        custom_priority_force_i,  
-  input  logic [NumStreamSources-1:0][$clog2(NumStreamSources)-1:0]   custom_priority_i,
-  output logic                                                        x_granted_o,
-  output logic                                                        w_granted_o,
   // Control signals
   input  cntrl_streamer_t        ctrl_i,
   output flgs_streamer_t         flags_o
@@ -152,7 +143,7 @@ hci_core_intf #(
 `endif
   .DW ( DW ),
   .UW ( UW )
-) virt_tcdm [0:NumStreamSources-1] ( .clk ( clk_i ) );
+) virt_tcdm ( .clk ( clk_i ) );
 
 
 hci_core_mux_ooo #(
@@ -176,24 +167,24 @@ hci_core_r_id_filter #(
   .clear_i        (   clear_i                    ),
   .enable_i       (   1'b1                       ),
   .tcdm_target    (   yz_tcdm_pre_r_id           ),
-  .tcdm_initiator (   virt_tcdm[YsourceStreamId] )
+  .tcdm_initiator (   virt_tcdm)
 );
 
-
+/*
 hci_core_mux_ooo #(
-  .NB_CHAN              ( NumStreamSources           ),
+  .NB_CHAN              ( 1           ),
   .`HCI_SIZE_PARAM(out) ( `HCI_SIZE_PARAM(ldst_tcdm) )
 ) i_ldst_mux          (
   .clk_i              ( clk_i                   ),
   .rst_ni             ( rst_ni                  ),
   .clear_i            ( clear_i                 ),
-  // .priority_force_i   ( 'b0 ),
-  // .priority_i         ( 'b0       ),
-  .priority_force_i   ( custom_priority_force_i ),
-  .priority_i         ( custom_priority_i       ),
+  .priority_force_i   ( 'b0 ),
+  .priority_i         ( 'b0       ),
   .in                 ( virt_tcdm               ),
   .out                ( ldst_tcdm_pre_r_id      )
-);
+); */
+
+hci_core_assign i_mux_assign ( .tcdm_target (virt_tcdm), .tcdm_initiator (ldst_tcdm_pre_r_id) );
 
 hci_core_r_id_filter #(
   .`HCI_SIZE_PARAM(tcdm_target)   (   `HCI_SIZE_PARAM(ldst_tcdm) )
@@ -202,6 +193,7 @@ hci_core_r_id_filter #(
   .rst_ni         (   rst_ni                ),
   .clear_i        (   clear_i               ),
   .enable_i       (   1'b1                  ),
+  // .tcdm_target    (   virt_tcdm    ),
   .tcdm_target    (   ldst_tcdm_pre_r_id    ),
   .tcdm_initiator (   ldst_tcdm_pre_r_valid )
 );
@@ -410,4 +402,4 @@ assign flags_o.y_stream_source_flags = source_flags;
 hwpe_stream_assign i_ystream_assign ( .push_i( out_stream ) ,
                                       .pop_o ( y_stream_o ) );
 
-endmodule : ope_streamer
+endmodule : ope_streamer_y_z

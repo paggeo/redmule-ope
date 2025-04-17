@@ -684,7 +684,8 @@ if {[catch { vlog -incr -sv \
     "$ROOT/rtl/ope_memory_scheduler.sv" \
     "$ROOT/rtl/ope_sdotp_wrapper.sv" \
     "$ROOT/rtl/ope_sdotp.sv" \
-    "$ROOT/rtl/ope_streamer.sv" \
+    "$ROOT/rtl/ope_streamer_x_w.sv" \
+    "$ROOT/rtl/ope_streamer_y_z.sv" \
     "$ROOT/rtl/ope_tiler.sv" \
     "$ROOT/rtl/ope_top.sv" \
 }]} {return 1}
