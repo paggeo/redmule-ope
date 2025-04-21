@@ -58,90 +58,175 @@ module ope_engine
   output logic                                             out_valid_o        ,
   input  logic                                             out_ready_i        ,
 
+
+  output logic                                             accumulation_reg_y_ready_o,
+  output logic                                             accumulation_reg_z_valid_o,    
+  output logic                                              accumuluation_reg_full_first_o, 
+
   output logic                                             busy_o             ,
   input  cntrl_engine_t                                    cntrl_engine_i  // This include the mode (idle, load, compute, read) and the row_index
 );
 
-  /*---------------------------------------------------------------*/
-  /* |                      ACCUMULATION_REGISTERS               | */
-  /*---------------------------------------------------------------*/
+
+  typedef enum logic {
+    CE_RELOAD = 1'b0,
+    CE_RUNNING = 1'b1
+  } ce_state_e;
+
+  ce_state_e ce_state_current, ce_state_next;
+
+
+  logic [31:0] inner_loop_counter_q, inner_loop_counter_d;
+
+  logic [$clog2(REG_PER_CE)-1:0] y_write_reg_index_q, y_write_reg_index_d;
+  logic [$clog2(Height)-1:0] y_write_row_index_q, y_write_row_index_d;
+
+  logic [$clog2(REG_PER_CE)-1:0] z_read_reg_index_q, z_read_reg_index_d;
+  logic [$clog2(Height)-1:0] z_read_row_index_q, z_read_row_index_d;
+
+  logic [$clog2(REG_PER_CE)-1:0] reg_read_to_engine_q, reg_read_to_engine_d;
+  logic acc_reg_write_valid;
+  logic not_first_d, not_first_q;
+
+
+  logic [Height-1:0][Width-1:0][BITW-1:0] reg_out_data;
+  logic [Height-1:0][Width-1:0]           reg_out_valid;
+
   logic [Height-1:0][Width-1:0][BITW-1:0] engine_to_reg_output;
   logic [Height-1:0][Width-1:0]           engine_to_reg_out_valid;
   logic [Height-1:0][Width-1:0]           engine_in_valid;
 
+  /*---------------------------------------------------------------*/
 
-  // **** Align the writing of the y_bias to the internal registers ****
-  // Load first all the register (all 4) of a row and then move to the next row
+  typedef enum logic [1:0] {
+    ACC_EMPTY = 2'b00,
+    ACC_Y_FULL = 2'b01,
+    ACC_Z_FULL = 2'b10
+  } acc_state_e;
 
-  logic [$clog2(REG_PER_CE)-1:0] internal_write_index_q, internal_write_index_d;
-  logic [$clog2(Height) - 1: 0] y_row_index_q, y_row_index_d;
+  acc_state_e acc_state_current, acc_state_next;
+
+  assign accumulation_reg_z_valid_o     = (acc_state_current == ACC_Z_FULL) ? 1'b1 : 1'b0;
+  assign accumulation_reg_y_ready_o     = (acc_state_current == ACC_EMPTY)  ? 1'b1 : 1'b0;
+  assign accumuluation_reg_full_first_o = (acc_state_current == ACC_Y_FULL) ? 1'b1 : 1'b0;
+
 
   always_comb begin 
-    internal_write_index_d  = internal_write_index_q;
-    y_row_index_d           = y_row_index_q;
-    if (cntrl_engine_i.mode == cntrl_engine_mode_e'(Y_LOAD)) begin
-      if (y_in_valid_i) begin
-        if (internal_write_index_q == REG_PER_CE - 1) begin
-          internal_write_index_d = 'b0;
-          y_row_index_d          = y_row_index_q + 1;
-        end else begin
-          internal_write_index_d = internal_write_index_q + 1;
-          y_row_index_d          = y_row_index_q;
+    acc_state_next = acc_state_current;
+    y_write_reg_index_d = y_write_reg_index_q;
+    y_write_row_index_d = y_write_row_index_q;
+    reg_read_to_engine_d = reg_read_to_engine_q;
+    z_read_reg_index_d = z_read_reg_index_q;
+    z_read_row_index_d = z_read_row_index_q;
+    
+    case (acc_state_current)
+      ACC_EMPTY: begin
+        if (y_in_valid_i) begin
+          y_write_reg_index_d = (y_write_reg_index_q == REG_PER_CE - 1) ? 'b0 : y_write_reg_index_q + 1;
+          y_write_row_index_d = (y_write_reg_index_q == REG_PER_CE - 1) ? (y_write_row_index_q == Height-1) ? 'b0: y_write_row_index_q + 1 : y_write_row_index_q;
+          acc_state_next      = (y_write_row_index_q == Height - 1)     ? ACC_Y_FULL : ACC_EMPTY;
         end
       end
-    end
-  end
 
+      ACC_Y_FULL: begin // NOTE:  All the y-bias values are loaded , Not correct Fix it
+        if (in_valid_i) begin
+          reg_read_to_engine_d = (reg_read_to_engine_q == REG_PER_CE - 1) ? 'b0: reg_read_to_engine_q + 1; // This can be used both ways
+          acc_state_next = (reg_read_to_engine_q == REG_PER_CE - 1) ? (not_first_q) ? ACC_Z_FULL : ACC_EMPTY : ACC_Y_FULL;
+        end
+      end
+
+      ACC_Z_FULL: begin 
+        if (out_ready_i) begin 
+          z_read_reg_index_d = (z_read_reg_index_q == REG_PER_CE - 1) ? 'b0: z_read_reg_index_q + 1;
+          z_read_row_index_d = (z_read_reg_index_q == REG_PER_CE - 1) ? (z_read_row_index_q == Height - 1) ? 'b0: z_read_row_index_q + 1: z_read_row_index_q;
+          acc_state_next     = (z_read_row_index_q == Height - 1) ? ACC_EMPTY : ACC_Z_FULL;
+        end
+      end
+    endcase
+  end
+  
+
+  
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (~rst_ni) begin
-      y_row_index_q            <= 'b0;
-      internal_write_index_q   <= 'b0;
+      acc_state_current <= ACC_EMPTY;
+      y_write_reg_index_q <= 'b0;
+      y_write_row_index_q <= 'b0;
+      reg_read_to_engine_q <= 'b0;
+      z_read_reg_index_q <= 'b0;
+      z_read_row_index_q <= 'b0;
+
     end else begin
-      if (flush_i || iteration_change_i) begin
-        y_row_index_q          <= 'b0;
-        internal_write_index_q <= 'b0;
+      if (flush_i) begin
+        acc_state_current <= ACC_EMPTY;
+        y_write_reg_index_q <= 'b0;
+        y_write_row_index_q <= 'b0;
+        reg_read_to_engine_q <= 'b0;
+        z_read_reg_index_q <= 'b0;
+        z_read_row_index_q <= 'b0;
+
       end else begin 
-        y_row_index_q           <= y_row_index_d;
-        internal_write_index_q  <= internal_write_index_d;
+        acc_state_current <= acc_state_next;
+        y_write_reg_index_q <= y_write_reg_index_d;
+        y_write_row_index_q <= y_write_row_index_d;
+        reg_read_to_engine_q <= reg_read_to_engine_d;
+        z_read_reg_index_q <= z_read_reg_index_d;
+        z_read_row_index_q <= z_read_row_index_d;
       end
     end
   end
 
-  // **** Multiplexer for the input of the registers ****
+  /*---------------------------------------------------------------*/
+  /* |                      Writing Mutliplexer                  | */
+  /*---------------------------------------------------------------*/
+
+  
   logic [Height-1:0][Width-1:0]           reg_in_valid;
   logic [Height-1:0][Width-1:0][BITW-1:0] reg_in_data;
-
-  logic [Height-1:0][Width-1:0]           reg_out_valid;
-  logic [Height-1:0][Width-1:0][BITW-1:0] reg_out_data;
+  logic [$clog2(REG_PER_CE)-1:0]          write_index;
 
   always_comb begin
     reg_in_data   = 'b0;
     reg_in_valid  = 'b0;
+    write_index   = 'b0;
     for (int row_index = 0; row_index < Height; row_index++) begin
       for (int col_index = 0; col_index < Width; col_index++) begin
-        if (cntrl_engine_i.mode == cntrl_engine_mode_e'(Y_LOAD)) begin
+        if (acc_state_current == ACC_EMPTY) begin // Load from external
           reg_in_data[row_index][col_index]  = y_bias_i[col_index];
-          reg_in_valid[row_index][col_index] = y_in_valid_i && (row_index == y_row_index_q); 
-        end else if (cntrl_engine_i.mode == cntrl_engine_mode_e'(COMPUTE)) begin
+          reg_in_valid[row_index][col_index] = y_in_valid_i && (row_index == y_write_row_index_q); 
+          write_index                        = y_write_reg_index_q;
+        end else if (acc_state_current == ACC_Y_FULL) begin // Load from the engine - the output
           reg_in_data[row_index][col_index]  = engine_to_reg_output[row_index][col_index];
           reg_in_valid[row_index][col_index] = engine_to_reg_out_valid[row_index][col_index];
+          write_index                        = reg_read_to_engine_q;
         end
       end
     end
   end
+  
+  /*---------------------------------------------------------------*/
+  /* |                      Reading Mutliplexer                  | */
+  /*---------------------------------------------------------------*/
 
+  logic [Height-1:0][Width-1:0]  reading_enable;
+  logic [$clog2(REG_PER_CE)-1:0] read_index;
 
-  logic register_reading_compute, register_reading_output; 
   always_comb begin
-    register_reading_output     = 1'b0;
-    register_reading_compute    = 1'b0;
-    if (cntrl_engine_i.mode == cntrl_engine_mode_e'(COMPUTE) && in_valid_i) begin
-      register_reading_compute  = 1'b1;
-    end else if (cntrl_engine_i.mode == cntrl_engine_mode_e'(Z_READ) && out_ready_i) begin // Note: Reset the registers, good for padding values
-      register_reading_output   = 1'b1;
+    reading_enable = 'b0;
+    read_index     = 'b0;
+    for (int row_index = 0; row_index < Height; row_index++) begin
+      for (int col_index = 0; col_index < Width; col_index++) begin
+        if (acc_state_current == ACC_Z_FULL && out_ready_i) begin // Read row by row
+          read_index = z_read_reg_index_q;
+          reading_enable = (row_index == z_read_reg_index_q);
+        end else if (acc_state_current == ACC_Y_FULL && in_valid_i) begin
+          read_index = reg_read_to_engine_q; // Same as write index | they happen in parallel
+          reading_enable = 1'b1;
+        end
+      end 
     end
   end
-
+  
   generate
     for (genvar row_index = 0; row_index < Height; row_index++) begin: accumulation_reg_row
       for (genvar col_index = 0; col_index < Width; col_index++) begin: accumulation_reg_col
@@ -152,48 +237,18 @@ module ope_engine
           .clk_i              ( clk_i                                                ),
           .rst_ni             ( rst_ni                                               ),
           .flush_i            ( flush_i                                              ),
-          .input_i            ( reg_in_data[row_index][col_index]                    ),         
-          .in_valid_i         ( reg_in_valid[row_index][col_index]                   ),
           .iteration_change_i ( iteration_change_i                                   ),     
-          .read_i             ( register_reading_compute  || register_reading_output ), 
+          .input_i            ( reg_in_data[row_index][col_index]                    ),         
+          .write_en_i         ( reg_in_valid[row_index][col_index]                   ),
+          .write_index_i      ( write_index                                          ),
+          .read_en_i          ( reading_enable[row_index][col_index]                 ),
+          .read_index_i       ( reading_index                                        ),
           .output_o           ( reg_out_data[row_index][col_index]                   ),  
           .out_valid_o        ( reg_out_valid[row_index][col_index]                  )         
         );
       end
     end
   endgenerate
-
-  // Register reading to the output
-  logic [$clog2(REG_PER_CE)-1:0] internal_read_index_q, internal_read_index_d;
-  logic [$clog2(Height) - 1: 0] z_row_index_q, z_row_index_d;
-
-  always_comb begin 
-    z_output_o              = 'b0;
-    out_valid_o             = 'b0;
-    internal_read_index_d   = internal_read_index_q;
-    z_row_index_d           = z_row_index_q;
-    if (register_reading_output) begin 
-      z_output_o            = reg_out_data[z_row_index_q];
-      out_valid_o           = &reg_out_valid[z_row_index_q];
-      internal_read_index_d = (internal_read_index_q == REG_PER_CE - 1) ? 'b0 : internal_read_index_q + 1;
-      z_row_index_d         = (internal_read_index_q == REG_PER_CE - 1) ? z_row_index_q + 1 : z_row_index_q;
-    end
-  end
-
-  always_ff @(posedge clk_i or negedge rst_ni) begin
-    if (~rst_ni) begin
-      internal_read_index_q   <= 'b0;
-      z_row_index_q           <= 'b0;
-    end else begin
-      if (flush_i || iteration_change_i) begin
-        internal_read_index_q <= 'b0;
-        z_row_index_q         <= 'b0;
-      end else begin 
-        internal_read_index_q <= internal_read_index_d;
-        z_row_index_q         <= z_row_index_d;
-      end
-    end
-  end
 
   /*---------------------------------------------------------------*/
   /* |                      Computing Elements                   | */
@@ -202,12 +257,37 @@ module ope_engine
 
   logic [H-1:0][W-1:0][2:0][BITW-1:0] ce_operands;
   logic [H-1:0][W-1:0]                ce_in_ready;
+
+  always_comb begin
+    inner_loop_counter_d = inner_loop_counter_q;
+    ce_state_next = ce_state_current;
+    case (ce_state_current) 
+      CE_RELOAD: begin
+        ce_state_next = (reg_read_to_engine_q == REG_PER_CE - 1) ? CE_RUNNING : CE_RELOAD;
+      end
+      CE_RUNNING: begin
+        inner_loop_counter_d = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1) && in_valid_i) ? 'b0 : inner_loop_counter_q + 1;
+        ce_state_next = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count -1 ) && in_valid_i ) ? CE_RELOAD : CE_RUNNING;
+      end
+    endcase
+  end
+
+  always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (~rst_ni) begin
+      ce_state_current <= CE_RELOAD;
+      inner_loop_counter_q <= 'b0;
+    end else begin
+      ce_state_current <= ce_state_next;
+      inner_loop_counter_q <= inner_loop_counter_d;
+    end
+  end
+
   always_comb begin 
     for (int row_index = 0; row_index < Height; row_index++) begin 
       for (int col_index = 0; col_index < Width; col_index++) begin 
         ce_operands[row_index][col_index][0] = x_input_i[row_index];
         ce_operands[row_index][col_index][1] = w_input_i[col_index];
-        ce_operands[row_index][col_index][2] = reg_out_data[row_index][col_index];
+        ce_operands[row_index][col_index][2] = (ce_state_current == CE_RUNNING) ? engine_to_reg_output[row_index][col_index] : reg_out_data[row_index][col_index];
       end
     end
   end
@@ -230,7 +310,7 @@ module ope_engine
   logic ce_clk;
   always_comb begin : clock_gating_selector
     ce_clk_en            = 1'b0;
-    if (cntrl_engine_i.mode == cntrl_engine_mode_e'(COMPUTE)) ce_clk_en = 1'b1;
+    if (in_valid_i) ce_clk_en = 1'b1;
   end : clock_gating_selector
 
   tc_clk_gating ce_clock_gating (
@@ -284,4 +364,4 @@ module ope_engine
       end
     end
   endgenerate
-endmodule: ope_engine
+endmodule 

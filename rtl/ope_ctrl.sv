@@ -38,12 +38,14 @@ module ope_ctrl
   input  logic                    w_loaded_i        ,
   input logic               memory_scheduler_done_i,
   input logic               memory_scheduler_next_iteration_i        , 
+  input logic               accumulation_reg_full_first_i,
   // Control signals for the engine
   output logic                    flush_o           ,
   // Control signals for the state machine
   output cntrl_scheduler_t        cntrl_scheduler_o ,
   output x_regbuffer_ctrl_t       x_regbuffer_ctrl_o,
   output cntrl_engine_t           cntrl_engine_o    ,
+
   // Peripheral slave port
   hwpe_ctrl_intf_periph.slave     periph
 );
@@ -56,12 +58,8 @@ module ope_ctrl
     OPE_IDLE,
     OPE_STARTING,
     OPE_LOAD_Y,
-    OPE_COMPUTE_INNER_LOOP, 
-    OPE_STORE_Z,
+    OPE_COMPUTING, 
     OPE_FINISHED
-    // OPE_STARTING,
-    // REDMULE_COMPUTING,
-    // REDMULE_FINISHED
   } ope_ctrl_state_e;
 
   ope_ctrl_state_e current, next;
@@ -141,6 +139,7 @@ module ope_ctrl
   assign cntrl_engine_o.op1 = fpnew_pkg::operation_e'(reg_file_q.hwpe_params[OP_SELECTION][25:21]);
   assign cntrl_engine_o.op2 = fpnew_pkg::operation_e'(reg_file_q.hwpe_params[OP_SELECTION][20:16]);
   assign cntrl_engine_o.memory_format = ope_pkg::fpu_fmt_e'(reg_file_q.hwpe_params[OP_SELECTION][15:13]);
+  assign cntrl_engine_o.inner_loop_count = reg_file_o.hwpe_params[N_SIZE][15:0] >> (ARRAY_HEIGHT * X_REGBUFFER_DEPTH);
 
   assign cntrl_engine_o.computing_format = ope_pkg::fpu_fmt_e'(reg_file_q.hwpe_params[OP_SELECTION][12:10]);
   /*---------------------------------------------------------------------------------------------*/
@@ -162,119 +161,16 @@ module ope_ctrl
   logic [$clog2(Height) - 1: 0] y_row_index_q, y_row_index_d;
   // FIXME: because the store waits for the address gen to finish, the data that are read are 2 cycles more (power consumption)
   // Maybe find a better way to do this
-  assign cntrl_engine_o.mode = (current == OPE_LOAD_Y) ? cntrl_engine_mode_e'(Y_LOAD): 
-                               (current == OPE_COMPUTE_INNER_LOOP)? cntrl_engine_mode_e'(COMPUTE):  
-                               (current == OPE_STORE_Z)? cntrl_engine_mode_e'(Z_READ):
-                                cntrl_engine_mode_e'(IDLE);
-  assign cntrl_engine_o.row_index = y_row_index_q;
+  assign cntrl_engine_o.mode =  'b0;
 
   assign cntrl_engine_o.iteration_change = 1'b0;
   
 
-  assign cntrl_scheduler_o.start_load_x = current == OPE_LOAD_Y && next == OPE_COMPUTE_INNER_LOOP;
-  assign cntrl_scheduler_o.start_load_w = current == OPE_LOAD_Y && next == OPE_COMPUTE_INNER_LOOP;
-  assign cntrl_scheduler_o.start_store_z = current == OPE_COMPUTE_INNER_LOOP &&  next == OPE_STORE_Z;
+  assign cntrl_scheduler_o.start_load_x  = current == OPE_LOAD_Y && next == OPE_FINISHED;
+  assign cntrl_scheduler_o.start_load_w  = current == OPE_LOAD_Y && next == OPE_FINISHED;
+  assign cntrl_scheduler_o.start_store_z = current == OPE_LOAD_Y &&  next == OPE_FINISHED;
+  assign cntrl_scheduler_o.start_load_y  = current == OPE_STARTING && next == OPE_LOAD_Y;
 
-  logic look_x_done_q, look_x_done_d;
-  logic look_w_done_q, look_w_done_d;
-  logic look_z_done_q2,look_z_done_q, look_z_done_d;
-  logic look_memory_scheduler_done_q, look_memory_scheduler_done_d;
-
-  always_comb begin
-    look_x_done_d = look_x_done_q;
-    look_w_done_d = look_w_done_q;
-    look_z_done_d = look_z_done_q;
-    look_memory_scheduler_done_d = look_memory_scheduler_done_q;
-
-    if (current == OPE_LOAD_Y && next == OPE_COMPUTE_INNER_LOOP) begin
-      look_x_done_d = 1'b0;
-      look_w_done_d = 1'b0;
-      look_z_done_d = 1'b0;
-      look_memory_scheduler_done_d = 1'b0;
-    end else if (current == OPE_COMPUTE_INNER_LOOP) begin
-      if (flgs_streamer_i.x_stream_source_flags.done) begin
-        look_x_done_d = 1'b1;
-      end
-      if (flgs_streamer_i.w_stream_source_flags.done) begin
-        look_w_done_d = 1'b1;
-      end
-    end
-
-    if (current == OPE_STORE_Z) begin
-      if (flgs_streamer_i.z_stream_sink_flags.done) begin
-        look_z_done_d = 1'b1;
-      end
-      if (memory_scheduler_done_i) begin
-        look_memory_scheduler_done_d = 1'b1;
-      end
-    end
-  end
-
-  always_ff @(posedge clk_i or negedge rst_ni) begin
-    if (~rst_ni) begin
-      look_x_done_q <= 1'b0;
-      look_w_done_q <= 1'b0;
-      look_z_done_q <= 1'b0;
-      look_z_done_q2 <= 1'b0;
-      look_memory_scheduler_done_q <= 1'b0;
-    end else begin
-      if (clear || latch_clear) begin
-        look_x_done_q <= 1'b0;
-        look_w_done_q <= 1'b0;
-        look_z_done_q <= 1'b0;
-        look_z_done_q2 <= 1'b0;
-        look_memory_scheduler_done_q <= 1'b0;
-      end else begin
-        look_x_done_q <= look_x_done_d;
-        look_w_done_q <= look_w_done_d;
-        look_z_done_q <= look_z_done_d;
-        look_z_done_q2 <= look_z_done_q;
-        look_memory_scheduler_done_q <= look_memory_scheduler_done_d;
-      end
-    end
-  end
-
-  assign cntrl_scheduler_o.start_load_y = current == OPE_STARTING && next == OPE_LOAD_Y;
-
-  always_comb begin 
-    if (current == OPE_STARTING && next == OPE_LOAD_Y) begin
-      y_row_index_d = 0;
-    end else if (current == OPE_LOAD_Y) begin
-      y_row_index_d = y_row_index_q + 1;
-    end
-  end
-
-  always_ff @(posedge clk_i or negedge rst_ni) begin
-    if (~rst_ni) begin
-      y_row_index_q <= 'b0;
-    end else begin
-      if (clear || latch_clear)
-        y_row_index_q <= 'b0;
-      else
-        y_row_index_q <= y_row_index_d;
-    end
-  end
-
-  // FIXME: replace this with the finish from the dataflow
-  logic [2:0] counter_q, counter_d;
-  always_comb begin
-    counter_d = counter_q;
-    if (current == OPE_COMPUTE_INNER_LOOP && look_x_done_q && look_w_done_q) begin
-      counter_d = counter_q + 1;
-    end
-  end
-
-
-  always_ff @(posedge clk_i or negedge rst_ni) begin
-    if (~rst_ni) begin
-      counter_q <= 'b0;
-    end else begin
-      if (clear || latch_clear)
-        counter_q <= 'b0;
-      else
-        counter_q <= counter_d;
-    end
-  end
 
   always_comb begin : controller_fsm
     next = current;
@@ -295,22 +191,15 @@ module ope_ctrl
       end
 
       OPE_LOAD_Y: begin
-        if (flgs_streamer_i.y_stream_source_flags.done) begin
-          next = OPE_COMPUTE_INNER_LOOP;
-        end
-      end
-      
-      OPE_COMPUTE_INNER_LOOP: begin
-        if (look_x_done_q && look_w_done_q && !system_busy_i) begin
-          next = OPE_STORE_Z;
+        if (accumulation_reg_full_first_i) begin
+          // next = OPE_COMPUTING;
+          next = OPE_IDLE;
         end
       end
 
-      OPE_STORE_Z: begin
-        if (memory_scheduler_next_iteration_i && memory_scheduler_done_i) begin
+      OPE_COMPUTING: begin
+        if (memory_scheduler_done_i) begin
           next = OPE_FINISHED;
-        end else if (memory_scheduler_next_iteration_i) begin 
-          next = OPE_STARTING;
         end
       end
       

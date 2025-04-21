@@ -404,6 +404,9 @@ ope_engine     #(
   .aux_o              ( out_aux          ),
   .out_valid_o        (engine_out_valid),
   .out_ready_i        ( z_buffer_d.ready        ),
+  .accumulation_reg_y_ready_o (y_buffer_d.ready),
+  .accumulation_reg_z_valid_o (z_buffer_d.valid),
+  .accumuluation_reg_full_first_o (),
   .busy_o             ( busy             ),
   .cntrl_engine_i     ( cntrl_engine     )
 );
@@ -453,7 +456,7 @@ ope_ctrl        #(
   .rst_ni             ( rst_ni                  ),
   .test_mode_i        ( test_mode_i             ),
   .flgs_streamer_i    ( flgs_streamer           ),
-  .system_busy_i     ( system_busy             ),
+  .system_busy_i      ( system_busy             ),
   .busy_o             ( busy_o                  ),
   .clear_o            ( clear                   ),
   .evt_o              ( evt_o                   ),
@@ -491,8 +494,6 @@ priority_enforcer #(
   assign debug_cntrl_scheduler_o = cntrl_scheduler;
 
 
-  assign y_buffer_d.ready = 1'b1;
-  assign z_buffer_d.valid = engine_out_valid;
   assign z_buffer_d.data = engine_out_data;
   assign z_buffer_d.strb = {{DATAW_ALIGN/8{1'b1}}};
 

@@ -22,7 +22,7 @@ package ope_pkg;
   parameter fpnew_pkg::fp_format_e  FPFORMAT     = fpnew_pkg::FP16;
   parameter int unsigned            BITW         = fpnew_pkg::fp_width(FPFORMAT);
   parameter int unsigned            ARRAY_HEIGHT = 2;
-  parameter int unsigned            PIPE_REGS    = 3;
+  parameter int unsigned            PIPE_REGS    = 4;
   parameter int unsigned            ARRAY_WIDTH  = 2; // Superior limit, smaller values are allowed.
   parameter int unsigned            TOT_DEPTH    = DATAW/BITW;
   parameter int unsigned            DEPTH        = TOT_DEPTH/ARRAY_HEIGHT;
@@ -318,6 +318,7 @@ package ope_pkg;
     cntrl_engine_mode_e           mode;
     logic       [$clog2(ARRAY_HEIGHT) - 1: 0] row_index;
     logic      iteration_change;
+    logic      [31:0] inner_loop_count;
   } cntrl_engine_t;
 
   typedef enum {
