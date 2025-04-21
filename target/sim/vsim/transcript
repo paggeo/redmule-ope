@@ -1,3 +1,5 @@
+# vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
+# Start time: 17:09:42 on Apr 21,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -12,8 +14,6 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
-# vsim redmule_tb_wrap_opt -do "set TbType redmule_tb" -do "log -r /*" -do "source /scratch2/pagonis/ope-highperf/target/sim/vsim/wave.tcl" -do "run -a" -suppress 3009 
-# Start time: 15:46:04 on Apr 21,2025
 # Loading sv_std.std
 # Loading work.fpnew_pkg(fast)
 # Loading work.hwpe_stream_package(fast)
@@ -128,18 +128,37 @@
 # Loading work.cv32e40p_cs_registers(fast)
 # Loading work.hwpe_stream_intf_tcdm(fast__1)
 # Loading work.hci_core_intf(fast__3)
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'read_index_i'. The port definition is at: /scratch2/pagonis/ope-highperf/rtl/accumulation_reg.sv(21).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/accumulation_reg_row[0]/accumulation_reg_col[0]/i_acc_reg File: /scratch2/pagonis/ope-highperf/rtl/ope_engine.sv Line: 236
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'read_index_i'. The port definition is at: /scratch2/pagonis/ope-highperf/rtl/accumulation_reg.sv(21).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/accumulation_reg_row[0]/accumulation_reg_col[1]/i_acc_reg File: /scratch2/pagonis/ope-highperf/rtl/ope_engine.sv Line: 236
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'read_index_i'. The port definition is at: /scratch2/pagonis/ope-highperf/rtl/accumulation_reg.sv(21).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/accumulation_reg_row[1]/accumulation_reg_col[0]/i_acc_reg File: /scratch2/pagonis/ope-highperf/rtl/ope_engine.sv Line: 236
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'read_index_i'. The port definition is at: /scratch2/pagonis/ope-highperf/rtl/accumulation_reg.sv(21).
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/accumulation_reg_row[1]/accumulation_reg_col[1]/i_acc_reg File: /scratch2/pagonis/ope-highperf/rtl/ope_engine.sv Line: 236
-# ** Error: (vsim-3567) /scratch2/pagonis/ope-highperf/rtl/ope_memory_scheduler.sv(25): No field named 'done'.
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_memory_scheduler File: /scratch2/pagonis/ope-highperf/rtl/ope_memory_scheduler.sv
-# ** Warning: (vsim-8386) Illegal assignment to type 'enum reg[1:0] ope_pkg::cntrl_engine_mode_e' from type 'bit[31:0]': An enum variable may only be assigned the same enum typed variable or one of its values.
-#    Time: 0 ps  Iteration: 0  Instance: /redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_control File: /scratch2/pagonis/ope-highperf/rtl/ope_ctrl.sv Line: 164
-# Error loading design
-# End time: 15:46:08 on Apr 21,2025, Elapsed time: 0:00:04
-# Errors: 1, Warnings: 5
+# run -a
+# comp_fmt: 1, gemm_op: 1, mem_fmt: 1
+# Triggering accelerator and going to sleep...
+# Resumed!
+# Terminated test with 8 errors. See you!
+# [TB] - cnt_rd= 258     
+# [TB] - cnt_wr= 104     
+# [TB] - Fail!
+# ** Error: [TB] - errors=00000008
+#    Time: 2820 ns  Scope: redmule_tb_wrap.i_redmule_tb File: /scratch2/pagonis/ope-highperf/target/sim/src/redmule_tb.sv Line: 589
+# Measured count: 0, Start counter: 1622, End counter: 0
+# Periphery Measured count: 485, Start counter: 1147, End counter: 1632
+# 
+# X_W tcdm
+# 
+# TCDM Measured count: 1, Start counter: 0, End counter: 0
+# TCDM Request Read count: 0 | Write count: 0 | Element read: 0 | Element write: 0
+# TCDM Request count: 0
+# 
+# [Data]: Cycles: 485 | TCDM Request count: 0 | TCDM Start - Finish: 1
+# 
+# 
+# Y_Z tcdm
+# 
+# TCDM Measured count: 8, Start counter: 1621, End counter: 1628
+# TCDM Request Read count: 8 | Write count: 0 | Element read: 16 | Element write: 0
+# TCDM Request count: 8
+# 
+# [Data]: Cycles: 485 | TCDM Request count: 8 | TCDM Start - Finish: 8
+# 
+# ** Note: $finish    : /scratch2/pagonis/ope-highperf/target/sim/src/redmule_tb.sv(619)
+#    Time: 2820 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# End time: 17:09:43 on Apr 21,2025, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 0

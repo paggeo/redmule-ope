@@ -124,7 +124,7 @@ module ope_engine
         if (y_in_valid_i) begin
           y_write_reg_index_d = (y_write_reg_index_q == REG_PER_CE - 1) ? 'b0 : y_write_reg_index_q + 1;
           y_write_row_index_d = (y_write_reg_index_q == REG_PER_CE - 1) ? (y_write_row_index_q == Height-1) ? 'b0: y_write_row_index_q + 1 : y_write_row_index_q;
-          acc_state_next      = (y_write_row_index_q == Height - 1)     ? ACC_Y_FULL : ACC_EMPTY;
+          acc_state_next      = (y_write_row_index_q == Height - 1 && y_write_reg_index_q == REG_PER_CE - 1)  ? ACC_Y_FULL : ACC_EMPTY;
         end
       end
 
@@ -242,7 +242,7 @@ module ope_engine
           .write_en_i         ( reg_in_valid[row_index][col_index]                   ),
           .write_index_i      ( write_index                                          ),
           .read_en_i          ( reading_enable[row_index][col_index]                 ),
-          .read_index_i       ( reading_index                                        ),
+          .read_index_i       ( read_index                                           ),
           .output_o           ( reg_out_data[row_index][col_index]                   ),  
           .out_valid_o        ( reg_out_valid[row_index][col_index]                  )         
         );

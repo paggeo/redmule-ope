@@ -364,6 +364,7 @@ end
 assign reg_enable = cntrl_engine.mode == cntrl_engine_mode_e'(COMPUTE) ? 1'b1 : 1'b0;
 logic engine_out_valid;
 logic [Width-1:0][BITW-1:0] engine_out_data;
+logic accumuluation_reg_full_first;
 // Engine instance
 ope_engine     #(
   .FpFormat        ( FpFormat),
@@ -406,7 +407,7 @@ ope_engine     #(
   .out_ready_i        ( z_buffer_d.ready        ),
   .accumulation_reg_y_ready_o (y_buffer_d.ready),
   .accumulation_reg_z_valid_o (z_buffer_d.valid),
-  .accumuluation_reg_full_first_o (),
+  .accumuluation_reg_full_first_o (accumuluation_reg_full_first),
   .busy_o             ( busy             ),
   .cntrl_engine_i     ( cntrl_engine     )
 );
@@ -467,6 +468,7 @@ ope_ctrl        #(
   .w_loaded_i         ( flgs_scheduler.w_loaded ),
   .memory_scheduler_done_i ( memory_scheduler_done   ),
   .memory_scheduler_next_iteration_i ( memory_scheduler_next_iteration ),
+  .accumulation_reg_full_first_i (accumuluation_reg_full_first),
   .flush_o            ( engine_flush            ),
   .cntrl_scheduler_o  ( cntrl_scheduler         ),
   .x_regbuffer_ctrl_o ( x_regbuffer_ctrl        ),

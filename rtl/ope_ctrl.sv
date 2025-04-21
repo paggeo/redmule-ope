@@ -161,14 +161,14 @@ module ope_ctrl
   logic [$clog2(Height) - 1: 0] y_row_index_q, y_row_index_d;
   // FIXME: because the store waits for the address gen to finish, the data that are read are 2 cycles more (power consumption)
   // Maybe find a better way to do this
-  assign cntrl_engine_o.mode =  'b0;
+  assign cntrl_engine_o.mode =  cntrl_engine_mode_e'(IDLE);
 
   assign cntrl_engine_o.iteration_change = 1'b0;
   
 
-  assign cntrl_scheduler_o.start_load_x  = current == OPE_LOAD_Y && next == OPE_FINISHED;
-  assign cntrl_scheduler_o.start_load_w  = current == OPE_LOAD_Y && next == OPE_FINISHED;
-  assign cntrl_scheduler_o.start_store_z = current == OPE_LOAD_Y &&  next == OPE_FINISHED;
+  assign cntrl_scheduler_o.start_load_x  = current == OPE_LOAD_Y && next == OPE_COMPUTING;
+  assign cntrl_scheduler_o.start_load_w  = current == OPE_LOAD_Y && next == OPE_COMPUTING;
+  assign cntrl_scheduler_o.start_store_z = current == OPE_LOAD_Y &&  next == OPE_COMPUTING;
   assign cntrl_scheduler_o.start_load_y  = current == OPE_STARTING && next == OPE_LOAD_Y;
 
 
@@ -193,7 +193,7 @@ module ope_ctrl
       OPE_LOAD_Y: begin
         if (accumulation_reg_full_first_i) begin
           // next = OPE_COMPUTING;
-          next = OPE_IDLE;
+          next = OPE_FINISHED;
         end
       end
 
