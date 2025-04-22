@@ -19,11 +19,18 @@ module ope_memory_scheduler
   input  cntrl_scheduler_t      cntrl_scheduler_i,
   output logic                  next_iteration_o,        
   output logic                  done_o,  
+  output logic                  single_iteration_o,  
   output cntrl_streamer_t       cntrl_streamer_o
 );
 
   assign done_o = flgs_streamer_i.z_stream_sink_flags.done;
   assign next_iteration_o = 1'b0;
+  always_comb begin
+    single_iteration_o = 1'b0;
+    if (reg_file_i.hwpe_params[M_SIZE] / (H*X_REGBUFFER_DEPTH) == 1 && reg_file_i.hwpe_params[K_SIZE] / (W*W_REGBUFFER_DEPTH) == 1) begin
+      single_iteration_o = 1'b1;
+    end
+  end
 
   always_comb begin : address_gen_signals
     // Here we initialize the streamer source signals
@@ -35,9 +42,9 @@ module ope_memory_scheduler
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d0_stride     = (BITW/8) * ARRAY_HEIGHT;
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d1_len        = reg_file_i.hwpe_params[N_SIZE];
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d1_stride     = reg_file_i.hwpe_params[M_SIZE] * (BITW/8);
-    cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d2_len        = reg_file_i.hwpe_params[K_SIZE] / W*W_REGBUFFER_DEPTH;;
+    cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d2_len        = reg_file_i.hwpe_params[K_SIZE] / (W*W_REGBUFFER_DEPTH);
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d2_stride     = 'b0;
-    cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d3_len        = reg_file_i.hwpe_params[M_SIZE] / H*X_REGBUFFER_DEPTH;
+    cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d3_len        = reg_file_i.hwpe_params[M_SIZE] / (H*X_REGBUFFER_DEPTH);
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d3_stride     = H * X_REGBUFFER_DEPTH * (BITW/8);
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.dim_enable_1h = 3'b111;
 
@@ -49,9 +56,9 @@ module ope_memory_scheduler
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d0_stride     = (BITW/8) * ARRAY_WIDTH;
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d1_len        = reg_file_i.hwpe_params[N_SIZE];
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d1_stride     = reg_file_i.hwpe_params[K_SIZE] * (BITW/8);
-    cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d2_len        = reg_file_i.hwpe_params[K_SIZE] / W*W_REGBUFFER_DEPTH;;
+    cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d2_len        = reg_file_i.hwpe_params[K_SIZE] / (W*W_REGBUFFER_DEPTH);
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d2_stride     = W * W_REGBUFFER_DEPTH * (BITW/8);
-    cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d3_len        = reg_file_i.hwpe_params[M_SIZE] / H*X_REGBUFFER_DEPTH;
+    cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d3_len        = reg_file_i.hwpe_params[M_SIZE] / (H*X_REGBUFFER_DEPTH);
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d3_stride     = 'b0;
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.dim_enable_1h = 3'b111;
 
@@ -65,9 +72,9 @@ module ope_memory_scheduler
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d1_stride     = reg_file_i.hwpe_params[K_SIZE] * (BITW/8) * ARRAY_HEIGHT;
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d2_len        = ARRAY_HEIGHT;
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d2_stride     = reg_file_i.hwpe_params[K_SIZE] * (BITW/8);
-    cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d3_len        = reg_file_i.hwpe_params[K_SIZE] / W*W_REGBUFFER_DEPTH;;
+    cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d3_len        = reg_file_i.hwpe_params[K_SIZE] / (W*W_REGBUFFER_DEPTH);
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d3_stride     = W * W_REGBUFFER_DEPTH * (BITW/8);
-    cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d4_len        = reg_file_i.hwpe_params[M_SIZE] / H*X_REGBUFFER_DEPTH;
+    cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d4_len        = reg_file_i.hwpe_params[M_SIZE] / (H*X_REGBUFFER_DEPTH);
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d4_stride     = H * X_REGBUFFER_DEPTH * (BITW/8) * reg_file_i.hwpe_params[K_SIZE];
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.dim_enable_1h = 3'b111;
 
@@ -81,9 +88,9 @@ module ope_memory_scheduler
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d1_stride       = reg_file_i.hwpe_params[K_SIZE] * (BITW/8) * ARRAY_HEIGHT;
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d2_len          = ARRAY_HEIGHT;
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d2_stride       = reg_file_i.hwpe_params[K_SIZE] * (BITW/8);
-    cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d3_len          = reg_file_i.hwpe_params[K_SIZE] / W*W_REGBUFFER_DEPTH;;
+    cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d3_len          = reg_file_i.hwpe_params[K_SIZE] / (W*W_REGBUFFER_DEPTH);
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d3_stride       = W * W_REGBUFFER_DEPTH * (BITW/8);
-    cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d4_len          = reg_file_i.hwpe_params[M_SIZE] / H*X_REGBUFFER_DEPTH;
+    cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d4_len          = reg_file_i.hwpe_params[M_SIZE] / (H*X_REGBUFFER_DEPTH);
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d4_stride       = H * X_REGBUFFER_DEPTH * (BITW/8) * reg_file_i.hwpe_params[K_SIZE];
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.dim_enable_1h   = 3'b111;
   end

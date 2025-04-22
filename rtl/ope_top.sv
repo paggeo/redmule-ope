@@ -361,10 +361,12 @@ always_comb begin
   end
 end
 
-assign reg_enable = cntrl_engine.mode == cntrl_engine_mode_e'(COMPUTE) ? 1'b1 : 1'b0;
+logic priority_enforcer_enable;
+assign reg_enable = (priority_enforcer_enable) ? 1'b1 : 1'b0;
 logic engine_out_valid;
 logic [Width-1:0][BITW-1:0] engine_out_data;
 logic accumuluation_reg_full_first;
+logic single_iteration;
 // Engine instance
 ope_engine     #(
   .FpFormat        ( FpFormat),
@@ -408,6 +410,7 @@ ope_engine     #(
   .accumulation_reg_y_ready_o (y_buffer_d.ready),
   .accumulation_reg_z_valid_o (z_buffer_d.valid),
   .accumuluation_reg_full_first_o (accumuluation_reg_full_first),
+  .single_iteration_i ( single_iteration   ),
   .busy_o             ( busy             ),
   .cntrl_engine_i     ( cntrl_engine     )
 );
@@ -430,6 +433,7 @@ ope_memory_scheduler #(
   .cntrl_scheduler_i ( cntrl_scheduler     ),
   .done_o            ( memory_scheduler_done ),
   .next_iteration_o   ( memory_scheduler_next_iteration ),
+  .single_iteration_o ( single_iteration   ),
   .cntrl_streamer_o  ( cntrl_streamer      )
 );
 
@@ -442,6 +446,7 @@ assign system_busy = busy || not_empty_x_reg || not_empty_w_reg;
 /*---------------------------------------------------------------*/
 /* |                        Controller                         | */
 /*---------------------------------------------------------------*/
+
 
 ope_ctrl        #(
   .N_CORES            ( N_CORES                 ),
@@ -470,6 +475,7 @@ ope_ctrl        #(
   .memory_scheduler_next_iteration_i ( memory_scheduler_next_iteration ),
   .accumulation_reg_full_first_i (accumuluation_reg_full_first),
   .flush_o            ( engine_flush            ),
+  .priority_enforcer_enable_o (priority_enforcer_enable),
   .cntrl_scheduler_o  ( cntrl_scheduler         ),
   .x_regbuffer_ctrl_o ( x_regbuffer_ctrl        ),
   .cntrl_engine_o     ( cntrl_engine            ),
@@ -477,8 +483,6 @@ ope_ctrl        #(
 );
 
 
-logic priority_enforcer_enable;
-assign priority_enforcer_enable = (cntrl_engine.mode == cntrl_engine_mode_e'(COMPUTE)) ? 1'b1 : 1'b0;
 
 priority_enforcer #(
   .CHANGE_DEGREE ( X_REGBUFFER_DEPTH    ),

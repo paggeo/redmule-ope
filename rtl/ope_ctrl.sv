@@ -41,6 +41,7 @@ module ope_ctrl
   input logic               accumulation_reg_full_first_i,
   // Control signals for the engine
   output logic                    flush_o           ,
+  output logic                    priority_enforcer_enable_o,
   // Control signals for the state machine
   output cntrl_scheduler_t        cntrl_scheduler_o ,
   output x_regbuffer_ctrl_t       x_regbuffer_ctrl_o,
@@ -170,7 +171,7 @@ module ope_ctrl
   assign cntrl_scheduler_o.start_load_w  = current == OPE_LOAD_Y && next == OPE_COMPUTING;
   assign cntrl_scheduler_o.start_store_z = current == OPE_LOAD_Y &&  next == OPE_COMPUTING;
   assign cntrl_scheduler_o.start_load_y  = current == OPE_STARTING && next == OPE_LOAD_Y;
-
+  assign priority_enforcer_enable_o = current == OPE_COMPUTING;
 
   always_comb begin : controller_fsm
     next = current;
@@ -192,8 +193,7 @@ module ope_ctrl
 
       OPE_LOAD_Y: begin
         if (accumulation_reg_full_first_i) begin
-          // next = OPE_COMPUTING;
-          next = OPE_FINISHED;
+          next = OPE_COMPUTING;
         end
       end
 

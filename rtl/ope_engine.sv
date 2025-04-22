@@ -59,6 +59,7 @@ module ope_engine
   input  logic                                             out_ready_i        ,
 
 
+  input logic                                              single_iteration_i, 
   output logic                                             accumulation_reg_y_ready_o,
   output logic                                             accumulation_reg_z_valid_o,    
   output logic                                              accumuluation_reg_full_first_o, 
@@ -86,7 +87,6 @@ module ope_engine
 
   logic [$clog2(REG_PER_CE)-1:0] reg_read_to_engine_q, reg_read_to_engine_d;
   logic acc_reg_write_valid;
-  logic not_first_d, not_first_q;
 
 
   logic [Height-1:0][Width-1:0][BITW-1:0] reg_out_data;
@@ -110,6 +110,12 @@ module ope_engine
   assign accumulation_reg_y_ready_o     = (acc_state_current == ACC_EMPTY)  ? 1'b1 : 1'b0;
   assign accumuluation_reg_full_first_o = (acc_state_current == ACC_Y_FULL) ? 1'b1 : 1'b0;
 
+  logic not_first_d, not_first_q;
+
+  always_comb begin
+    not_first_d = not_first_q;
+    if (acc_state_current == ACC_Y_FULL && acc_state_next == ACC_EMPTY) not_first_d = 1'b1;
+  end
 
   always_comb begin 
     acc_state_next = acc_state_current;
@@ -131,7 +137,7 @@ module ope_engine
       ACC_Y_FULL: begin // NOTE:  All the y-bias values are loaded , Not correct Fix it
         if (in_valid_i) begin
           reg_read_to_engine_d = (reg_read_to_engine_q == REG_PER_CE - 1) ? 'b0: reg_read_to_engine_q + 1; // This can be used both ways
-          acc_state_next = (reg_read_to_engine_q == REG_PER_CE - 1) ? (not_first_q) ? ACC_Z_FULL : ACC_EMPTY : ACC_Y_FULL;
+          acc_state_next = (reg_read_to_engine_q == REG_PER_CE - 1) ? (not_first_q || single_iteration_i) ? ACC_Z_FULL : ACC_EMPTY : ACC_Y_FULL;
         end
       end
 
@@ -145,6 +151,18 @@ module ope_engine
     endcase
   end
   
+  always_comb begin
+    out_valid_o = 1'b0;
+    z_output_o = 'b0;
+    if (acc_state_current == ACC_Z_FULL && out_ready_i) begin
+      out_valid_o = 1'b1;
+      for (int row_index = 0; row_index < Height; row_index++) begin
+        if (z_read_row_index_q == row_index) begin
+          z_output_o = reg_out_data[row_index];
+        end
+      end
+    end
+  end
 
   
   always_ff @(posedge clk_i or negedge rst_ni) begin
@@ -155,7 +173,7 @@ module ope_engine
       reg_read_to_engine_q <= 'b0;
       z_read_reg_index_q <= 'b0;
       z_read_row_index_q <= 'b0;
-
+      not_first_q <= 'b0;
     end else begin
       if (flush_i) begin
         acc_state_current <= ACC_EMPTY;
@@ -164,7 +182,7 @@ module ope_engine
         reg_read_to_engine_q <= 'b0;
         z_read_reg_index_q <= 'b0;
         z_read_row_index_q <= 'b0;
-
+        not_first_q <= 'b0;
       end else begin 
         acc_state_current <= acc_state_next;
         y_write_reg_index_q <= y_write_reg_index_d;
@@ -172,6 +190,7 @@ module ope_engine
         reg_read_to_engine_q <= reg_read_to_engine_d;
         z_read_reg_index_q <= z_read_reg_index_d;
         z_read_row_index_q <= z_read_row_index_d;
+        not_first_q <= not_first_d;
       end
     end
   end

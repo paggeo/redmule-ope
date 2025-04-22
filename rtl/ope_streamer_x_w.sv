@@ -247,7 +247,7 @@ for (genvar i = 0; i < 2; i++) begin: gen_tcdm2stream
   hci_core_assign i_load_assign ( .tcdm_target (load_fifo_d[i]), .tcdm_initiator (virt_tcdm[i]) );
 
   hci_core_fifo #(
-    .FIFO_DEPTH  ( 1  ), 
+    .FIFO_DEPTH  ( 2  ), 
     .`HCI_SIZE_PARAM(tcdm_initiator) ( `HCI_SIZE_PARAM(ldst_tcdm) )
   ) i_load_tcdm_fifo (
     .clk_i          ( clk_i          ),
