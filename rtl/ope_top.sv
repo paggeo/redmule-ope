@@ -362,7 +362,7 @@ always_comb begin
 end
 
 logic priority_enforcer_enable;
-assign reg_enable = (priority_enforcer_enable) ? 1'b1 : 1'b0;
+assign reg_enable = (priority_enforcer_enable || busy) ? 1'b1 : 1'b0;
 logic engine_out_valid;
 logic [Width-1:0][BITW-1:0] engine_out_data;
 logic accumuluation_reg_full_first;
@@ -411,6 +411,7 @@ ope_engine     #(
   .accumulation_reg_z_valid_o (z_buffer_d.valid),
   .accumuluation_reg_full_first_o (accumuluation_reg_full_first),
   .single_iteration_i ( single_iteration   ),
+  .last_iteration_i   ( flgs_streamer.y_stream_source_flags.done ),
   .busy_o             ( busy             ),
   .cntrl_engine_i     ( cntrl_engine     )
 );

@@ -60,6 +60,7 @@ module ope_engine
 
 
   input logic                                              single_iteration_i, 
+  input logic                                              last_iteration_i,
   output logic                                             accumulation_reg_y_ready_o,
   output logic                                             accumulation_reg_z_valid_o,    
   output logic                                              accumuluation_reg_full_first_o, 
@@ -69,13 +70,135 @@ module ope_engine
 );
 
 
+  typedef enum logic [2:0] {
+    ACC_EMPTY = 3'b000,
+    ACC_Y_READ = 3'b001,
+    ACC_Y_LOAD_ENGINE = 3'b010,
+    ACC_Y_READ_ENGINE_RUNNING = 3'b011,
+    ACC_ENGINE_RUNNING = 3'b100,
+    ACC_Z_RELOAD_Y_ENGINE = 3'b101,
+    ACC_Z_RELOAD = 3'b110,
+    ACC_Z_STORE = 3'b111
+  } acc_state_e;
+
+
+  acc_state_e acc_state_current, acc_state_next;
+  assign out_valid_o = accumulation_reg_z_valid_o;
+
+  assign accumulation_reg_y_ready_o = (acc_state_current == ACC_IDLE && acc_state_next == ACC_Y_READ) ||
+                                      (acc_state_current == ACC_Y_READ && ! acc_state_next == ACC_Y_LOAD_ENGINE) ||
+                                      (acc_state_current == ACC_Y_LOAD_ENGINE && acc_state_next == ACC_Y_READ_ENGINE_RUNNING) ||
+                                      (acc_state_current == ACC_Y_READ_ENGINE_RUNNING && ! acc_state_next == ACC_Z_RELOAD_Y_ENGINE) ? 1'b1 : 1'b0;
+
+  always_comb begin
+    acc_state_next = acc_state_current;
+    y_write_reg_index_d = y_write_reg_index_q;
+    y_write_row_index_d = y_write_row_index_q;
+    reg_read_to_engine_d = reg_read_to_engine_q;
+    accumulation_reg_y_ready_o = 1'b1;
+    accumulation_reg_z_valid_o = 1'b0;
+    inner_loop_counter_d = inner_loop_counter_q;
+    reg_read_to_engine_d = reg_read_to_engine_q;
+    reg_write_to_engine_d = reg_write_to_engine_q;
+    z_read_reg_index_d = z_read_reg_index_q;
+    z_read_row_index_d = z_read_row_index_q;
+
+    case (acc_state_current)
+      ACC_IDLE: if (!flgs_streamer_i.z_stream_sink_flags.done) acc_state_next = ACC_Y_READ;
+      ACC_Y_READ: begin // By the end finished loading the bias to the acc
+        if (y_in_valid_i) begin
+          y_write_reg_index_d = (y_write_reg_index_q == REG_PER_CE - 1) ? 'b0 : y_write_reg_index_q + 1;
+          y_write_row_index_d = (y_write_reg_index_q == REG_PER_CE - 1) ? (y_write_row_index_q == Height-1) ? 'b0: y_write_row_index_q + 1 : y_write_row_index_q;
+          acc_state_next      = (y_write_row_index_q == Height - 1 && y_write_reg_index_q == REG_PER_CE - 1)  ? ACC_Y_FULL : ACC_EMPTY;
+        end
+      end
+      ACC_Y_LOAD_ENGINE: begin // by the end finished loading the bias to the engine
+        if (in_valid_i) begin
+          reg_read_to_engine_d = (reg_read_to_engine_q == REG_PER_CE - 1) ? 'b0: reg_read_to_engine_q + 1; // This can be used both ways
+          acc_state_next = (reg_read_to_engine_q == REG_PER_CE - 1) ? ( last_iteration_i) ? ACC_ENGINE_RUNNING : ACC_Y_READ_ENGINE_RUNNING : ACC_Y_FULL;
+        end
+      end
+      ACC_Y_READ_ENGINE_RUNNING: begin // Load another set of biases to the acc
+        if (y_in_valid_i) begin // Prefetch the y values
+          y_write_reg_index_d = (y_write_reg_index_q == REG_PER_CE - 1) ? 'b0 : y_write_reg_index_q + 1;
+          y_write_row_index_d = (y_write_reg_index_q == REG_PER_CE - 1) ? (y_write_row_index_q == Height-1) ? 'b0: y_write_row_index_q + 1 : y_write_row_index_q;
+          accumulation_reg_y_ready_o = 1'b0; // Check this to disable the ready when the acc is full
+        end
+        if (in_valid_i) begin // This has to happen after the prefetched y is loaded
+          inner_loop_counter_d = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1)) ? 'b0 : inner_loop_counter_q + 1;
+          ce_state_next = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1 )) ? ACC_Z_RELOAD_Y_ENGINE : ACC_Y_READ_ENGINE_RUNNING;
+        end
+      end
+      ACC_ENGINE_RUNNING: begin
+        if (in_valid_i) begin 
+          inner_loop_counter_d = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1)) ? 'b0 : inner_loop_counter_q + 1;
+          ce_state_next = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1 )) ? ACC_Z_RELOAD : ACC_ENGINE_RUNNING;
+        end
+      end
+      ACC_Z_RELOAD_Y_ENGINE: begin // Storing the z values to acc, reload the y values to the engine
+        if (engine_out_valid) begin
+          reg_read_to_engine_d = (reg_read_to_engine_q == REG_PER_CE - 1) ? 'b0: reg_read_to_engine_q + 1; 
+          reg_write_to_engine_d = (reg_write_to_engine_q == REG_PER_CE - 1) ? 'b0: reg_write_to_engine_q + 1; 
+          acc_state_next = (reg_read_to_engine_q == REG_PER_CE - 1) ? ACC_Z_STORE : ACC_Z_RELOAD_Y_ENGINE;
+        end
+      end
+      ACC_Z_RELOAD: begin // Storing the z values to acc
+        if (engine_out_valid) begin
+          reg_write_to_engine_d = (reg_write_to_engine_q == REG_PER_CE - 1) ? 'b0: reg_write_to_engine_q + 1; 
+          acc_state_next = (reg_read_to_engine_q == REG_PER_CE - 1) ? ACC_Z_STORE : ACC_Z_RELOAD_Y_ENGINE;
+        end
+      end
+      ACC_Z_STORE: begin // Stream out the z values to the memory
+        if (out_ready_i) begin
+          accumulation_reg_z_valid_o = 1'b1;
+          z_read_reg_index_d = (z_read_reg_index_q == REG_PER_CE - 1) ? 'b0: z_read_reg_index_q + 1;
+          z_read_row_index_d = (z_read_reg_index_q == REG_PER_CE - 1) ? (z_read_row_index_q == Height - 1) ? 'b0: z_read_row_index_q + 1: z_read_row_index_q;
+          acc_state_next     = (z_read_row_index_q == Height - 1) ? ACC_IDLE : ACC_Z_STORE;
+        end
+      end
+    endcase
+  end
+
   typedef enum logic {
     CE_RELOAD = 1'b0,
     CE_RUNNING = 1'b1
   } ce_state_e;
 
-  ce_state_e ce_state_current, ce_state_next;
+  typedef enum logic [1:0] {
+    ACC_EMPTY = 2'b00,
+    ACC_Y_FULL = 2'b01,
+    ACC_Z_FULL = 2'b10
+  } acc_state_e;
 
+  ce_state_e ce_state_current, ce_state_next;
+  acc_state_e acc_state_current, acc_state_next;
+
+  logic moved_compute_to_reload_q, moved_compute_to_reload_d;
+  logic moved_compute_to_reload_to_compute_q, moved_compute_to_reload_to_compute_d; // Data to be stored back
+
+
+  /*---------------------------------------------------------------*/
+  always_comb begin
+    moved_compute_to_reload_d = moved_compute_to_reload_q;
+    moved_compute_to_reload_to_compute_d = moved_compute_to_reload_to_compute_q;
+    if (ce_state_current == CE_RUNNING && ce_state_next == CE_RELOAD) moved_compute_to_reload_d = 1'b1;
+    if (acc_state_current == ACC_Z_FULL && acc_state_next == ACC_EMPTY) moved_compute_to_reload_to_compute_d = 1'b0;
+    else if ((ce_state_current == CE_RELOAD && ce_state_next == CE_RUNNING && moved_compute_to_reload_q ) || (ce_state_current == CE_RUNNING && ce_state_next == CE_RELOAD && single_iteration_i) )  moved_compute_to_reload_to_compute_d = 1'b1;
+  end
+
+  always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (~rst_ni) begin
+      moved_compute_to_reload_q <= 1'b0;
+      moved_compute_to_reload_to_compute_q <= 1'b0;
+    end else begin
+      moved_compute_to_reload_q <= moved_compute_to_reload_d;
+      moved_compute_to_reload_to_compute_q <= moved_compute_to_reload_to_compute_d;
+    end
+  end
+
+
+
+  /*---------------------------------------------------------------*/
 
   logic [31:0] inner_loop_counter_q, inner_loop_counter_d;
 
@@ -98,15 +221,9 @@ module ope_engine
 
   /*---------------------------------------------------------------*/
 
-  typedef enum logic [1:0] {
-    ACC_EMPTY = 2'b00,
-    ACC_Y_FULL = 2'b01,
-    ACC_Z_FULL = 2'b10
-  } acc_state_e;
 
-  acc_state_e acc_state_current, acc_state_next;
 
-  assign accumulation_reg_z_valid_o     = (acc_state_current == ACC_Z_FULL) ? 1'b1 : 1'b0;
+  // assign accumulation_reg_z_valid_o     = (acc_state_current == ACC_Z_FULL) ? 1'b1 : 1'b0;
   assign accumulation_reg_y_ready_o     = (acc_state_current == ACC_EMPTY)  ? 1'b1 : 1'b0;
   assign accumuluation_reg_full_first_o = (acc_state_current == ACC_Y_FULL) ? 1'b1 : 1'b0;
 
@@ -142,7 +259,7 @@ module ope_engine
       end
 
       ACC_Z_FULL: begin 
-        if (out_ready_i) begin 
+        if (out_ready_i && moved_compute_to_reload_to_compute_q) begin 
           z_read_reg_index_d = (z_read_reg_index_q == REG_PER_CE - 1) ? 'b0: z_read_reg_index_q + 1;
           z_read_row_index_d = (z_read_reg_index_q == REG_PER_CE - 1) ? (z_read_row_index_q == Height - 1) ? 'b0: z_read_row_index_q + 1: z_read_row_index_q;
           acc_state_next     = (z_read_row_index_q == Height - 1) ? ACC_EMPTY : ACC_Z_FULL;
@@ -152,9 +269,11 @@ module ope_engine
   end
   
   always_comb begin
+    accumulation_reg_z_valid_o = 1'b0;
     out_valid_o = 1'b0;
     z_output_o = 'b0;
-    if (acc_state_current == ACC_Z_FULL && out_ready_i) begin
+    if (acc_state_current == ACC_Z_FULL && out_ready_i && moved_compute_to_reload_to_compute_q) begin
+      accumulation_reg_z_valid_o = 1'b1;
       out_valid_o = 1'b1;
       for (int row_index = 0; row_index < Height; row_index++) begin
         if (z_read_row_index_q == row_index) begin
@@ -214,10 +333,10 @@ module ope_engine
           reg_in_data[row_index][col_index]  = y_bias_i[col_index];
           reg_in_valid[row_index][col_index] = y_in_valid_i && (row_index == y_write_row_index_q); 
           write_index                        = y_write_reg_index_q;
-        end else if (acc_state_current == ACC_Y_FULL) begin // Load from the engine - the output
+        end else if (moved_compute_to_reload_to_compute_q) begin // Load from the engine - the output
           reg_in_data[row_index][col_index]  = engine_to_reg_output[row_index][col_index];
           reg_in_valid[row_index][col_index] = engine_to_reg_out_valid[row_index][col_index];
-          write_index                        = reg_read_to_engine_q;
+          write_index                        = z_read_reg_index_q;
         end
       end
     end
@@ -285,8 +404,8 @@ module ope_engine
         ce_state_next = (reg_read_to_engine_q == REG_PER_CE - 1) ? CE_RUNNING : CE_RELOAD;
       end
       CE_RUNNING: begin
-        inner_loop_counter_d = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1) && in_valid_i) ? 'b0 : inner_loop_counter_q + 1;
-        ce_state_next = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count -1 ) && in_valid_i ) ? CE_RELOAD : CE_RUNNING;
+        inner_loop_counter_d = ((inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1)) && in_valid_i) ? 'b0 : inner_loop_counter_q + 1;
+        ce_state_next = ((inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1 )) && in_valid_i ) ? CE_RELOAD : CE_RUNNING;
       end
     endcase
   end
@@ -329,7 +448,7 @@ module ope_engine
   logic ce_clk;
   always_comb begin : clock_gating_selector
     ce_clk_en            = 1'b0;
-    if (in_valid_i) ce_clk_en = 1'b1;
+    if (in_valid_i || &busy) ce_clk_en = 1'b1;
   end : clock_gating_selector
 
   tc_clk_gating ce_clock_gating (
