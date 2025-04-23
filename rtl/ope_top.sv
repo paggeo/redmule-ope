@@ -365,7 +365,7 @@ logic priority_enforcer_enable;
 assign reg_enable = (priority_enforcer_enable || busy) ? 1'b1 : 1'b0;
 logic engine_out_valid;
 logic [Width-1:0][BITW-1:0] engine_out_data;
-logic accumuluation_reg_full_first;
+logic accumulation_reg_full_first;
 logic single_iteration;
 // Engine instance
 ope_engine     #(
@@ -409,9 +409,10 @@ ope_engine     #(
   .out_ready_i        ( z_buffer_d.ready        ),
   .accumulation_reg_y_ready_o (y_buffer_d.ready),
   .accumulation_reg_z_valid_o (z_buffer_d.valid),
-  .accumuluation_reg_full_first_o (accumuluation_reg_full_first),
+  .accumulation_reg_full_first_o (accumulation_reg_full_first),
   .single_iteration_i ( single_iteration   ),
   .last_iteration_i   ( flgs_streamer.y_stream_source_flags.done ),
+  .done_i             ( flgs_streamer.z_stream_sink_flags.done ),
   .busy_o             ( busy             ),
   .cntrl_engine_i     ( cntrl_engine     )
 );
@@ -474,7 +475,7 @@ ope_ctrl        #(
   .w_loaded_i         ( flgs_scheduler.w_loaded ),
   .memory_scheduler_done_i ( memory_scheduler_done   ),
   .memory_scheduler_next_iteration_i ( memory_scheduler_next_iteration ),
-  .accumulation_reg_full_first_i (accumuluation_reg_full_first),
+  .accumulation_reg_full_first_i (accumulation_reg_full_first),
   .flush_o            ( engine_flush            ),
   .priority_enforcer_enable_o (priority_enforcer_enable),
   .cntrl_scheduler_o  ( cntrl_scheduler         ),

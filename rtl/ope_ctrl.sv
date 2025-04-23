@@ -140,7 +140,7 @@ module ope_ctrl
   assign cntrl_engine_o.op1 = fpnew_pkg::operation_e'(reg_file_q.hwpe_params[OP_SELECTION][25:21]);
   assign cntrl_engine_o.op2 = fpnew_pkg::operation_e'(reg_file_q.hwpe_params[OP_SELECTION][20:16]);
   assign cntrl_engine_o.memory_format = ope_pkg::fpu_fmt_e'(reg_file_q.hwpe_params[OP_SELECTION][15:13]);
-  assign cntrl_engine_o.inner_loop_count = (reg_file_o.hwpe_params[N_SIZE][15:0] - 2) * ARRAY_HEIGHT * X_REGBUFFER_DEPTH; // Don't count the first, loading to the value, don't count the last, store to the value
+  assign cntrl_engine_o.inner_loop_count = (reg_file_o.hwpe_params[N_SIZE][15:0] - 1) * ARRAY_HEIGHT * X_REGBUFFER_DEPTH; // Don't count the first, loading to the value.
 
   assign cntrl_engine_o.computing_format = ope_pkg::fpu_fmt_e'(reg_file_q.hwpe_params[OP_SELECTION][12:10]);
   /*---------------------------------------------------------------------------------------------*/

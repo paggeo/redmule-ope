@@ -13,7 +13,7 @@
 # //  18 U.S.C. Section 1905.
 # //
 # vsim redmule_tb_wrap_opt -do "set TbType redmule_tb" -do "log -r /*" -do "source /scratch2/pagonis/ope-highperf/target/sim/vsim/wave.tcl" -do "run -a" -suppress 3009 
-# Start time: 15:35:23 on Apr 23,2025
+# Start time: 18:44:32 on Apr 23,2025
 # Loading sv_std.std
 # Loading work.fpnew_pkg(fast)
 # Loading work.hwpe_stream_package(fast)
@@ -135,27 +135,40 @@
 # run -a
 # comp_fmt: 1, gemm_op: 1, mem_fmt: 1
 # Triggering accelerator and going to sleep...
-# Break key hit
-# Simulation stop requested.
-add wave -position insertpoint  \
-{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/ce_row[1]/ce_col[0]/i_ce/x_input_i} \
-{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/ce_row[1]/ce_col[0]/i_ce/w_input_i} \
-{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/ce_row[1]/ce_col[0]/i_ce/y_bias_i}
-add wave -position insertpoint  \
-{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/ce_row[1]/ce_col[0]/i_ce/in_valid_i}
-add wave -position insertpoint  \
-{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/ce_row[1]/ce_col[0]/i_ce/z_output_o}
-add wave -position insertpoint  \
-{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/ce_row[1]/ce_col[0]/i_ce/out_valid_o}
-add wave -position insertpoint  \
-{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/accumulation_reg_row[0]/accumulation_reg_col[0]/i_acc_reg/write_en_i}
-add wave -position insertpoint  \
-{sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/accumulation_reg_row[0]/accumulation_reg_col[0]/i_acc_reg/write_index_i}
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/acc_state_current
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/ce_state_current
-add wave -position insertpoint  \
-sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/i_ope_engine/moved_compute_to_reload_q
-# End time: 15:58:37 on Apr 23,2025, Elapsed time: 0:23:14
+# Resumed!
+# Terminated test with 0 errors. See you!
+# [TB] - cnt_rd= 290     
+# [TB] - cnt_wr= 104     
+# [TB] - Success!
+# [TB] - errors=00000000
+# Measured count: 0, Start counter: 1622, End counter: 0
+# Periphery Measured count: 521, Start counter: 1147, End counter: 1668
+# 
+# X_W tcdm
+# 
+# TCDM Measured count: 16, Start counter: 1633, End counter: 1648
+# TCDM Request Read count: 16 | Write count: 0 | Element read: 32 | Element write: 0
+# TCDM Request count: 16
+# 
+# [Data]: Cycles: 521 | TCDM Request count: 16 | TCDM Start - Finish: 16
+# 
+# 
+# Y_Z tcdm
+# 
+# TCDM Measured count: 46, Start counter: 1621, End counter: 1666
+# TCDM Request Read count: 8 | Write count: 8 | Element read: 16 | Element write: 16
+# TCDM Request count: 16
+# 
+# [Data]: Cycles: 521 | TCDM Request count: 16 | TCDM Start - Finish: 46
+# 
+# ** Note: $finish    : /scratch2/pagonis/ope-highperf/target/sim/src/redmule_tb.sv(619)
+#    Time: 2800 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# 1
+# Break in Module redmule_tb at /scratch2/pagonis/ope-highperf/target/sim/src/redmule_tb.sv line 619
+add wave -position insertpoint sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/x_buffer_d/*
+add wave -position insertpoint sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/w_buffer_d/*
+add wave -position insertpoint sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/y_buffer_d/*
+add wave -position insertpoint sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/z_buffer_q/*
+add wave -position insertpoint sim:/redmule_tb_wrap/i_redmule_tb/i_redmule_wrap/i_redmule_top/z_buffer_d/*
+# End time: 18:47:16 on Apr 23,2025, Elapsed time: 0:02:44
 # Errors: 0, Warnings: 0
