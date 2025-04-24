@@ -1,5 +1,5 @@
 # vsim redmule_tb_wrap_opt -c -suppress 3009 -do "run -a" 
-# Start time: 15:34:33 on Apr 24,2025
+# Start time: 17:38:41 on Apr 24,2025
 # //  Questa Sim-64
 # //  Version 2023.4 linux_x86_64 Oct  9 2023
 # //
@@ -57,10 +57,12 @@
 # Loading work.hci_core_assign(fast__3)
 # Loading work.hwpe_stream_intf_stream(fast__11)
 # Loading work.hci_core_source_custom(fast)
-# Loading work.hwpe_stream_addressgen_v3_custom(fast__1)
-# Loading work.hwpe_stream_fifo(fast__3)
 # Loading work.hwpe_stream_intf_stream(fast__12)
 # Loading work.hwpe_stream_intf_stream(fast__13)
+# Loading work.hwpe_stream_addressgen_v3_custom(fast__1)
+# Loading work.hwpe_stream_fifo(fast__3)
+# Loading work.hwpe_stream_intf_stream(fast__14)
+# Loading work.hwpe_stream_intf_stream(fast__15)
 # Loading work.hwpe_stream_fifo(fast__4)
 # Loading work.hwpe_stream_assign_sv_unit(fast)
 # Loading work.hwpe_stream_assign(fast)
@@ -129,35 +131,35 @@
 # Loading work.hwpe_stream_intf_tcdm(fast__1)
 # Loading work.hci_core_intf(fast__3)
 # run -a
-# comp_fmt: 1, gemm_op: 1, mem_fmt: 1
+# comp_fmt: 0, gemm_op: 0, mem_fmt: 1
 # Triggering accelerator and going to sleep...
 # Resumed!
 # Terminated test with 0 errors. See you!
-# [TB] - cnt_rd= 290     
-# [TB] - cnt_wr= 104     
-# [TB] - Success!
-# [TB] - errors=00000000
-# Measured count: 0, Start counter: 1622, End counter: 0
-# Periphery Measured count: 521, Start counter: 1147, End counter: 1668
-# 
-# X_W tcdm
-# 
-# TCDM Measured count: 16, Start counter: 1633, End counter: 1648
-# TCDM Request Read count: 16 | Write count: 0 | Element read: 32 | Element write: 0
-# TCDM Request count: 16
-# 
-# [Data]: Cycles: 521 | TCDM Request count: 16 | TCDM Start - Finish: 16
-# 
-# 
-# Y_Z tcdm
-# 
-# TCDM Measured count: 46, Start counter: 1621, End counter: 1666
-# TCDM Request Read count: 8 | Write count: 8 | Element read: 16 | Element write: 16
-# TCDM Request count: 16
-# 
-# [Data]: Cycles: 521 | TCDM Request count: 16 | TCDM Start - Finish: 46
-# 
+# [TB] - cnt_rd= 655601  
+# [TB] - cnt_wr= 103     
+# [SAVE] - [TB] - Success!
+# [SAVE] - [TB] - errors=00000000
+# [SAVE] - Measured count: 1, Start counter: 132729, End counter: 132730
+# [SAVE] - Periphery Measured count: 131625, Start counter: 1136, End counter: 132761
+# [SAVE] - 
+# [SAVE] - X_W tcdm
+# [SAVE] - 
+# [SAVE] - TCDM Measured count: 131072, Start counter: 1646, End counter: 132717
+# [SAVE] - TCDM Request Read count: 131072 | Write count: 0 | Element read: 1048576 | Element write: 0
+# [SAVE] - TCDM Request count: 131072
+# [SAVE] - 
+# [SAVE] - [Data]: Cycles: 131625 | TCDM Request count: 131072 | TCDM Start - Finish: 131072
+# [SAVE] - 
+# [SAVE] - 
+# [SAVE] - Y_Z tcdm
+# [SAVE] - 
+# [SAVE] - TCDM Measured count: 131150, Start counter: 1610, End counter: 132759
+# [SAVE] - TCDM Request Read count: 8192 | Write count: 8192 | Element read: 65536 | Element write: 65536
+# [SAVE] - TCDM Request count: 16384
+# [SAVE] - 
+# [SAVE] - [Data]: Cycles: 131625 | TCDM Request count: 147456 | TCDM Start - Finish: 131150
+# [SAVE] - 
 # ** Note: $finish    : /scratch2/pagonis/ope-highperf/target/sim/src/redmule_tb.sv(619)
-#    Time: 2770 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
-# End time: 15:34:34 on Apr 24,2025, Elapsed time: 0:00:01
+#    Time: 133626 ns  Iteration: 1  Instance: /redmule_tb_wrap/i_redmule_tb
+# End time: 17:41:51 on Apr 24,2025, Elapsed time: 0:03:10
 # Errors: 0, Warnings: 0

@@ -585,37 +585,37 @@ module redmule_tb
     $display("[TB] - cnt_rd= %-8d", cnt_rd);
     $display("[TB] - cnt_wr= %-8d", cnt_wr);
     if(errors != 0) begin
-      $display("[TB] - Fail!");
-      $error("[TB] - errors=%08x", errors);
+      $display("[SAVE] - [TB] - Fail!");
+      $error("[SAVE] - [TB] - errors=%08x", errors);
     end else begin
-      $display("[TB] - Success!");
-      $display("[TB] - errors=%08x", errors);
+      $display("[SAVE] - [TB] - Success!");
+      $display("[SAVE] - [TB] - errors=%08x", errors);
     end
-    $display("Measured count: %0d, Start counter: %0d, End counter: %0d", measured_count, start_counter, end_counter);
-    $display("Periphery Measured count: %0d, Start counter: %0d, End counter: %0d", periphery_end_counter - periphery_start_counter, periphery_start_counter, periphery_end_counter);
+    $display("[SAVE] - Measured count: %0d, Start counter: %0d, End counter: %0d", measured_count, start_counter, end_counter);
+    $display("[SAVE] - Periphery Measured count: %0d, Start counter: %0d, End counter: %0d", periphery_end_counter - periphery_start_counter, periphery_start_counter, periphery_end_counter);
 
-    $display("");
-    $display("X_W tcdm");
-    $display("");
-    $display("TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter_x_w - start_tcdm_counter_x_w+1, start_tcdm_counter_x_w, end_tcdm_counter_x_w);
-    $display("TCDM Request Read count: %0d | Write count: %0d | Element read: %0d | Element write: %0d", tcdm_read_counter_x_w, tcdm_write_counter_x_w, tcdm_read_counter_x_w*MP, tcdm_write_counter_x_w*MP);
-    $display("TCDM Request count: %0d", tcdm_read_counter_x_w + tcdm_write_counter_x_w);
+    $display("[SAVE] - ");
+    $display("[SAVE] - X_W tcdm");
+    $display("[SAVE] - ");
+    $display("[SAVE] - TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter_x_w - start_tcdm_counter_x_w+1, start_tcdm_counter_x_w, end_tcdm_counter_x_w);
+    $display("[SAVE] - TCDM Request Read count: %0d | Write count: %0d | Element read: %0d | Element write: %0d", tcdm_read_counter_x_w, tcdm_write_counter_x_w, tcdm_read_counter_x_w*8, tcdm_write_counter_x_w*8);
+    $display("[SAVE] - TCDM Request count: %0d", tcdm_read_counter_x_w + tcdm_write_counter_x_w);
 
-    $display("");
-    $display("[Data]: Cycles: %0d | TCDM Request count: %0d | TCDM Start - Finish: %0d", periphery_end_counter - periphery_start_counter, tcdm_read_counter_x_w + tcdm_write_counter_x_w, end_tcdm_counter_x_w - start_tcdm_counter_x_w+1);
-    $display("");
+    $display("[SAVE] - ");
+    $display("[SAVE] - [Data]: Cycles: %0d | TCDM Request count: %0d | TCDM Start - Finish: %0d", periphery_end_counter - periphery_start_counter, tcdm_read_counter_x_w + tcdm_write_counter_x_w, end_tcdm_counter_x_w - start_tcdm_counter_x_w+1);
+    $display("[SAVE] - ");
 
-    $display("");
-    $display("Y_Z tcdm");
-    $display("");
+    $display("[SAVE] - ");
+    $display("[SAVE] - Y_Z tcdm");
+    $display("[SAVE] - ");
 
-    $display("TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter_y_z - start_tcdm_counter_y_z+1, start_tcdm_counter_y_z, end_tcdm_counter_y_z);
-    $display("TCDM Request Read count: %0d | Write count: %0d | Element read: %0d | Element write: %0d", tcdm_read_counter_y_z, tcdm_write_counter_y_z, tcdm_read_counter_y_z*MP, tcdm_write_counter_y_z*MP);
-    $display("TCDM Request count: %0d", tcdm_read_counter_y_z + tcdm_write_counter_y_z);
+    $display("[SAVE] - TCDM Measured count: %0d, Start counter: %0d, End counter: %0d", end_tcdm_counter_y_z - start_tcdm_counter_y_z+1, start_tcdm_counter_y_z, end_tcdm_counter_y_z);
+    $display("[SAVE] - TCDM Request Read count: %0d | Write count: %0d | Element read: %0d | Element write: %0d", tcdm_read_counter_y_z, tcdm_write_counter_y_z, tcdm_read_counter_y_z*8, tcdm_write_counter_y_z*8);
+    $display("[SAVE] - TCDM Request count: %0d", tcdm_read_counter_y_z + tcdm_write_counter_y_z);
 
-    $display("");
-    $display("[Data]: Cycles: %0d | TCDM Request count: %0d | TCDM Start - Finish: %0d", periphery_end_counter - periphery_start_counter, tcdm_read_counter_y_z + tcdm_write_counter_y_z, end_tcdm_counter_y_z - start_tcdm_counter_y_z+1);
-    $display("");
+    $display("[SAVE] - ");
+    $display("[SAVE] - [Data]: Cycles: %0d | TCDM Request count: %0d | TCDM Start - Finish: %0d", periphery_end_counter - periphery_start_counter, tcdm_read_counter_y_z + tcdm_write_counter_y_z + tcdm_read_counter_x_w + tcdm_write_counter_x_w, end_tcdm_counter_y_z - start_tcdm_counter_y_z+1);
+    $display("[SAVE] - ");
     $finish;
   end
 
