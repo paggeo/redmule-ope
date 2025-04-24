@@ -98,6 +98,7 @@ module ope_engine
   end
 
   acc_state_e acc_state_current, acc_state_next;
+  logic prefetched_d, prefetched_q;
   assign out_valid_o = accumulation_reg_z_valid_o;
 
   assign accumulation_reg_full_first_o = (acc_state_current == ACC_Y_READ && acc_state_next == ACC_Y_LOAD_ENGINE) ? 1'b1 : 1'b0;
@@ -105,7 +106,7 @@ module ope_engine
   assign accumulation_reg_y_ready_o = (acc_state_current == ACC_IDLE && acc_state_next == ACC_Y_READ) ||
                                       (acc_state_current == ACC_Y_READ && (acc_state_next != ACC_Y_LOAD_ENGINE)) ||
                                       (acc_state_current == ACC_Y_LOAD_ENGINE && acc_state_next == ACC_Y_READ_ENGINE_RUNNING) ||
-                                      (acc_state_current == ACC_Y_READ_ENGINE_RUNNING && (acc_state_next != ACC_Z_RELOAD_Y_ENGINE)) ? 1'b1 : 1'b0;
+                                      (acc_state_current == ACC_Y_READ_ENGINE_RUNNING && (acc_state_next != ACC_Z_RELOAD_Y_ENGINE) && prefetched_q == 1'b0) ? 1'b1 : 1'b0;
 
   assign accumulation_reg_z_valid_o = (acc_state_current == ACC_Z_STORE) ? 1'b1 : 1'b0;
 
@@ -140,6 +141,7 @@ module ope_engine
     reg_write_to_engine_d = reg_write_to_engine_q;
     z_read_reg_index_d = z_read_reg_index_q;
     z_read_row_index_d = z_read_row_index_q;
+    prefetched_d = prefetched_q;
 
     case (acc_state_current)
       ACC_IDLE: if (!done_i) acc_state_next = ACC_Y_READ;
@@ -152,19 +154,24 @@ module ope_engine
       end
       ACC_Y_LOAD_ENGINE: begin // by the end finished loading the bias to the engine
         if (in_valid_i) begin
+          inner_loop_counter_d = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1)) ? 'b0 : inner_loop_counter_q + 1;
           reg_read_to_engine_d = (reg_read_to_engine_q == REG_PER_CE - 1) ? 'b0: reg_read_to_engine_q + 1; // This can be used both ways
           acc_state_next = (reg_read_to_engine_q == REG_PER_CE - 1) ? (last_iteration_q) ? ACC_ENGINE_RUNNING : ACC_Y_READ_ENGINE_RUNNING : ACC_Y_LOAD_ENGINE;
         end
       end
       ACC_Y_READ_ENGINE_RUNNING: begin // Load another set of biases to the acc
-        if (y_in_valid_i) begin // Prefetch the y values
+        if (y_in_valid_i && (y_write_reg_index_q == REG_PER_CE - 2) && (y_write_row_index_q == Height-1) && prefetched_q == 1'b0) prefetched_d = 1'b1; // Prefetched finished
+        
+        if (y_in_valid_i && prefetched_q == 1'b0) begin // Prefetch the y values
           y_write_reg_index_d = (y_write_reg_index_q == REG_PER_CE - 1) ? 'b0 : y_write_reg_index_q + 1;
           y_write_row_index_d = (y_write_reg_index_q == REG_PER_CE - 1) ? (y_write_row_index_q == Height-1) ? 'b0: y_write_row_index_q + 1 : y_write_row_index_q;
         end
+
         if (in_valid_i) begin // This has to happen after the prefetched y is loaded
           inner_loop_counter_d = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1)) ? 'b0 : inner_loop_counter_q + 1;
           acc_state_next = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1 )) ? ACC_Z_RELOAD_Y_ENGINE : ACC_Y_READ_ENGINE_RUNNING;
         end
+        if (prefetched_q == 1'b1 && acc_state_current == ACC_Y_READ_ENGINE_RUNNING && acc_state_next == ACC_Z_RELOAD_Y_ENGINE) prefetched_d = 1'b0; // Reloaded value completed
       end
       ACC_ENGINE_RUNNING: begin
         if (in_valid_i) begin 
@@ -173,6 +180,7 @@ module ope_engine
         end
       end
       ACC_Z_RELOAD_Y_ENGINE: begin // Storing the z values to acc, reload the y values to the engine
+        if (in_valid_i) inner_loop_counter_d = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1)) ? 'b0 : inner_loop_counter_q + 1; // NOTE: should never 0 here
         if (engine_to_reg_out_valid[0][0]) begin
           reg_read_to_engine_d = (reg_read_to_engine_q == REG_PER_CE - 1) ? 'b0: reg_read_to_engine_q + 1; 
           reg_write_to_engine_d = (reg_write_to_engine_q == REG_PER_CE - 1) ? 'b0: reg_write_to_engine_q + 1; 
@@ -186,10 +194,11 @@ module ope_engine
         end
       end
       ACC_Z_STORE: begin // Stream out the z values to the memory
+        if (in_valid_i) inner_loop_counter_d = (inner_loop_counter_q == (cntrl_engine_i.inner_loop_count - 1)) ? 'b0 : inner_loop_counter_q + 1; // NOTE: should never 0 here
         if (out_ready_i) begin
           z_read_reg_index_d = (z_read_reg_index_q == REG_PER_CE - 1) ? 'b0: z_read_reg_index_q + 1;
           z_read_row_index_d = (z_read_reg_index_q == REG_PER_CE - 1) ? (z_read_row_index_q == Height - 1) ? 'b0: z_read_row_index_q + 1: z_read_row_index_q;
-          acc_state_next     = (z_read_row_index_q == Height - 1 && z_read_reg_index_q == REG_PER_CE - 1) ? ACC_IDLE : ACC_Z_STORE;
+          acc_state_next     = (z_read_row_index_q == Height - 1 && z_read_reg_index_q == REG_PER_CE - 1) ? (last_iteration_q) ? ACC_IDLE : ACC_Y_READ_ENGINE_RUNNING : ACC_Z_STORE; // This need to change
         end
       end
     endcase
@@ -205,6 +214,7 @@ module ope_engine
       reg_write_to_engine_q <= 'b0;
       z_read_reg_index_q <= 'b0;
       z_read_row_index_q <= 'b0;
+      prefetched_q <= 1'b0;
     end else begin
       if (flush_i) begin
         acc_state_current <= ACC_IDLE;
@@ -215,6 +225,7 @@ module ope_engine
         reg_write_to_engine_q <= 'b0;
         z_read_reg_index_q <= 'b0;
         z_read_row_index_q <= 'b0;
+        prefetched_q <= 1'b0;
       end else begin 
         acc_state_current <= acc_state_next;
         y_write_reg_index_q <= y_write_reg_index_d;
@@ -224,20 +235,12 @@ module ope_engine
         reg_write_to_engine_q <= reg_write_to_engine_d;
         z_read_reg_index_q <= z_read_reg_index_d;
         z_read_row_index_q <= z_read_row_index_d;
+        prefetched_q <= prefetched_d;
       end
     end
   end
 
-
-
   /*---------------------------------------------------------------*/
-
-
-
-
-
-  /*---------------------------------------------------------------*/
-
   
   logic y_bias_selector; 
   logic acc_input_selector;
@@ -250,7 +253,6 @@ module ope_engine
   /*---------------------------------------------------------------*/
   /* |                      Writing Mutliplexer                  | */
   /*---------------------------------------------------------------*/
-
   
   logic [Height-1:0][Width-1:0]           acc_in_valid;
   logic [Height-1:0][Width-1:0][BITW-1:0] acc_in_data;

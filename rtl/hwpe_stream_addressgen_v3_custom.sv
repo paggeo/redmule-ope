@@ -149,7 +149,7 @@ module hwpe_stream_addressgen_v3_custom
 #(
   parameter int unsigned TRANS_CNT  = 32,
   parameter int unsigned CNT        = 32,    // number of bits used within the internal counter
-  parameter bit [3:0] DIM_ENABLE_1H = 4'b0111 // Number of dimensions enabled on HW side
+  parameter bit [3:0] DIM_ENABLE_1H = 4'b1111 // Number of dimensions enabled on HW side
 )
 (
   // global signals

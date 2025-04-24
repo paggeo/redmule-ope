@@ -19,7 +19,7 @@ import os
 
 #Visualize data with more precision
 torch.set_printoptions(precision=10, sci_mode=False)
-torch.rand.manual_seed(1337)
+torch.random.manual_seed(1337)
 
 parser = argparse.ArgumentParser("mm Operation Test")
 parser.add_argument( '--m_size', type=int, default=3 )
