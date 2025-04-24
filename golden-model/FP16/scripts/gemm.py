@@ -131,15 +131,18 @@ for f in os.listdir(inc_path):
     os.remove(os.path.join(inc_path, f))
 
 if transpose == 1 : 
-  X = X.T
+  X = X.T 
+  print(in_rows, in_cols, out_cols)
+  print(X.shape)
+  print(n_size, m_size, k_size)
   f_x = open(''+inc_path+'/x_input.h', "w")
   f_x.write(''+header+'')
   f_x.write('uint16_t x_inp ['+x_dim+'] __attribute__((section(".x_buffer"))) = {\n')
-  for i in range(m_size):
-      for j in range (n_size):
+  for i in range(n_size):
+      for j in range (m_size):
           x_bin = bin(np.float16(X[i][j]).view('H'))[2:].zfill(16)
           x_hex = hex(int(x_bin, 2))[2:]
-          if (i == m_size - 1 and j == n_size - 1):
+          if (j == m_size - 1 and i == n_size - 1):
             f_x.write('0x'+x_hex+' ')
           else:
             f_x.write('0x'+x_hex+', ')
@@ -150,11 +153,11 @@ if transpose == 1 :
   f_x = open(''+inc_path+'/x_2D.h', "w")
   f_x.write(''+header+'')
   f_x.write('uint16_t x_inp_2D ['+in_cols+']['+in_rows+'] = {\n')
-  for i in range(m_size):
-      for j in range (n_size):
+  for i in range(n_size):
+      for j in range (m_size):
           x_bin = bin(np.float16(X[i][j]).view('H'))[2:].zfill(16)
           x_hex = hex(int(x_bin, 2))[2:]
-          if (i == m_size - 1 and j == n_size - 1):
+          if (j == m_size - 1 and i == n_size - 1):
             f_x.write('0x'+x_hex+' ')
           else:
             f_x.write('0x'+x_hex+', ')
@@ -240,7 +243,7 @@ f_y.close()
 
 f_y = open(''+inc_path+'/y_2D.h', "w")
 f_y.write(''+header+'')
-f_y.write('uint16_t y_inp_2D ['+in_cols+']['+out_cols+'] = {\n')
+f_y.write('uint16_t y_inp_2D ['+in_rows+']['+out_cols+'] = {\n')
 for i in range(m_size):
     for j in range (k_size):
         y_bin = bin(np.float16(Y[i][j]).view('H'))[2:].zfill(16)
