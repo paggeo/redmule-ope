@@ -29,8 +29,10 @@ parser.add_argument( '--k_size', type=int, default=3 )
 parser.add_argument( '--file_name', type=str, default='net_parameters.h')
 parser.add_argument( '--inc_dir', type=str)
 parser.add_argument( '--txt_dir', type=str)
+parser.add_argument( '--transpose', type=int, default=0)
 args = parser.parse_args()
 
+transpose = args.transpose
 # Network parameters
 m_size = args.m_size
 n_size = args.n_size
@@ -218,39 +220,73 @@ new_y_dim = str(m_size*k_size)
 new_z_dim = str(m_size*k_size)
 new_out_int = str(int(m_size*k_size))
 
-f_x = open(os.path.join(inc_path, 'x_input.h'), "w")
-f_x.write(header)
-f_x.write('uint16_t x_inp [' + new_x_dim + '] = {\n')
-total_values = X_packed.numel() 
-value_index = 0
-for i in range(X_packed.shape[0]):
-  for j in range(X_packed.shape[1]):
-    x_val = int(X_packed[i, j].item())
-    value_index += 1
-    if value_index == total_values: f_x.write('0x' + hex(x_val)[2:] + ' ')
-    else: f_x.write('0x' + hex(x_val)[2:] + ', ')
-  f_x.write("\n")
-f_x.write("};")
-f_x.close()
+
+if transpose == 1: 
+  X_packed = X_packed.T
+  f_x = open(os.path.join(inc_path, 'x_input.h'), "w")
+  f_x.write(header)
+  f_x.write('uint16_t x_inp [' + new_x_dim + '] __attribute__((section(".x_buffer"))) = {\n')
+  total_values = X_packed.numel() 
+  value_index = 0
+  for i in range(X_packed.shape[0]):
+    for j in range(X_packed.shape[1]):
+      x_val = int(X_packed[i, j].item())
+      value_index += 1
+      if value_index == total_values: f_x.write('0x' + hex(x_val)[2:] + ' ')
+      else: f_x.write('0x' + hex(x_val)[2:] + ', ')
+    f_x.write("\n")
+  f_x.write("};")
+  f_x.close()
 
 
-f_x2 = open(os.path.join(inc_path, 'x_2D.h'), "w")
-f_x2.write(header)
-f_x2.write('uint16_t x_inp_2D [' + new_in_rows + '][' + new_in_cols + '] = {\n')
-value_index = 0
-for i in range(X_packed.shape[0]):
-  for j in range(X_packed.shape[1]):
-    x_val = int(X_packed[i, j].item())
-    value_index += 1
-    if value_index == total_values: f_x2.write('0x' + hex(x_val)[2:] + ' ')
-    else: f_x2.write('0x' + hex(x_val)[2:] + ', ')
-  f_x2.write("\n")
-f_x2.write("};")
-f_x2.close()
+  f_x2 = open(os.path.join(inc_path, 'x_2D.h'), "w")
+  f_x2.write(header)
+  f_x2.write('uint16_t x_inp_2D [' + new_in_cols + '][' + new_in_rows + '] = {\n')
+  value_index = 0
+  for i in range(X_packed.shape[0]):
+    for j in range(X_packed.shape[1]):
+      x_val = int(X_packed[i, j].item())
+      value_index += 1
+      if value_index == total_values: f_x2.write('0x' + hex(x_val)[2:] + ' ')
+      else: f_x2.write('0x' + hex(x_val)[2:] + ', ')
+    f_x2.write("\n")
+  f_x2.write("};")
+  f_x2.close()
+
+else: 
+  f_x = open(os.path.join(inc_path, 'x_input.h'), "w")
+  f_x.write(header)
+  f_x.write('uint16_t x_inp [' + new_x_dim + '] __attribute__((section(".x_buffer"))) = {\n')
+  total_values = X_packed.numel() 
+  value_index = 0
+  for i in range(X_packed.shape[0]):
+    for j in range(X_packed.shape[1]):
+      x_val = int(X_packed[i, j].item())
+      value_index += 1
+      if value_index == total_values: f_x.write('0x' + hex(x_val)[2:] + ' ')
+      else: f_x.write('0x' + hex(x_val)[2:] + ', ')
+    f_x.write("\n")
+  f_x.write("};")
+  f_x.close()
+
+
+  f_x2 = open(os.path.join(inc_path, 'x_2D.h'), "w")
+  f_x2.write(header)
+  f_x2.write('uint16_t x_inp_2D [' + new_in_rows + '][' + new_in_cols + '] = {\n')
+  value_index = 0
+  for i in range(X_packed.shape[0]):
+    for j in range(X_packed.shape[1]):
+      x_val = int(X_packed[i, j].item())
+      value_index += 1
+      if value_index == total_values: f_x2.write('0x' + hex(x_val)[2:] + ' ')
+      else: f_x2.write('0x' + hex(x_val)[2:] + ', ')
+    f_x2.write("\n")
+  f_x2.write("};")
+  f_x2.close()
 
 f_w = open(os.path.join(inc_path, 'w_input.h'), "w")
 f_w.write(header)
-f_w.write('uint16_t w_inp [' + new_w_dim + '] = {\n')
+f_w.write('uint16_t w_inp [' + new_w_dim + '] __attribute__((section(".w_buffer"))) = {\n')
 total_values = W_packed.numel() 
 value_index = 0
 for i in range(W_packed.shape[0]):
@@ -282,7 +318,7 @@ f_w2.close()
 # --- Write Y as a flat array ---
 f_y = open(inc_path + '/y_input.h', "w")
 f_y.write(header)
-f_y.write('uint16_t y_inp [' + new_y_dim + '] = {\n')
+f_y.write('uint16_t y_inp [' + new_y_dim + '] __attribute__((section(".y_buffer"))) = {\n')
 total_values = m_size * k_size
 value_index = 0
 for i in range(m_size):
@@ -363,7 +399,7 @@ f_d.close()
 
 f_c = open(''+inc_path+'/golden.h', "w")
 f_c.write(''+header+'')
-f_c.write('uint32_t golden ['+out_int+'] = {\n')
+f_c.write('uint32_t golden ['+out_int+'] __attribute__((section(".golden_output"))) = {\n')
 
 ZFlattened = torch.flatten(Z)
 i = 0
@@ -381,29 +417,3 @@ if ZFlattened.size(dim = -1) % 2 != 0:
   f_c.write('0x0000'+c_hex_0+',\n')
 f_c.write("};")
 f_c.close()
-
-
-import re
-pkg_file = "../../rtl/redmule_pkg.sv"
-with open(pkg_file, 'r') as file: lines = file.readlines()
-pattern = re.compile(r'^\s*(parameter\s+fpnew_pkg::fp_format_e\s+FPFORMAT\s*=\s*fpnew_pkg::)\s*(\w+)(\s*;)', re.MULTILINE)
-new_format = 'FP16'
-updated_lines = [pattern.sub(rf'  \1{new_format}\3', line) if pattern.search(line) else line for line in lines]
-with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-print(f"Updated {pkg_file} with new FPFORMAT = {new_format}")
-
-pkg_file = "../../rtl/redmule_pkg.sv"
-with open(pkg_file, 'r') as file: lines = file.readlines()
-pattern = re.compile(r'(^\s*parameter\s+fpnew_pkg::fmt_logic_t\s+FpFmtConfig\s*=\s*6\'b)([01]+)(\s*;)', re.MULTILINE)
-new_binary_value = "001100"
-updated_lines = [pattern.sub(f'  parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6\'b{new_binary_value};', line) if pattern.search(line) else line for line in lines]
-with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-print(f"Updated {pkg_file} with new binary value = {new_binary_value}")
-
-pkg_file = "../../rtl/redmule_pkg.sv"
-with open(pkg_file, 'r') as file: lines = file.readlines()
-pattern = re.compile(r'(^\s*parameter\s+int\s+unsigned\s+DATA_W\s*=\s*)([^;]+)(\s*;)', re.MULTILINE)
-new_value = "512" # ArrayHeight*(PIPEREG +1)*FMT
-updated_lines = [pattern.sub(f'  parameter int unsigned            DATA_W       = {new_value} + 32; ', line) if pattern.search(line) else line for line in lines]
-with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-print(f"Updated {pkg_file} with new value = {new_value}")

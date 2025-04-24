@@ -1,0 +1,36 @@
+
+[33m========= Target: FP16 =========[0m
+
+[33m→ Running FP16, M=32, N=32, K=32…[0m
+[33m→ Running FP16, M=64, N=64, K=64…[0m
+[33m→ Running FP16, M=96, N=96, K=96…[0m
+[33m→ Running FP16, M=128, N=128, K=128…[0m
+[33m→ Running FP16, M=256, N=256, K=256…[0m
+
+[33m========= Target: FP8FP16 =========[0m
+
+[33m→ Running FP8FP16, M=32, N=32, K=32…[0m
+[33m→ Running FP8FP16, M=64, N=64, K=64…[0m
+[33m→ Running FP8FP16, M=96, N=96, K=96…[0m
+[33m→ Running FP8FP16, M=128, N=128, K=128…[0m
+[33m→ Running FP8FP16, M=256, N=256, K=256…[0m
+
+[33m========= Final Report =========[0m
+Target      M    N    K    grep: tmp_logs/run_FP8FP16_M256_N256_K256.log: No such file or directory
+
+[33m========= Final Report =========[0m
+Target      M    N    K    Status     Time     Cycles    MemReq
+────────────────────────────────────────────────────────────────────────────
+FP16        32  32  32   [32m✅ SUCCESS[0m   000:24.25      1319      768
+FP16        64  64  64   [32m✅ SUCCESS[0m   000:28.02      5911     5120
+FP16        96  96  96   [32m✅ SUCCESS[0m   000:47.51     17319    16128
+FP16       128 128 128   [32m✅ SUCCESS[0m   001:17.14     38615    36864
+FP16       256 256 256   [31m❌ FAIL[0m   006:46.79         -        -
+FP8FP16     32  32  32   [32m✅ SUCCESS[0m   000:17.24      1063      512
+FP8FP16     64  64  64   [32m✅ SUCCESS[0m   000:25.10      3863     3072
+FP8FP16     96  96  96   [32m✅ SUCCESS[0m   000:46.34     10407     9216
+FP8FP16    128 128 128   [32m✅ SUCCESS[0m   001:50.54     22231    20480
+FP8FP16    256 256 256   [31m❌ FAIL[0m   013:36.31         -        -
+
+Totals:   runs=10, success=8, fail=2
+Error rate: 20.00%

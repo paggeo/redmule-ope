@@ -1,0 +1,10 @@
+# [SAVE] - [TB] - Success!
+# [SAVE] - [TB] - errors=00000000
+# [SAVE] - Measured count: 1, Start counter: 18433, End counter: 18434
+# [SAVE] - Periphery Measured count: 17319, Start counter: 1147, End counter: 18466
+# [SAVE] - TCDM Measured count: 16843, Start counter: 1621, End counter: 18463
+# [SAVE] - TCDM Request Read count: 14976 | Write count: 1152 | Element read: 119808 | Element write: 9216
+# [SAVE] - TCDM Request count: 16128
+# [SAVE] - 
+# [SAVE] - [Data]: Cycles: 17319 | TCDM Request count: 16128 | TCDM Start - Finish: 16843
+# [SAVE] - 

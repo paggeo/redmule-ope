@@ -19,6 +19,7 @@ import os
 
 #Visualize data with more precision
 torch.set_printoptions(precision=10, sci_mode=False)
+torch.random.manual_seed(1337)
 
 parser = argparse.ArgumentParser("mm Operation Test")
 parser.add_argument( '--m_size', type=int, default=3 )
@@ -27,8 +28,10 @@ parser.add_argument( '--k_size', type=int, default=3 )
 parser.add_argument( '--file_name', type=str, default='net_parameters.h')
 parser.add_argument( '--inc_dir', type=str)
 parser.add_argument( '--txt_dir', type=str)
+parser.add_argument( '--transpose', type=int, default=0)
 args = parser.parse_args()
 
+transpose = args.transpose
 # Network parameters
 m_size = args.m_size
 n_size = args.n_size
@@ -127,39 +130,75 @@ inc_path = args.inc_dir
 for f in os.listdir(inc_path):
     os.remove(os.path.join(inc_path, f))
 
-f_x = open(''+inc_path+'/x_input.h', "w")
-f_x.write(''+header+'')
-f_x.write('uint16_t x_inp ['+x_dim+'] = {\n')
-for i in range(m_size):
-    for j in range (n_size):
-        x_bin = bin(np.float16(X[i][j]).view('H'))[2:].zfill(16)
-        x_hex = hex(int(x_bin, 2))[2:]
-        if (i == m_size - 1 and j == n_size - 1):
-          f_x.write('0x'+x_hex+' ')
-        else:
-          f_x.write('0x'+x_hex+', ')
-    f_x.write("\n")
-f_x.write("};")
-f_x.close()
+if transpose == 1 : 
+  X = X.T 
+  print(in_rows, in_cols, out_cols)
+  print(X.shape)
+  print(n_size, m_size, k_size)
+  f_x = open(''+inc_path+'/x_input.h', "w")
+  f_x.write(''+header+'')
+  f_x.write('uint16_t x_inp ['+x_dim+'] __attribute__((section(".x_buffer"))) = {\n')
+  for i in range(n_size):
+      for j in range (m_size):
+          x_bin = bin(np.float16(X[i][j]).view('H'))[2:].zfill(16)
+          x_hex = hex(int(x_bin, 2))[2:]
+          if (j == m_size - 1 and i == n_size - 1):
+            f_x.write('0x'+x_hex+' ')
+          else:
+            f_x.write('0x'+x_hex+', ')
+      f_x.write("\n")
+  f_x.write("};")
+  f_x.close()
 
-f_x = open(''+inc_path+'/x_2D.h', "w")
-f_x.write(''+header+'')
-f_x.write('uint16_t x_inp_2D ['+in_rows+']['+in_cols+'] = {\n')
-for i in range(m_size):
-    for j in range (n_size):
-        x_bin = bin(np.float16(X[i][j]).view('H'))[2:].zfill(16)
-        x_hex = hex(int(x_bin, 2))[2:]
-        if (i == m_size - 1 and j == n_size - 1):
-          f_x.write('0x'+x_hex+' ')
-        else:
-          f_x.write('0x'+x_hex+', ')
-    f_x.write("\n")
-f_x.write("};")
-f_x.close()
+  f_x = open(''+inc_path+'/x_2D.h', "w")
+  f_x.write(''+header+'')
+  f_x.write('uint16_t x_inp_2D ['+in_cols+']['+in_rows+'] = {\n')
+  for i in range(n_size):
+      for j in range (m_size):
+          x_bin = bin(np.float16(X[i][j]).view('H'))[2:].zfill(16)
+          x_hex = hex(int(x_bin, 2))[2:]
+          if (j == m_size - 1 and i == n_size - 1):
+            f_x.write('0x'+x_hex+' ')
+          else:
+            f_x.write('0x'+x_hex+', ')
+      f_x.write("\n")
+  f_x.write("};")
+  f_x.close()
+
+else: 
+  f_x = open(''+inc_path+'/x_input.h', "w")
+  f_x.write(''+header+'')
+  f_x.write('uint16_t x_inp ['+x_dim+'] __attribute__((section(".x_buffer"))) = {\n')
+  for i in range(m_size):
+      for j in range (n_size):
+          x_bin = bin(np.float16(X[i][j]).view('H'))[2:].zfill(16)
+          x_hex = hex(int(x_bin, 2))[2:]
+          if (i == m_size - 1 and j == n_size - 1):
+            f_x.write('0x'+x_hex+' ')
+          else:
+            f_x.write('0x'+x_hex+', ')
+      f_x.write("\n")
+  f_x.write("};")
+  f_x.close()
+
+  f_x = open(''+inc_path+'/x_2D.h', "w")
+  f_x.write(''+header+'')
+  f_x.write('uint16_t x_inp_2D ['+in_rows+']['+in_cols+'] = {\n')
+  for i in range(m_size):
+      for j in range (n_size):
+          x_bin = bin(np.float16(X[i][j]).view('H'))[2:].zfill(16)
+          x_hex = hex(int(x_bin, 2))[2:]
+          if (i == m_size - 1 and j == n_size - 1):
+            f_x.write('0x'+x_hex+' ')
+          else:
+            f_x.write('0x'+x_hex+', ')
+      f_x.write("\n")
+  f_x.write("};")
+  f_x.close()
 
 f_w = open(''+inc_path+'/w_input.h', "w")
 f_w.write(''+header+'')
-f_w.write('uint16_t w_inp ['+w_dim+'] = {\n')
+f_w.write('uint16_t w_inp ['+w_dim+'] __attribute__((section(".w_buffer"))) = {\n')
 for i in range(n_size):
     for j in range (k_size):
         w_bin = bin(np.float16(W[i][j]).view('H'))[2:].zfill(16)
@@ -189,7 +228,7 @@ f_w.close()
 
 f_y = open(''+inc_path+'/y_input.h', "w")
 f_y.write(''+header+'')
-f_y.write('uint16_t y_inp ['+y_dim+'] = {\n')
+f_y.write('uint16_t y_inp ['+y_dim+'] __attribute__((section(".y_buffer"))) = {\n')
 for i in range(m_size):
     for j in range (k_size):
         y_bin = bin(np.float16(Y[i][j]).view('H'))[2:].zfill(16)
@@ -204,7 +243,7 @@ f_y.close()
 
 f_y = open(''+inc_path+'/y_2D.h', "w")
 f_y.write(''+header+'')
-f_y.write('uint16_t y_inp_2D ['+in_cols+']['+out_cols+'] = {\n')
+f_y.write('uint16_t y_inp_2D ['+in_rows+']['+out_cols+'] = {\n')
 for i in range(m_size):
     for j in range (k_size):
         y_bin = bin(np.float16(Y[i][j]).view('H'))[2:].zfill(16)
@@ -270,7 +309,7 @@ f_d.close()
 
 f_c = open(''+inc_path+'/golden.h', "w")
 f_c.write(''+header+'')
-f_c.write('uint32_t golden ['+out_int+'] = {\n')
+f_c.write('uint32_t golden ['+out_int+'] __attribute__((section(".golden_output"))) = {\n')
 
 ZFlattened = torch.flatten(Z)
 i = 0
@@ -288,29 +327,3 @@ if ZFlattened.size(dim = -1) % 2 != 0:
   f_c.write('0x0000'+c_hex_0+',\n')
 f_c.write("};")
 f_c.close()
-
-
-import re
-pkg_file = "../../rtl/redmule_pkg.sv"
-with open(pkg_file, 'r') as file: lines = file.readlines()
-pattern = re.compile(r'^\s*(parameter\s+fpnew_pkg::fp_format_e\s+FPFORMAT\s*=\s*fpnew_pkg::)\s*(\w+)(\s*;)', re.MULTILINE)
-new_format = 'FP16'
-updated_lines = [pattern.sub(rf'  \1{new_format}\3', line) if pattern.search(line) else line for line in lines]
-with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-print(f"Updated {pkg_file} with new FPFORMAT = {new_format}")
-
-pkg_file = "../../rtl/redmule_pkg.sv"
-with open(pkg_file, 'r') as file: lines = file.readlines()
-pattern = re.compile(r'(^\s*parameter\s+fpnew_pkg::fmt_logic_t\s+FpFmtConfig\s*=\s*6\'b)([01]+)(\s*;)', re.MULTILINE)
-new_binary_value = "001100"
-updated_lines = [pattern.sub(f'  parameter fpnew_pkg::fmt_logic_t  FpFmtConfig  = 6\'b{new_binary_value};', line) if pattern.search(line) else line for line in lines]
-with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-print(f"Updated {pkg_file} with new binary value = {new_binary_value}")
-
-pkg_file = "../../rtl/redmule_pkg.sv"
-with open(pkg_file, 'r') as file: lines = file.readlines()
-pattern = re.compile(r'(^\s*parameter\s+int\s+unsigned\s+DATA_W\s*=\s*)([^;]+)(\s*;)', re.MULTILINE)
-new_value = "1024" # ArrayHeight*(PIPEREG +1)*FMT
-updated_lines = [pattern.sub(f'  parameter int unsigned            DATA_W       = {new_value} + 32; ', line) if pattern.search(line) else line for line in lines]
-with open(pkg_file, 'w') as file: file.writelines(updated_lines)
-print(f"Updated {pkg_file} with new value = {new_value}")
