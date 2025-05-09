@@ -32,23 +32,17 @@ module ope_memory_scheduler
     end
   end
 
-  logic [31:0] test_x_w;
-  assign test_x_w = reg_file_i.hwpe_params[N_K_M] * X_REGBUFFER_DEPTH  / (W*W_REGBUFFER_DEPTH * H*X_REGBUFFER_DEPTH);
-  logic [31:0] test_y_z;
-  assign test_y_z = W_REGBUFFER_DEPTH * X_REGBUFFER_DEPTH * ARRAY_HEIGHT * reg_file_i.hwpe_params[K_M] / (W*W_REGBUFFER_DEPTH*H*X_REGBUFFER_DEPTH);
-
-  logic [31:0] test_x_w2;
-  assign test_x_w2 = reg_file_i.hwpe_params[N_SIZE] * reg_file_i.hwpe_params[K_SIZE] *  reg_file_i.hwpe_params[M_SIZE] * X_REGBUFFER_DEPTH  / (W*W_REGBUFFER_DEPTH * H*X_REGBUFFER_DEPTH);
-  logic [31:0] test_y_z2;
-  assign test_y_z2 = W_REGBUFFER_DEPTH * X_REGBUFFER_DEPTH * ARRAY_HEIGHT * (reg_file_i.hwpe_params[K_SIZE] * reg_file_i.hwpe_params[M_SIZE]) / (W*W_REGBUFFER_DEPTH*H*X_REGBUFFER_DEPTH);
+  logic [31:0] total_len_x_w;
+  assign total_len_x_w = reg_file_i.hwpe_params[N_K_M] * X_REGBUFFER_DEPTH  / (W*W_REGBUFFER_DEPTH * H*X_REGBUFFER_DEPTH);
+  logic [31:0] total_len_y_z;
+  assign total_len_y_z = W_REGBUFFER_DEPTH * X_REGBUFFER_DEPTH * ARRAY_HEIGHT * reg_file_i.hwpe_params[K_M] / (W*W_REGBUFFER_DEPTH*H*X_REGBUFFER_DEPTH);
 
   always_comb begin : address_gen_signals
     // Here we initialize the streamer source signals
     // for the X stream source
     // X: M*N | W: N*K | Y: M*K | Z: M*K -> X is transposed
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.base_addr     = reg_file_i.hwpe_params[X_ADDR];
-    cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.tot_len       = test_x_w;
-    // cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.tot_len       = test_x_w2;
+    cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.tot_len       = total_len_x_w;
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d0_len        = X_REGBUFFER_DEPTH;
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d0_stride     = (BITW/8) * ARRAY_HEIGHT;
     cntrl_streamer_o.x_stream_source_ctrl.addressgen_ctrl.d1_len        = reg_file_i.hwpe_params[N_SIZE];
@@ -62,8 +56,7 @@ module ope_memory_scheduler
     // Here we initialize the streamer source signals
     // for the W stream source
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.base_addr     = reg_file_i.hwpe_params[W_ADDR];
-    cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.tot_len       = test_x_w;
-    // cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.tot_len       = test_x_w2;
+    cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.tot_len       = total_len_x_w;
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d0_len        = W_REGBUFFER_DEPTH;
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d0_stride     = (BITW/8) * ARRAY_WIDTH;
     cntrl_streamer_o.w_stream_source_ctrl.addressgen_ctrl.d1_len        = reg_file_i.hwpe_params[N_SIZE];
@@ -76,8 +69,7 @@ module ope_memory_scheduler
 
     // Here we initialize the streamer source signals
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.base_addr     = reg_file_i.hwpe_params[Z_ADDR];
-    cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.tot_len       = test_y_z;
-    // cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.tot_len       = test_y_z2;
+    cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.tot_len       = total_len_y_z;
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d0_len        = W_REGBUFFER_DEPTH;
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d0_stride     = (BITW/8) * ARRAY_WIDTH;
     cntrl_streamer_o.y_stream_source_ctrl.addressgen_ctrl.d1_len        = X_REGBUFFER_DEPTH;
@@ -92,8 +84,7 @@ module ope_memory_scheduler
 
     // Here we initialize the streamer sink signals for
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.base_addr       = reg_file_i.hwpe_params[Z_ADDR];
-    cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.tot_len         = test_y_z;
-    // cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.tot_len         = test_y_z2;
+    cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.tot_len         = total_len_y_z;
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d0_len          = W_REGBUFFER_DEPTH;
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d0_stride       = (BITW/8) * ARRAY_WIDTH;
     cntrl_streamer_o.z_stream_sink_ctrl.addressgen_ctrl.d1_len          = X_REGBUFFER_DEPTH;

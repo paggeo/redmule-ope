@@ -62,7 +62,7 @@ hwpe_ctrl_seq_mult #(
   .AW ( 16 ),
   .BW ( 16 )
 ) i_k_m (
-  .clk_i    ( clk_int                         ),
+  .clk_i    ( clk_i                         ),
   .rst_ni   ( rst_ni                        ),
   .clear_i  ( clear_i | setback_i           ),
   .start_i  ( start_cfg_i                   ),
@@ -91,7 +91,7 @@ hwpe_ctrl_seq_mult #(
   .AW ( 16 ),
   .BW ( 32 )
 ) i_n_m_k (
-  .clk_i    (  clk_int                        ),
+  .clk_i    ( clk_int                        ),
   .rst_ni   ( rst_ni                        ),
   .clear_i  ( clear_i | setback_i           ),
   .start_i  ( k_m_valid                   ),
@@ -102,7 +102,6 @@ hwpe_ctrl_seq_mult #(
   .ready_o  ( n_k_m_ready   ),
   .prod_o   ( n_k_m         )
 );
-
 
 assign config_d.stage_1_rnd_mode = config_d.gemm_ops == MATMUL ? RNE :
                                    config_d.gemm_ops == GEMM   ? RNE :
@@ -145,7 +144,6 @@ assign config_d.gemm_selection   = 1'b1;
 assign config_d.k_m = k_m[31:0];
 assign config_d.n_k_m = n_k_m[31:0];
 
-
 // register configuration to avoid critical paths (maybe removable!)
 always_ff @(posedge clk_int or negedge rst_ni) begin
   if(~rst_ni)
@@ -183,13 +181,11 @@ assign reg_file_o.hwpe_params[OP_SELECTION][12:10] = config_q.computing_format;
 assign reg_file_o.hwpe_params[OP_SELECTION][ 9: 1] = '0;
 assign reg_file_o.hwpe_params[OP_SELECTION][0]     = config_q.gemm_selection;
 
-
-assign reg_file_o.hwpe_params[N_K_M][31:0]        = config_q.n_k_m;
-assign reg_file_o.hwpe_params[K_M][31:0]          = config_q.k_m;
-
 assign reg_file_o.hwpe_params[M_SIZE][15:0]        = config_q.m_size;
 assign reg_file_o.hwpe_params[N_SIZE][15:0]        = config_q.n_size;
 assign reg_file_o.hwpe_params[K_SIZE][15:0]        = config_q.k_size;
+assign reg_file_o.hwpe_params[N_K_M][31:0]         = config_q.n_k_m;
+assign reg_file_o.hwpe_params[K_M][31:0]           = config_q.k_m;
 assign reg_file_o.hwpe_params[M_SIZE][31:16]       = 'b0;
 assign reg_file_o.hwpe_params[N_SIZE][31:16]       = 'b0;
 assign reg_file_o.hwpe_params[K_SIZE][31:16]       = 'b0;

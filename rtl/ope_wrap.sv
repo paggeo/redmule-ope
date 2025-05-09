@@ -266,7 +266,7 @@ ope_top #(
   .rst_ni             ( rst_ni             ),
   .test_mode_i        ( test_mode_i        ),
   .evt_o              ( evt_o              ),
-  .busy_o             (                    ),
+  .busy_o             ( busy_o             ),
   .tcdm_y_z           ( tcdm_y_z           ),
   .tcdm_x_w           ( tcdm_x_w           ),
   .debug_cntrl_scheduler_o(debug_cntrl_scheduler_o),

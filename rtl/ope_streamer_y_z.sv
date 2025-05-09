@@ -401,16 +401,4 @@ assign flags_o.y_stream_source_flags = source_flags;
 hwpe_stream_assign i_ystream_assign ( .push_i( out_stream ) ,
                                       .pop_o ( y_stream_o ) );
 
-  // hwpe_stream_buffer #(
-  //   .DATA_WIDTH ( DATAW )
-  // ) i_z_buffer_fifo (
-  //   .clk_i      ( clk_i       ),
-  //   .rst_ni     ( rst_ni      ),
-  //   .clear_i    ( clear       ),
-  //   .test_mode_i( test_mode_i  ),
-  //   .push_i     ( out_stream   ),
-  //   .pop_o      ( y_stream_o )
-  // );
-
-
 endmodule : ope_streamer_y_z
