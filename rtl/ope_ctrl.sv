@@ -52,13 +52,13 @@ module ope_ctrl
   logic        tiler_setback, tiler_valid;
 
   typedef enum logic [3:0] {
-    OPE_LATCH_RST,
-    OPE_IDLE,
-    OPE_STARTING,
-    OPE_LOAD_Y,
-    OPE_COMPUTE_INNER_LOOP, 
-    OPE_STORE_Z,
-    OPE_FINISHED
+    OPE_LATCH_RST = 4'b0000,  
+    OPE_IDLE    = 4'b0001,
+    OPE_STARTING  = 4'b0010,
+    OPE_LOAD_Y  = 4'b0011,
+    OPE_COMPUTE_INNER_LOOP = 4'b0100, 
+    OPE_STORE_Z = 4'b0101,
+    OPE_FINISHED = 4'b0110
     // OPE_STARTING,
     // REDMULE_COMPUTING,
     // REDMULE_FINISHED

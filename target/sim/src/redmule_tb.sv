@@ -12,9 +12,9 @@ import hci_package::*;
 module redmule_tb
   import ope_pkg::*;
 #(
-  parameter TCP = 1.0ns, // clock period, 1 GHz clock
-  parameter TA  = 0.2ns, // application time
-  parameter TT  = 0.8ns  // test time
+  parameter TCP = 2.0ns, // clock period, 1 GHz clock
+  parameter TA  = 0.4ns, // application time
+  parameter TT  = 1.6ns  // test time
 )(
   input logic clk_i,
   input logic rst_ni,
@@ -26,8 +26,10 @@ module redmule_tb
 
   // parameters
   localparam int unsigned PROB_STALL = 0;
-  localparam int unsigned NC = 1;
-  localparam int unsigned ID = 10;
+  localparam int unsigned NC = 8;
+  localparam int unsigned ID = 8;
+  // localparam int unsigned NC = 1;
+  // localparam int unsigned ID = 10;
 
   localparam int unsigned MP     = DW/32;
   
@@ -59,12 +61,14 @@ module redmule_tb
   logic [MP-1:0]       tcdm_wen;
   logic [MP-1:0][3:0]  tcdm_be;
   logic [MP-1:0][31:0] tcdm_data;
-  logic [EW-1:0]       tcdm_ecc;
+  logic [1:2]       tcdm_ecc;
+  // logic [EW-1:0]       tcdm_ecc;
   logic [MP-1:0][31:0] tcdm_r_data;
   logic [MP-1:0]       tcdm_r_valid;
   logic                tcdm_r_opc;
   logic                tcdm_r_user;
-  logic [EW-1:0]       tcdm_r_ecc;
+  logic [1:2]       tcdm_r_ecc;
+  // logic [EW-1:0]       tcdm_r_ecc;
 
   logic          periph_req;
   logic          periph_gnt;
@@ -243,7 +247,7 @@ module redmule_tb
 
   tb_dummy_memory  #(
     .MP             ( MP + 1        ),
-    .MEMORY_SIZE    ( 576 * 1024   ),
+    .MEMORY_SIZE    ( 512 * 1024 ),
     .BASE_ADDR      ( 32'h1c010000  ),
     .PROB_STALL     ( PROB_STALL    ),
     .TCP            ( TCP           ),
@@ -378,7 +382,10 @@ module redmule_tb
   int end_counter = 0;
   int global_counter = 0;
   int channel_valid_count;
-  always_ff @(posedge clk_i) global_counter <= global_counter + 1;
+  always_ff @(posedge clk_i) begin
+    global_counter <= global_counter + 1;
+    if (global_counter % 200 == 0) $display("[%0t] Cycle: %0d", $time, global_counter);
+  end
   always_ff @(posedge clk_i) begin 
     if (!counting && (prev_tcdm_r_data == 'b0) && (tcdm_r_data != 'b0)) begin // rising edge for tcdm_r_data
       counting <= 1;
@@ -407,7 +414,12 @@ module redmule_tb
   logic prev_finished_redmule, finished_redmule;
   
   assign check_start_config = (periph_req && (periph_add[7:0] == 'h54) && (!periph_wen) && (periph_gnt)) ? 1'b1: 1'b0;
+
+// `ifdef VCD_DUMP
+//   assign finished_redmule = i_redmule_wrap.debug_cntrl_scheduler_o_finished_;
+// `else 
   assign finished_redmule = debug_cntrl_scheduler.finished;
+// `endif
 
   always_ff @(posedge clk_i) begin 
     if (!periphery_counting && (prev_check_start_config == 1'b0) && (check_start_config == 1'b1)) begin 
@@ -438,10 +450,38 @@ module redmule_tb
      if (tcdm_req && !tcdm_wen) tcdm_write_counter++;
    end 
 
+
+/**************
+ *  VCD Dump  *
+ **************/
+
+// `ifdef VCD_DUMP
+//   initial begin: vcd_dump
+//     wait (rst_ni);
+//     while (!(check_start_config)) begin
+//       @(posedge clk_i);
+//     end
+//     $display("[TB] %d - VCD dump started", global_counter);
+
+//     // $dumpfile(`VCD_DUMP_FILE);
+//     $dumpfile("/scratch2/pagonis/redmule-ope/redmule-gf12/modelsim/vcd/ope_lowperf.vcd");
+//     $dumpvars(0, i_redmule_wrap);
+//     $dumpon;
+
+//     while (!(finished_redmule)) begin
+//       @(posedge clk_i);
+//     end
+//     $display("[TB] %d - VCD dump finished", global_counter);
+
+//     $dumpoff;
+//     $finish(0);
+//   end: vcd_dump
+// `endif
+
   initial begin
 
-    if (!$value$plusargs("STIM_INSTR=%s", stim_instr)) stim_instr = "../../../sw/build/stim_instr.txt";
-    if (!$value$plusargs("STIM_DATA=%s", stim_data)) stim_data = "../../../sw/build/stim_data.txt";
+    if (!$value$plusargs("STIM_INSTR=%s", stim_instr)) stim_instr = "/scratch2/pagonis/redmule-ope/sw/build/stim_instr.txt";
+    if (!$value$plusargs("STIM_DATA=%s", stim_data)) stim_data = "/scratch2/pagonis/redmule-ope/sw/build/stim_data.txt";
 
     test_mode = 1'b0;
     core_boot_addr = 32'h1C000084;

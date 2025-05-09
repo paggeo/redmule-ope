@@ -19,7 +19,7 @@ DATA_SIZE  = 0xb0000
 DATA_END   = DATA_BASE + DATA_SIZE
 
 INSTR_MEM_SIZE = 32*1024
-DATA_MEM_SIZE  = 512*1024
+DATA_MEM_SIZE  = 512*1024 
 
 with open(sys.argv[1], "r") as f:
     s = f.read()

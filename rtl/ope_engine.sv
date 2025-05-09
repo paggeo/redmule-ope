@@ -245,7 +245,8 @@ module ope_engine
       for (genvar col_index = 0; col_index < Width; col_index++) begin: ce_col
       ope_ce   #(
         .FpFormat    ( FpFormat    ),
-        .NumPipeRegs ( NumPipeRegs ),
+        // .NumPipeRegs ( NumPipeRegs +1  ),
+        .NumPipeRegs ( NumPipeRegs  ),
         .PipeConfig  ( PipeConfig  ),
         .Stallable   ( Stallable   )
       ) i_ce (

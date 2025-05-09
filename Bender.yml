@@ -54,6 +54,10 @@ sources:
       files:
         - target/sim/src/tb_dummy_memory.sv
 
+    - target: redmule_test_hwpe_gate
+      files:
+        - redmule-gf12/synopsys/out/ope_sspg_0p495v_125c_1ns_3_reg/netlist_ope.v
+
     - target: redmule_test_complex
       files:
         - target/sim/src/redmule_complex_tb.sv
