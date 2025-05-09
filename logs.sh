@@ -11,8 +11,10 @@ CheckMark="✅"
 CrossMark="❌"
 
 # ─── Parameters ─────────────────────────────────────────────────────────────────
+# TARGET=( "FP16" "FP8FP16" )
+# Shape=( 32 64 96 128 256 )
 TARGET=( "FP16" "FP8FP16" )
-Shape=( 32 64 96 128 256 )
+Shape=( 32 64 96 )
 
 OUTDIR="save_logs"
 TMPDIR="tmp_logs"
@@ -39,6 +41,8 @@ format_time() {
   local secs=$(echo "$raw - ($mins * 60)" | bc -l)
   printf "%03d:%05.2f" "$mins" "$secs"
 }
+
+source scripts/setup-hwpe.sh
 
 # ─── Main loop ───────────────────────────────────────────────────────────────────
 for T in "${TARGET[@]}"; do

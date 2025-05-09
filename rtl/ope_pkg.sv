@@ -78,8 +78,10 @@ package ope_pkg;
   parameter int unsigned Z_D0_STRIDE = 12; // 0x30
   parameter int unsigned Z_D2_STRIDE = 13; // 0x34
   parameter int unsigned X_ROWS_OFFS = 14; // 0x38
-  parameter int unsigned X_SLOTS     = 15; // 0x3C
-  parameter int unsigned IN_TOT_LEN  = 16; // 0x40
+  // parameter int unsigned X_SLOTS     = 15; // 0x3C
+  // parameter int unsigned IN_TOT_LEN  = 16; // 0x40
+  parameter int unsigned N_K_M  = 15; // 0x40
+  parameter int unsigned K_M  = 16; // 0x40
   // One resgister is used for the round modes and operations of the Computing Elements.
   // [31:29] -> roundmode of the stage 1
   // [28:26] -> roundmode of the stage 2
@@ -298,6 +300,8 @@ package ope_pkg;
     fpu_fmt_e memory_format;
     fpu_fmt_e computing_format;
     logic        gemm_selection;
+    logic [31:0] n_k_m;
+    logic [31:0] k_m;
   } redmule_config_t;
 
   typedef struct packed {

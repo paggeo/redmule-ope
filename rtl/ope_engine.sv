@@ -354,9 +354,6 @@ module ope_engine
   /* |                      Computing Elements                   | */
   /*---------------------------------------------------------------*/
 
-
-
-
   // ******** Output signals ********
   // The output signals are not used in the current implementation.
   logic [Height-1:0][Width-1:0]           busy;

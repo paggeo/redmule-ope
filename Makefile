@@ -60,6 +60,10 @@ ifeq ($(debug),1)
 	FLAGS += -DDEBUG
 endif
 
+
+
+# endif
+
 # Include directories
 INC += -I$(SW)
 INC += -I$(SW)/inc

@@ -12,6 +12,17 @@ VsimDir := $(SimDir)/$(target)
 VsimCompileScript := $(VsimDir)/compile.$(target).tcl
 VsimWaves := $(VsimDir)/wave.tcl
 
+
+module_vcd ?= 1
+tck       := 2
+
+DEFS := -DCLKPERIOD=$(tck)ns
+ifeq ($(module_vcd), 1)
+vcd_file ?= "vcd/ope_highperf.vcd"
+DEFS += -DVCD_DUMP
+DEFS += -DVCD_DUMP_FILE=\"$(vcd_file)\"
+endif
+
 Tb := redmule_tb_wrap
 CompileFlags := +acc -permissive -suppress 2583 -suppress 13314
 
@@ -36,7 +47,7 @@ hw-clean:
 
 hw-script:
 	$(Bender) update
-	$(Bender) script $(target)     \
+	$(Bender) script $(target)		 \
 	--vlog-arg="$(CompileFlags)"   \
 	--vcom-arg="-pedanticerrors"   \
 	$(common_targs) $(common_defs) \

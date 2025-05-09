@@ -154,33 +154,6 @@ logic w_granted, x_granted;
 logic [1:0][$clog2(2)-1:0] custom_priority;
 logic custom_priority_force;
 
-// The streamer will present a single master TCDM port used to stream data to and from the memeory.
-// ope_streamer #(
-//   .DW             ( DW                           ),
-//   .`HCI_SIZE_PARAM(tcdm) ( `HCI_SIZE_PARAM(tcdm) )
-// ) i_streamer      (
-//   .clk_i                    ( clk_i                 ),
-//   .rst_ni                   ( rst_ni                ),
-//   .test_mode_i              ( test_mode_i           ),
-//   // Controller generated signals
-//   .enable_i                 ( 1'b1                  ),
-//   .clear_i                  ( clear                 ),
-//   // Source interfaces for the incoming streams
-//   .x_stream_o               ( x_buffer_d            ),
-//   .w_stream_o               ( w_buffer_d            ),
-//   .y_stream_o               ( y_buffer_d            ),
-//   // Sink interface for the outgoing stream
-//   .z_stream_i               ( z_buffer_q),
-//   // Master TCDM interface ports for the memory side
-//   .tcdm                     ( tcdm_x_w                  ),
-//   .custom_priority_force_i  ( custom_priority_force ),
-//   .custom_priority_i        ( custom_priority       ),
-//   .x_granted_o              ( x_granted             ),
-//   .w_granted_o              ( w_granted             ),
-
-//   .ctrl_i                   ( cntrl_streamer        ),
-//   .flags_o                  ( flgs_streamer         )
-// );
 
 ope_streamer_y_z #(
   .DW             ( DW                           ),

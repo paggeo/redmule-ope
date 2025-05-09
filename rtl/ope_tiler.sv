@@ -54,35 +54,55 @@ assign config_d.gemm_ops        = gemm_op_e' (reg_file_i.hwpe_params[MACFG][12:1
 assign config_d.gemm_memory_fmt     = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 9: 7]);    // Memory Format
 assign config_d.gemm_computing_fmt  = gemm_fmt_e'(reg_file_i.hwpe_params[MACFG][ 19: 17]);  // Computing Format
 
-logic [$clog2(2)-1:0] cnt;
-logic valid_q, ready_q;
+logic k_m_valid_d, k_m_valid, k_m_ready, k_m_valid_q;
+logic [31:0] k_m;
 
-always_ff @(posedge clk_i or negedge rst_ni)
-begin : counter
-  if(~rst_ni) begin
-    cnt <= '0;
-    valid_q <= '0;
-    ready_q <= 1'b1;
-  end
-  else if(clear_i | setback_i ) begin
-    cnt <= '0;
-    valid_q <= '0;
-    ready_q <= 1'b1;
-  end
-  else if(cnt == 2 - 1) begin
-    cnt <= 0;
-    valid_q <= 1'b1;
-    ready_q <= 1'b1;
-  end
-  else if((start_cfg_i==1'b1) || (cnt>0)) begin
-    cnt <= cnt + 1;
-    valid_q <= 1'b0;
-    ready_q <= 1'b0;
-  end
+
+hwpe_ctrl_seq_mult #(
+  .AW ( 16 ),
+  .BW ( 16 )
+) i_k_m (
+  .clk_i    ( clk_int                         ),
+  .rst_ni   ( rst_ni                        ),
+  .clear_i  ( clear_i | setback_i           ),
+  .start_i  ( start_cfg_i                   ),
+  .a_i      ( config_d.m_size          ),
+  .b_i      ( config_d.k_size          ),
+  .invert_i ( 1'b0                          ),
+  .valid_o  ( k_m_valid_d ),
+  .ready_o  ( k_m_ready ),
+  .prod_o   ( k_m         )
+);
+
+always_ff @(posedge clk_int or negedge rst_ni) begin
+  if(~rst_ni)
+    k_m_valid_q <= '0;
+  else if(clear_i | setback_i)
+    k_m_valid_q <= '0;
+  else
+    k_m_valid_q <= k_m_valid_d;
 end
-logic valid_tmp, ready_tmp;
-assign valid_tmp = valid_q;
-assign ready_tmp = ready_q;
+assign k_m_valid = ~k_m_valid_q & k_m_valid_d;
+
+
+logic n_k_m_valid, n_k_m_ready;
+logic [47:0] n_k_m;
+hwpe_ctrl_seq_mult #(
+  .AW ( 16 ),
+  .BW ( 32 )
+) i_n_m_k (
+  .clk_i    (  clk_int                        ),
+  .rst_ni   ( rst_ni                        ),
+  .clear_i  ( clear_i | setback_i           ),
+  .start_i  ( k_m_valid                   ),
+  .a_i      ( config_d.n_size          ),
+  .b_i      ( k_m),
+  .invert_i ( 1'b0                          ),
+  .valid_o  ( n_k_m_valid ),
+  .ready_o  ( n_k_m_ready   ),
+  .prod_o   ( n_k_m         )
+);
+
 
 assign config_d.stage_1_rnd_mode = config_d.gemm_ops == MATMUL ? RNE :
                                    config_d.gemm_ops == GEMM   ? RNE :
@@ -122,6 +142,9 @@ assign config_d.computing_format = config_d.gemm_computing_fmt == Float16    ? F
 
 assign config_d.gemm_selection   = 1'b1;
 
+assign config_d.k_m = k_m[31:0];
+assign config_d.n_k_m = n_k_m[31:0];
+
 
 // register configuration to avoid critical paths (maybe removable!)
 always_ff @(posedge clk_int or negedge rst_ni) begin
@@ -129,7 +152,7 @@ always_ff @(posedge clk_int or negedge rst_ni) begin
     config_q <= '0;
   else if (clear_i)
     config_q <= '0;
-  else if(valid_tmp & ready_tmp)
+  else if(n_k_m_valid & n_k_m_ready)
     config_q <= config_d;
 end
 
@@ -139,8 +162,8 @@ always_ff @(posedge clk_int or negedge rst_ni) begin
     valid_o <= '0;
   else if (clear_i | setback_i)
     valid_o <= '0;
-  else if(ready_tmp)
-    valid_o <= valid_tmp;
+  else if(n_k_m_ready)
+    valid_o <= n_k_m_valid;
 end
 
 // re-encode in older RedMulE regfile map
@@ -159,6 +182,10 @@ assign reg_file_o.hwpe_params[OP_SELECTION][15:13] = config_q.memory_format;
 assign reg_file_o.hwpe_params[OP_SELECTION][12:10] = config_q.computing_format;
 assign reg_file_o.hwpe_params[OP_SELECTION][ 9: 1] = '0;
 assign reg_file_o.hwpe_params[OP_SELECTION][0]     = config_q.gemm_selection;
+
+
+assign reg_file_o.hwpe_params[N_K_M][31:0]        = config_q.n_k_m;
+assign reg_file_o.hwpe_params[K_M][31:0]          = config_q.k_m;
 
 assign reg_file_o.hwpe_params[M_SIZE][15:0]        = config_q.m_size;
 assign reg_file_o.hwpe_params[N_SIZE][15:0]        = config_q.n_size;
